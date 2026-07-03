@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>mechanic</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:#0d0f18;--surf:#13151f;--surf2:#191c2a;--surf3:#1e2236;
+  --border:#252a3d;--acc:#e94560;--txt:#e8eaf4;--muted:#8b93b5;--dim:#4e556e;
+  --sw:268px;--hh:58px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);line-height:1.72;font-size:15px;overflow-x:hidden;}
+
+/* topbar */
+#topbar{position:sticky;top:0;z-index:200;height:var(--hh);background:rgba(13,15,24,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;}
+.logo{background:var(--acc);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:5px 12px;border-radius:6px;}
+.top-title{font-size:14px;font-weight:600;flex:1;}
+.srch-wrap{position:relative;}
+.srch-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+#srch{background:var(--surf2);border:1px solid var(--border);border-radius:8px;
+  padding:7px 12px 7px 32px;color:var(--txt);font-size:13px;width:220px;
+  outline:none;transition:border .18s,box-shadow .18s;}
+#srch:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,69,96,.14);}
+#srch::placeholder{color:var(--dim);}
+.badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surf2);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+/* layout */
+.layout{display:flex;min-height:calc(100vh - var(--hh));}
+
+/* sidebar */
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);
+  position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow-y:auto;padding:10px 0 24px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 18px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:13px;
+  font-weight:500;color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  transition:all .13s;cursor:pointer;user-select:none;}
+.nav-item:hover{color:var(--txt);background:var(--surf2);border-left-color:var(--dim);}
+.nav-item.active{color:var(--acc);background:rgba(233,69,96,.08);border-left-color:var(--acc);font-weight:600;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .13s;}
+.nav-item.active .ndot,.nav-item:hover .ndot{background:var(--acc);}
+
+/* main */
+main{flex:1;min-width:0;}
+
+/* cover */
+#cover{background:linear-gradient(155deg,#0d0f18 0%,#14102a 50%,#0d0f18 100%);
+  border-bottom:1px solid var(--border);padding:72px 60px 60px;text-align:center;
+  position:relative;overflow:hidden;}
+#cover::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(233,69,96,.17) 0%,transparent 72%);
+  pointer-events:none;}
+.cv-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);
+  border:1px solid rgba(233,69,96,.3);color:var(--acc);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+#cover h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 25%,#9095b8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#cover>p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 40px;}
+.stats{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-num{font-size:34px;font-weight:800;color:var(--acc);line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:640px;margin:0 auto;}
+.pill{background:var(--surf2);border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;transition:all .13s;}
+.pill:hover{color:var(--txt);border-color:rgba(233,69,96,.5);}
+
+/* section */
+.doc-section{border-bottom:1px solid var(--border);scroll-margin-top:var(--hh);}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 42px;
+  background:var(--surf);border-bottom:1px solid var(--border);
+  position:sticky;top:var(--hh);z-index:10;}
+.sec-num{width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);
+  color:var(--acc);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);flex:1;}
+.btn-top{font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;
+  background:var(--surf2);border:1px solid var(--border);
+  padding:5px 13px;border-radius:6px;transition:all .13s;white-space:nowrap;}
+.btn-top:hover{color:var(--acc);border-color:rgba(233,69,96,.5);}
+.sec-body{padding:32px 42px 48px;max-width:860px;}
+
+/* typography */
+.dh1{font-size:21px;font-weight:800;color:var(--txt);margin:28px 0 10px;}
+.dh2{font-size:15px;font-weight:700;color:var(--txt);margin:22px 0 10px;
+  padding:10px 15px;background:var(--surf2);border-left:3px solid var(--acc);border-radius:0 7px 7px 0;}
+.dh3{font-size:12px;font-weight:700;color:var(--acc);margin:16px 0 7px;
+  text-transform:uppercase;letter-spacing:.09em;}
+.sec-body p{color:var(--muted);font-size:15px;line-height:1.78;margin-bottom:12px;}
+.sec-body p strong{color:var(--txt);font-weight:600;}
+.sec-body p em{color:#9a9ec0;font-style:italic;}
+
+/* images */
+.img-snap{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px;padding:20px;
+  background:var(--surf2);border:1px solid var(--border);border-radius:12px;}
+.img-snap img{height:260px;width:auto;max-width:100%;border-radius:8px;
+  border:1px solid var(--border);cursor:zoom-in;object-fit:contain;
+  background:var(--surf3);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-snap img:hover{transform:scale(1.03);box-shadow:0 8px 32px rgba(233,69,96,.22);border-color:var(--acc);}
+
+.img-inline{margin:20px 0;}
+.img-inline img{width:100%;max-width:780px;height:auto;display:block;
+  border-radius:10px;border:1px solid var(--border);cursor:zoom-in;
+  background:var(--surf2);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-inline img:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(233,69,96,.18);border-color:var(--acc);}
+
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;cursor:zoom-out;}
+#lb.on{display:flex;}
+#lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:8px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);cursor:default;}
+#lb-close{position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;color:#fff;font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+#lb-close:hover{background:rgba(233,69,96,.7);}
+
+mark{background:rgba(233,69,96,.32);color:#fff;border-radius:2px;padding:0 2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:820px){
+  .sidebar{display:none;}
+  .sec-body{padding:20px;}
+  .sec-head{padding:14px 18px;}
+  #cover{padding:40px 18px;}
+  #cover h1{font-size:32px;}
+  .img-snap img{height:180px;}
+}
+</style>
+<style>
+.layout{display:block;}
+main,.content{max-width:960px;margin:0 auto;padding:32px 24px;}
+section{display:block !important;}
+</style>
+</head>
+<body>
+<div id="topbar"><span class="logo">SNAPLEVEL</span><span class="top-title">mechanic</span></div>
+<div class="layout"><main class="content">
+<section id="mechanic" class="doc-section">
+<div class="sec-head">
+<div class="sec-num">20</div>
+<div class="sec-title">Mechanic</div>
+<a href="#topbar" class="btn-top">&#8593; Top</a>
+</div>
+<div class="sec-body">
+<h3 class="dh2"><strong>Mechanic Website</strong></h3>
+<p>The <strong>Mechanic Website</strong> included in this snapshot is fully customizable and built to streamline your automotive repair services. This website uses <strong>Custom Values</strong> to automatically populate your business information, ensuring a seamless experience for both you and your clients. Customization is simple and user-friendly, allowing you to easily update content, images, and offers to match your branding or business changes.</p>
+<p>The website includes essential pages such as:</p>
+<h3 class="dh2"><strong>Home Page</strong></h3>
+<h3 class="dh2"><strong>Contact Us</strong></h3>
+<h3 class="dh2"><strong>Thank You Page</strong></h3>
+<h3 class="dh2"><strong>Testimonials</strong></h3>
+<h3 class="dh2"><strong>Routine Maintenance</strong></h3>
+<h3 class="dh2"><strong>Brake Services</strong></h3>
+<h3 class="dh2"><strong>Engine Diagnostics and Repair</strong></h3>
+<h3 class="dh2"><strong>Transmission Services</strong></h3>
+<h3 class="dh2"><strong>Suspension and Steering</strong></h3>
+<h3 class="dh2"><strong>Exhaust System Services</strong></h3>
+<h3 class="dh2"><strong>Electrical System Repairs</strong></h3>
+<h3 class="dh2"><strong>AC and Heating Services</strong></h3>
+<h3 class="dh2"><strong>Tire Services</strong></h3>
+<p>Each page is designed to inform potential customers about your services while encouraging bookings through clear calls-to-action, which can also be customized to reflect your business needs.</p>
+<p>The entire website is designed to work with GoHighLevel's automations, making it easy to engage leads and convert them into paying customers.</p>
+<h3 class="dh2"><strong>Website Automations</strong></h3>
+<p>The <strong>Mechanic Website</strong> includes three key website automations that ensure every lead is properly managed and tracked through the <strong>Marketing Pipeline</strong>. Each automation is designed to streamline communication and ensure no lead is missed.</p>
+<h3 class="dh2"><strong>Chat Widget Automation</strong></h3>
+<p>Trigger: Customer replies via the chat widget on the website.</p>
+<p>Workflow: The system tags the lead as a &quot;chat widget lead&quot; and creates a new lead in the Marketing Pipeline. The internal team is notified, and the lead receives an automated SMS thanking them for reaching out and providing contact information for further assistance.</p>
+<p>Purpose: To ensure leads coming through the chat widget are instantly acknowledged and nurtured.</p>
+<h3 class="dh2"><strong>Live Chat Automation</strong></h3>
+<p>Trigger: Customer initiates a conversation through live chat.</p>
+<p>Workflow: Similar to the chat widget automation, leads are tagged and added to the pipeline. The internal team is alerted, and the lead receives an SMS confirmation of their inquiry with follow-up contact details.</p>
+<p>Purpose: To provide an immediate response and assign every lead coming in through live chat to the proper pipeline for follow-up.</p>
+<h3 class="dh2"><strong>Website Form Submission Automation</strong></h3>
+<p>Trigger: Customer submits a form on the website.</p>
+<p>Workflow: Leads who submit the form are tagged and marked as new leads in the Marketing Pipeline. An internal notification is sent to the team, and the lead receives an SMS confirming the receipt of their request, along with business contact information.</p>
+<p>Purpose: To ensure every form submission is captured and responded to in a timely manner, helping increase conversion rates by following up quickly.</p>
+<p>Each of these automations works seamlessly with the <strong>Marketing Pipeline</strong>, which organizes leads through stages such as <strong>New Lead</strong>, <strong>Hot Lead</strong>, <strong>New Booking</strong>, <strong>Visit Attended</strong>, and more. This pipeline ensures no lead is left behind and that each stage of the customer journey is managed effectively.</p>
+<h3 class="dh2"><strong>3. Funnels</strong></h3>
+<p>The <strong>Mechanic Snapshot</strong> includes five key funnels designed to generate leads, book appointments, and increase conversions. Each funnel integrates with the <strong>Marketing Pipeline</strong>, ensuring that every lead progresses smoothly through each stage of the customer journey. These funnels are easy to customize and work seamlessly with automations to help you manage leads more efficiently.</p>
+<h3 class="dh2"><strong>Get 10% Off Your First Service!</strong></h3>
+<p>Purpose: Attract new customers by offering a discount on their first service.</p>
+<p>Workflow: When a lead submits their information, they are tagged, added to the Marketing Pipeline, and an internal notification is sent. The lead receives a confirmation SMS and email with details about the discount and the next steps for booking.</p>
+<h3 class="dh2"><strong>Emergency Request</strong></h3>
+<p>Purpose: Allow customers to request emergency services quickly and easily.</p>
+<p>Workflow: After submitting the emergency request, the lead is tagged, added to the pipeline, and an internal notification is sent. The lead receives an SMS and email confirming their request, along with details about follow-up and contact options.</p>
+<h3 class="dh2"><strong>Free Estimate + 10% Off</strong></h3>
+<p>Purpose: Offer a free estimate with an additional 10% discount to incentivize potential customers to move forward with a service.</p>
+<p>Workflow: Once the lead submits their request, they are tagged and added to the Marketing Pipeline. The team is notified, and the lead receives a confirmation message with the discount details.</p>
+<h3 class="dh2"><strong>Mechanic Custom Offer</strong></h3>
+<p>Purpose: Provide tailored offers based on the customer's specific needs.</p>
+<p>Workflow: After the lead opts into the custom offer, they are tagged and added to the pipeline. Internal notifications are sent, and the lead receives an automated SMS and email with details about the offer and instructions on how to proceed.</p>
+<h3 class="dh2"><strong>Request a Quote</strong></h3>
+<p>Purpose: Simplify the process for potential customers to request a quote for any of your services.</p>
+<p>Workflow: When a lead submits their request, they are tagged, added to the pipeline, and the internal team is notified. The lead receives an SMS and email confirmation with the next steps for their quote.</p>
+<p>Each funnel feeds directly into the <strong>Marketing Pipeline</strong>, where leads are tracked through stages like <strong>New Lead</strong>, <strong>Hot Lead</strong>, <strong>New Booking</strong>, <strong>Visit Attended</strong>, and more, ensuring proper follow-up and conversion efforts.</p>
+<h3 class="dh2"><strong>4. 52-Week Nurture Campaigns</strong></h3>
+<p>The <strong>Mechanic Snapshot</strong> includes two fully automated 52-week nurture campaigns designed to keep your leads engaged, educated, and motivated to convert. Both campaigns aim to build long-term relationships with leads by sharing valuable insights, tips, and reminders. Each campaign integrates with the <strong>Marketing Pipeline</strong> to ensure that leads are consistently nurtured through each stage of their journey.</p>
+<h3 class="dh2"><strong>52-Week Email Nurture Campaign (Educational)</strong></h3>
+<p>Focus: This campaign sends weekly educational emails that share valuable auto repair tips, service reminders, and maintenance advice.</p>
+<p>Workflow: Each email is triggered weekly and automatically personalized with custom values like {{contact.first_name}} and {{location.name}}. The call-to-action rotates between 'call us at {{location.phone}}', 'visit our website at {{location.website}}', or 'reply yes' to schedule an appointment.</p>
+<p>Goal: To nurture leads and position your mechanic services as the trusted solution over time, encouraging them to schedule their next service or appointment.</p>
+<h3 class="dh2"><strong>52-Week Text Message Nurture Campaign (Educational)</strong></h3>
+<p>Focus: This campaign sends weekly educational SMS messages to keep your leads engaged with quick tips, reminders, and special offers related to vehicle maintenance and repair.</p>
+<p>Workflow: Each message is automatically personalized with custom values like {{contact.first_name}} and {{location.name}}. The call-to-action fluctuates between 'call us at {{location.phone}}', 'visit our website at {{location.website}}', or 'reply yes' to engage further.</p>
+<p>Goal: To consistently stay top-of-mind with your leads, ensuring they choose your mechanic services when they need repairs or maintenance.</p>
+<p>These campaigns are designed to run automatically, providing a consistent touchpoint with your leads and driving them towards booking services with your mechanic business. Both campaigns are fully customizable, allowing you to modify the content or timing as needed.</p>
+<h3 class="dh2"><strong>5. Appointment Workflows</strong></h3>
+<p>The <strong>Mechanic Snapshot</strong> includes four key appointment workflows that streamline the customer experience from booking to follow-up. Each workflow ensures that appointments are properly managed, reducing no-shows and cancellations while improving customer communication. These workflows integrate with the <strong>Marketing Pipeline</strong> to keep track of lead statuses and trigger appropriate automations based on appointment outcomes.</p>
+<h3 class="dh2"><strong>Appointment Confirmation + Reminders</strong></h3>
+<p>Trigger: When an appointment is confirmed, this workflow sends a confirmation email and follow-up reminders.</p>
+<p>Workflow: The lead receives an email confirming their appointment with {{appointment.only_start_date}} and {{appointment.timezone}} details. Reminder emails and SMS messages are sent 24 hours and 1 hour before the scheduled appointment.</p>
+<p>Goal: To confirm appointments and reduce missed appointments by sending timely reminders.</p>
+<h3 class="dh2"><strong>Appointment No Show</strong></h3>
+<p>Trigger: When an appointment is marked as a &quot;No Show.&quot;</p>
+<p>Workflow: This workflow removes any booked tags, adds a &quot;No Show&quot; tag, and triggers an internal notification. The customer receives a follow-up SMS with a link to reschedule their appointment, followed by an additional SMS reminder after one day if they haven't rescheduled.</p>
+<p>Goal: To re-engage customers who missed their appointment and prompt them to reschedule.</p>
+<h3 class="dh2"><strong>Appointment Canceled</strong></h3>
+<p>Trigger: When an appointment is canceled.</p>
+<p>Workflow: The workflow removes the &quot;Booked&quot; tag, adds an &quot;Appointment Canceled&quot; tag, and sends a follow-up SMS to the customer with a link to reschedule. If the customer does not respond, a second SMS is sent one day later to remind them to reschedule.</p>
+<p>Goal: To recover canceled appointments and provide an easy way for customers to reschedule.</p>
+<h3 class="dh2"><strong>Appointment Completed</strong></h3>
+<p>Trigger: When an appointment is marked as completed.</p>
+<p>Workflow: This workflow removes the relevant tags, updates the lead’s status in the pipeline as &quot;Visit Attended,&quot; and removes the contact from all active workflows.</p>
+<p>Goal: To conclude the customer’s appointment experience and update the pipeline for accurate follow-up actions.</p>
+<p>These appointment workflows work together to improve customer engagement and ensure that no appointment is forgotten or missed. Each workflow can be easily customized to fit your mechanic business's specific needs.</p>
+<h3 class="dh2"><strong>6. Database Reactivation Campaigns</strong></h3>
+<p>The <strong>Mechanic Snapshot</strong> includes four targeted <strong>Database Reactivation (DR) Campaigns</strong>, each designed to re-engage past customers and encourage them to take advantage of exclusive offers. These campaigns use automated SMS messages to notify customers about special deals and bring them back to your mechanic services. All campaigns integrate with the <strong>Marketing Pipeline</strong>, ensuring every lead is nurtured and tracked through the process.</p>
+<h3 class="dh2"><strong>DR ($50 Off Your Next Service)</strong></h3>
+<p>Offer: $50 off the customer's next service.</p>
+<p>Workflow: This campaign begins by sending an SMS on Day 1, offering the discount. If the customer replies with &quot;YES,&quot; they claim the offer, and the pipeline is updated. Follow-up reminders are sent to ensure the customer takes action.</p>
+<p>Goal: To win back inactive customers by incentivizing their return with a strong monetary offer.</p>
+<h3 class="dh2"><strong>DR (20% Off for Returning Customers)</strong></h3>
+<p>Offer: 20% off any service for returning customers.</p>
+<p>Workflow: The customer is notified via SMS of the 20% discount available for a limited time. If they respond, they are moved forward in the pipeline, and follow-ups are sent to ensure they book a service.</p>
+<p>Goal: To reward and encourage past customers to return by offering a generous discount.</p>
+<h3 class="dh2"><strong>DR (Complimentary Vehicle Health Check)</strong></h3>
+<p>Offer: A free vehicle health check.</p>
+<p>Workflow: This campaign offers a complimentary vehicle health inspection through an SMS message. If the customer replies, the offer is applied, and reminders are sent until the service is booked.</p>
+<p>Goal: To bring customers back by offering a free service, helping identify potential issues and upselling necessary repairs.</p>
+<h3 class="dh2"><strong>DR (Free Brake Inspection)</strong></h3>
+<p>Offer: A free brake inspection.</p>
+<p>Workflow: An SMS message offering a free brake inspection is sent to past customers. If they reply to claim the offer, follow-up messages are sent to schedule the service.</p>
+<p>Goal: To bring customers back in for a free inspection, offering peace of mind and an opportunity for further service upsells.</p>
+<p>Each of these campaigns is designed to automatically nurture past customers, keeping your mechanic services top of mind while offering incentives to return. They are fully customizable, allowing you to adjust the offer details and workflow timings to fit your business strategy.</p>
+<h3 class="dh2"><strong>7. Google Review Campaign</strong></h3>
+<p>The <strong>Google Review Campaign</strong> is designed to collect reviews from customers who have recently used your services. This campaign automates the process of sending review requests through SMS and email, ensuring maximum engagement and feedback. The pipeline keeps track of each stage to help monitor who has responded and who needs follow-up communication.</p>
+<h3 class="dh2"><strong>Stages in the Google Review Campaign Pipeline:</strong></h3>
+<p><strong>Request Sent</strong>: When the first review request is sent to the customer.</p>
+<p><strong>Link Clicked</strong>: When the customer clicks the provided link to leave a review.</p>
+<p><strong>Not Clicked</strong>: When the customer has not clicked the link, and follow-up messages are necessary.</p>
+<h3 class="dh2"><strong>Workflow for the Google Review Campaign:</strong></h3>
+<h3 class="dh2"><strong>Trigger</strong>: The campaign is triggered when a customer is tagged with &quot;Review Request Sent.&quot;</h3>
+<p><strong>SMS 1</strong>: An SMS is sent to the customer asking for a quick review, with a link to leave feedback: &quot;{{custom_values.google_review_campaign_link}}.&quot;</p>
+<p><strong>Email 1</strong>: An email is sent with the same request and link, providing another opportunity for the customer to leave a review.</p>
+<p><strong>Follow-Ups</strong>: If no action is taken, additional SMS and email reminders are sent after one day, and again after five days, encouraging the customer to leave a review.</p>
+<p><strong>Completion</strong>: Once the link is clicked, the pipeline is updated to &quot;Link Clicked,&quot; and no further follow-up is sent.</p>
+<h3 class="dh2"><strong>Monitoring Progress</strong>:</h3>
+<p>The system automatically updates the status of the lead based on their interaction with the review request. If the customer clicks the link, the system marks it as &quot;Link Clicked&quot; and removes the customer from the workflow. If the customer doesn't click the link, they stay in the &quot;Not Clicked&quot; stage, and follow-up messages continue.</p>
+<p>This campaign simplifies the process of gathering customer reviews while ensuring that no opportunity is missed. The automation works behind the scenes, continuously prompting customers to provide feedback, which can improve your Google review ratings and enhance your business reputation.</p>
+<h3 class="dh2"><strong>8. Inbound Lead Nurturing Automations</strong></h3>
+<p>The <strong>Mechanic Snapshot</strong> includes three inbound lead nurturing automations designed to handle incoming leads from multiple platforms (Facebook Messenger, Google My Business (GMB), and Instagram DM). Each automation ensures that leads are responded to quickly and nurtured into the pipeline for follow-up.</p>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (FB Messenger)</strong></h3>
+<p>Trigger: When a customer sends a message through Facebook Messenger.</p>
+<p>Workflow: After a one-minute wait, the lead is tagged and an opportunity is created in the <strong>Marketing Pipeline</strong>. Depending on whether it's a weekday or not, the system sends an automated Messenger reply thanking the customer for their inquiry and informing them that a team member will reach out shortly. Internal notifications are also sent to notify the team of the new lead.</p>
+<p>Purpose: To ensure every lead coming through Facebook Messenger is acknowledged immediately and nurtured into the pipeline for follow-up.</p>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (GMB)</strong></h3>
+<p>Trigger: When a customer sends a message through Google My Business.</p>
+<p>Workflow: The lead is tagged, added to the pipeline, and receives an immediate automated response. The system also notifies the internal team for further follow-up.</p>
+<p>Purpose: To engage potential leads who reach out via GMB, ensuring timely communication and follow-up.</p>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (IG DM)</strong></h3>
+<p>Trigger: When a customer sends a direct message on Instagram.</p>
+<p>Workflow: Similar to the other platforms, the lead is tagged, added to the pipeline, and an automated message is sent through Instagram. Internal notifications are triggered to alert the team.</p>
+<p>Purpose: To capture and nurture leads from Instagram, ensuring they are properly engaged and added to the pipeline for conversion.</p>
+<p>Each of these automations integrates with the <strong>Marketing Pipeline</strong> to ensure that all inbound leads are tracked and followed up efficiently, regardless of which platform they come from. The automations ensure a seamless customer experience across multiple communication channels.</p>
+<h3 class="dh2"><strong>9. Invoice Automations</strong></h3>
+<p>The <strong>Mechanic Snapshot</strong> includes three key automations for managing invoices, refunds, and service cancellations. These automations ensure seamless communication with customers regarding their payments, refunds, and service changes, helping maintain transparency and trust.</p>
+<h3 class="dh2"><strong>Invoice Reminder</strong></h3>
+<p>Trigger: When an invoice is created or remains unpaid after a certain period.</p>
+<p>Workflow: The system sends an SMS reminder with the invoice number, total amount, and due date. It includes a link to view and pay the invoice online. An internal notification is sent to alert the team of the unpaid invoice. Follow-up messages are sent at scheduled intervals until the payment is made.</p>
+<p>Purpose: To ensure customers are reminded of their pending invoices and provide a convenient way to complete payments.</p>
+<h3 class="dh2"><strong>Customer Refund</strong></h3>
+<p>Trigger: When a refund is processed.</p>
+<p>Workflow: An SMS is sent to the customer informing them that their refund has been processed successfully. A follow-up email is also sent to confirm the refund details. The internal team is notified of the refund status.</p>
+<p>Purpose: To inform the customer promptly about their refund, keeping them updated on the status of their transaction.</p>
+<h3 class="dh2"><strong>Service Cancellation</strong></h3>
+<p>Trigger: When a service is canceled.</p>
+<p>Workflow: The customer receives an SMS and an email expressing gratitude for choosing the service and asking for feedback regarding the cancellation. The goal is to maintain a positive relationship with the customer, even after a cancellation, and potentially gather insights on how to improve services.</p>
+<p>Purpose: To gracefully handle service cancellations, thanking the customer for their business and offering a chance for feedback.</p>
+<p>These automations integrate with the <strong>Marketing Pipeline</strong>, ensuring that all financial transactions are tracked, and that customers are informed promptly and clearly about their payments, refunds, and service cancellations. They can be customized to fit your specific invoicing and payment processes.</p>
+<h3 class="dh2"><strong>10. Missed Call Text Back Automation</strong></h3>
+<p>The <strong>Missed Call Text Back Automation</strong> in the <strong>Mechanic Snapshot</strong> ensures that no missed call is left without follow-up. This automation instantly engages with leads who attempted to reach your mechanic business, improving customer communication and capturing potential opportunities.</p>
+<p><strong>Trigger</strong>: The workflow is triggered when the system detects a missed call.</p>
+<h3 class="dh2"><strong>Workflow</strong>:</h3>
+<p><strong>Step 1</strong>: The system checks if the contact is new by verifying if their full name is available. If the contact is new, they are tagged as such.</p>
+<p><strong>Step 2</strong>: An SMS is automatically sent to the contact acknowledging the missed call. The message reads:</p>
+<p><em>&quot;Hey there, this is John from {{location.name}}, we just got a missed call from this number, sorry about that! How can I help?&quot;</em></p>
+<p><strong>Step 3</strong>: An internal notification is sent to the team to alert them of the missed call, ensuring timely follow-up.</p>
+<p><strong>Purpose</strong>: To ensure immediate engagement with potential leads who call but cannot connect. By sending a quick SMS follow-up, the automation helps capture missed opportunities and keeps communication open with customers.</p>
+<p>This automation ensures that no missed call goes unacknowledged and provides a seamless way for leads to continue interacting with your business.</p>
+<h3 class="dh2"><strong>11. After Service Follow-Up Automation</strong></h3>
+<p>The <strong>After Service Follow-Up Automation</strong> in the <strong>Mechanic Snapshot</strong> ensures that customers receive a personalized follow-up after their vehicle service. This workflow not only thanks them for their business but also encourages future engagement and feedback, enhancing customer satisfaction and retention.</p>
+<p><strong>Trigger</strong>: The workflow is triggered when the <strong>Opportunity Status</strong> changes to &quot;Won,&quot; indicating that the service was successfully completed.</p>
+<h3 class="dh2"><strong>Workflow</strong>:</h3>
+<p><strong>Step 1</strong>: A <strong>Thank You Message (SMS)</strong> is sent to the customer, expressing gratitude for choosing your mechanic service. The message also provides a contact number for any questions and includes a link for the customer to leave a review:</p>
+<p><em>&quot;Hi {{contact.first_name}}, thank you for trusting {{location.name}} with your vehicle service! We hope everything is running smoothly. Have any questions? Give us a call at {{location.phone}}. Also, we’d love your feedback – leave us a review on {{custom_values.google_review_campaign_link}}! Thanks and drive safe!&quot;</em></p>
+<p><strong>Step 2</strong>: A <strong>Thank You Message (Email)</strong> is sent with similar content, providing another touchpoint for the customer.</p>
+<p><strong>Step 3</strong>: After a 2-week delay, the system sends a <strong>Future Service Reminder (SMS)</strong> and <strong>Future Service Reminder (Email)</strong>, offering a gentle nudge for the customer to consider future services or maintenance. This may also include an offer or promotion to incentivize them.</p>
+<p><strong>Purpose</strong>: To maintain contact with customers after their service, ensuring they feel appreciated while offering an opportunity to provide feedback. The follow-up reminders also keep your services top of mind for future needs, helping to drive repeat business.</p>
+<p>This follow-up automation ensures customers have a positive post-service experience and that opportunities for future engagement are maximized.</p>
+<h3 class="dh2"><strong>12. Birthday Workflow</strong></h3>
+<p>The <strong>Birthday Workflow</strong> in the <strong>Mechanic Snapshot</strong> is a personalized automation designed to celebrate customers' birthdays while offering them a special gift or promotion. This workflow not only acknowledges the customer's birthday but also encourages them to engage with your business.</p>
+<p><strong>Trigger</strong>: The workflow is triggered based on the customer's birthday, sending out an SMS on the designated day.</p>
+<h3 class="dh2"><strong>Workflow</strong>:</h3>
+<p><strong>Step 1</strong>: A <strong>Birthday SMS</strong> is sent to the customer wishing them a happy birthday and offering a special birthday promotion. The message reads:</p>
+<p><em>&quot;Hi {{contact.first_name}}, happy birthday from all of us at {{location.name}}! 🎉 To celebrate, we're offering you {{custom_values.birthday_campaign_offer}}. Enjoy your special day and claim your gift by replying to this message or contacting us at {{location.phone}}.&quot;</em></p>
+<p><strong>Step 2</strong>: The system waits 48 hours for a reply.</p>
+<p><strong>Step 3</strong>: If the customer replies and is interested in the offer, an internal notification is sent to the team to follow up, ensuring the customer receives their birthday offer.</p>
+<p><strong>Step 4</strong>: If there is no reply after 48 hours, a second message is sent as a reminder, and the system checks whether the customer is still interested in the offer.</p>
+<p><strong>Purpose</strong>: To build stronger relationships with customers by recognizing their special day, while also providing an incentive for them to return for service. The automation creates a personalized experience that increases customer engagement and loyalty.</p>
+<p>This birthday workflow ensures a positive and thoughtful interaction with customers, enhancing your brand's image and encouraging repeat business.</p>
+<h3 class="dh2"><strong>13. Customer Referral Campaign</strong></h3>
+<p>The <strong>Customer Referral Campaign</strong> in the <strong>Mechanic Snapshot</strong> is designed to encourage existing customers to refer their friends and family, helping to generate new leads and build customer loyalty. This automation rewards customers for successful referrals, fostering a mutually beneficial relationship.</p>
+<p><strong>Trigger</strong>: The workflow is triggered when a customer's opportunity status is marked as &quot;Won,&quot; indicating that they have completed a service and are now eligible for referral offers.</p>
+<h3 class="dh2"><strong>Workflow</strong>:</h3>
+<p><strong>Step 1</strong>: After a 7-day delay, the system sends an <strong>SMS</strong> to the customer thanking them for their loyalty and offering a referral incentive. The message reads:</p>
+<p><em>&quot;Hi {{contact.first_name}}, we appreciate your loyalty to {{location.name}}! As a thank you, we're offering {{custom_values.referral_campaign_offer}} when you refer a friend. Have someone in mind? Reply to this message or call {{location.phone}} to get started!&quot;</em></p>
+<p><strong>Step 2</strong>: The system waits 1 day to check if the customer responds. If they reply, an <strong>Internal Notification</strong> is sent to the team to follow up and manage the referral process.</p>
+<p><strong>Step 3</strong>: If no response is received, the system sends a follow-up <strong>SMS</strong> and waits another day.</p>
+<p><strong>Step 4</strong>: The system checks again for a reply, and if the customer shows interest, the team is notified to proceed with the referral. If there is no response, the campaign ends.</p>
+<p><strong>Purpose</strong>: To incentivize current customers to refer others, helping to grow your customer base organically. The automation keeps customers engaged and rewards them for their loyalty, creating a win-win situation for both the business and the customer.</p>
+<p>This referral campaign makes it easy for customers to refer their friends, boosting word-of-mouth marketing and generating new leads for your mechanic business.</p>
+<h3 class="dh2"><strong>14. New Customer Welcome Sequence</strong></h3>
+<p>The <strong>New Customer Welcome Sequence</strong> in the <strong>Mechanic Snapshot</strong> is designed to greet new customers after their first visit and build a strong foundation for future engagements. This sequence helps reinforce the customer’s decision to choose your business and invites them to return for their next service.</p>
+<p><strong>Trigger</strong>: The automation is triggered when the pipeline stage is updated to &quot;Visit Attended,&quot; indicating that the customer has completed their first service.</p>
+<h3 class="dh2"><strong>Workflow</strong>:</h3>
+<h3 class="dh2"><strong>Step 1</strong>: The system sends a <strong>Welcome SMS</strong> to the customer with a personalized message:</h3>
+<p><em>&quot;Hi {{contact.first_name}}, welcome to the {{location.name}} family! Thank you for trusting us with your vehicle. We’re here for all your future needs. Call {{location.phone}} for any questions or to book your next service.&quot;</em></p>
+<p><strong>Step 2</strong>: The system follows up with a <strong>Welcome Email</strong> to reinforce the message, thanking them for their business and offering to assist with any future service needs.</p>
+<p><strong>Purpose</strong>: This sequence creates a positive first impression, welcomes the customer into the business, and keeps the lines of communication open for future services. By reaching out after their visit, you solidify your relationship with the customer and encourage repeat business.</p>
+<p>This welcome sequence sets the tone for a lasting relationship, letting customers know they are valued and that your business is ready to support them for their ongoing vehicle maintenance needs.</p>
+<h3 class="dh2"><strong>15. Email Templates in the Mechanic Snapshot</strong></h3>
+<p>The following templates are included in the mechanic GoHighLevel snapshot. These templates are designed to be used for promotional purposes, holiday greetings, and service reminders. Each email is pre-configured with custom values that automatically insert the customer’s and business’s details.</p>
+<h4 class="dh3"><strong>Routine Maintenance</strong></h4>
+<p><strong>Purpose</strong>: To encourage customers to schedule routine vehicle maintenance.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Focuses on the importance of regular maintenance and invites the recipient to schedule their next visit.</p>
+<h4 class="dh3"><strong>Engine Diagnostics and Repair</strong></h4>
+<p><strong>Purpose</strong>: To inform customers about engine diagnostic and repair services.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Highlights engine issues and encourages the customer to book a diagnostic appointment.</p>
+<h4 class="dh3"><strong>Transmission Services</strong></h4>
+<p><strong>Purpose</strong>: To promote transmission repair and maintenance services.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Focuses on the importance of maintaining a well-functioning transmission and invites customers to book an appointment.</p>
+<h3 class="dh2"><strong>Holiday Email Templates</strong></h3>
+<h4 class="dh3"><strong>Celebrate Independence Day</strong></h4>
+<p><strong>Purpose</strong>: To offer special discounts and celebrate Independence Day.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Festive email offering a limited-time discount or service promotion to celebrate the holiday.</p>
+<h4 class="dh3"><strong>Hop into Easter Savings</strong></h4>
+<p><strong>Purpose</strong>: To offer a seasonal promotion for Easter.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Easter-themed promotion encouraging customers to take advantage of discounted services.</p>
+<h4 class="dh3"><strong>Celebrate Father’s Day</strong></h4>
+<p><strong>Purpose</strong>: To provide a Father’s Day special offer.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Father’s Day-themed promotion offering a special deal for dads.</p>
+<h4 class="dh3"><strong>Ring in the New Year with Savings!</strong></h4>
+<p><strong>Purpose</strong>: To kick off the New Year with service discounts.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: New Year’s email inviting customers to take advantage of special savings on vehicle services.</p>
+<h4 class="dh3"><strong>Spooky Good Deal!</strong></h4>
+<p><strong>Purpose</strong>: To promote a Halloween-themed discount or service.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Halloween-themed promotion offering a special deal.</p>
+<h4 class="dh3"><strong>Happy Thanksgiving</strong></h4>
+<p><strong>Purpose</strong>: To show customer appreciation and offer a Thanksgiving promotion.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Thanksgiving message with an exclusive offer.</p>
+<h4 class="dh3"><strong>Happy Holidays from {{location.name}}!</strong></h4>
+<p><strong>Purpose</strong>: To offer a holiday discount or service promotion.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Holiday greetings and promotion to close out the year.</p>
+<h4 class="dh3"><strong>Merry Christmas from {{location.name}}!</strong></h4>
+<p><strong>Purpose</strong>: To send Christmas greetings and offer a seasonal promotion.</p>
+<p><strong>Custom Values</strong>: {{contact.first_name}}, {{location.name}}, {{location.phone}}, {{location.website}}.</p>
+<p><strong>Content</strong>: Christmas message with a limited-time offer.</p>
+<p>These templates are pre-configured and ready to use, ensuring that customers stay engaged with timely promotions, service reminders, and holiday greetings, all customized to the business's branding and customer details.</p>
+</div>
+</section>
+</main></div>
+<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">&#10005;</button><img id="lb-img" src="" alt="" onclick="event.stopPropagation()"></div>
+<script>
+document.querySelectorAll('main img').forEach(im=>{im.style.cursor='zoom-in';im.addEventListener('click',()=>{document.getElementById('lb-img').src=im.src;document.getElementById('lb').classList.add('open');});});
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>

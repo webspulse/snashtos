@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Table Of Contents</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:#0d0f18;--surf:#13151f;--surf2:#191c2a;--surf3:#1e2236;
+  --border:#252a3d;--acc:#e94560;--txt:#e8eaf4;--muted:#8b93b5;--dim:#4e556e;
+  --sw:268px;--hh:58px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);line-height:1.72;font-size:15px;overflow-x:hidden;}
+
+/* topbar */
+#topbar{position:sticky;top:0;z-index:200;height:var(--hh);background:rgba(13,15,24,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;}
+.logo{background:var(--acc);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:5px 12px;border-radius:6px;}
+.top-title{font-size:14px;font-weight:600;flex:1;}
+.srch-wrap{position:relative;}
+.srch-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+#srch{background:var(--surf2);border:1px solid var(--border);border-radius:8px;
+  padding:7px 12px 7px 32px;color:var(--txt);font-size:13px;width:220px;
+  outline:none;transition:border .18s,box-shadow .18s;}
+#srch:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,69,96,.14);}
+#srch::placeholder{color:var(--dim);}
+.badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surf2);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+/* layout */
+.layout{display:flex;min-height:calc(100vh - var(--hh));}
+
+/* sidebar */
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);
+  position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow-y:auto;padding:10px 0 24px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 18px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:13px;
+  font-weight:500;color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  transition:all .13s;cursor:pointer;user-select:none;}
+.nav-item:hover{color:var(--txt);background:var(--surf2);border-left-color:var(--dim);}
+.nav-item.active{color:var(--acc);background:rgba(233,69,96,.08);border-left-color:var(--acc);font-weight:600;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .13s;}
+.nav-item.active .ndot,.nav-item:hover .ndot{background:var(--acc);}
+
+/* main */
+main{flex:1;min-width:0;}
+
+/* cover */
+#cover{background:linear-gradient(155deg,#0d0f18 0%,#14102a 50%,#0d0f18 100%);
+  border-bottom:1px solid var(--border);padding:72px 60px 60px;text-align:center;
+  position:relative;overflow:hidden;}
+#cover::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(233,69,96,.17) 0%,transparent 72%);
+  pointer-events:none;}
+.cv-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);
+  border:1px solid rgba(233,69,96,.3);color:var(--acc);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+#cover h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 25%,#9095b8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#cover>p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 40px;}
+.stats{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-num{font-size:34px;font-weight:800;color:var(--acc);line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:640px;margin:0 auto;}
+.pill{background:var(--surf2);border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;transition:all .13s;}
+.pill:hover{color:var(--txt);border-color:rgba(233,69,96,.5);}
+
+/* section */
+.doc-section{border-bottom:1px solid var(--border);scroll-margin-top:var(--hh);}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 42px;
+  background:var(--surf);border-bottom:1px solid var(--border);
+  position:sticky;top:var(--hh);z-index:10;}
+.sec-num{width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);
+  color:var(--acc);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);flex:1;}
+.btn-top{font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;
+  background:var(--surf2);border:1px solid var(--border);
+  padding:5px 13px;border-radius:6px;transition:all .13s;white-space:nowrap;}
+.btn-top:hover{color:var(--acc);border-color:rgba(233,69,96,.5);}
+.sec-body{padding:32px 42px 48px;max-width:860px;}
+
+/* typography */
+.dh1{font-size:21px;font-weight:800;color:var(--txt);margin:28px 0 10px;}
+.dh2{font-size:15px;font-weight:700;color:var(--txt);margin:22px 0 10px;
+  padding:10px 15px;background:var(--surf2);border-left:3px solid var(--acc);border-radius:0 7px 7px 0;}
+.dh3{font-size:12px;font-weight:700;color:var(--acc);margin:16px 0 7px;
+  text-transform:uppercase;letter-spacing:.09em;}
+.sec-body p{color:var(--muted);font-size:15px;line-height:1.78;margin-bottom:12px;}
+.sec-body p strong{color:var(--txt);font-weight:600;}
+.sec-body p em{color:#9a9ec0;font-style:italic;}
+
+/* images */
+.img-snap{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px;padding:20px;
+  background:var(--surf2);border:1px solid var(--border);border-radius:12px;}
+.img-snap img{height:260px;width:auto;max-width:100%;border-radius:8px;
+  border:1px solid var(--border);cursor:zoom-in;object-fit:contain;
+  background:var(--surf3);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-snap img:hover{transform:scale(1.03);box-shadow:0 8px 32px rgba(233,69,96,.22);border-color:var(--acc);}
+
+.img-inline{margin:20px 0;}
+.img-inline img{width:100%;max-width:780px;height:auto;display:block;
+  border-radius:10px;border:1px solid var(--border);cursor:zoom-in;
+  background:var(--surf2);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-inline img:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(233,69,96,.18);border-color:var(--acc);}
+
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;cursor:zoom-out;}
+#lb.on{display:flex;}
+#lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:8px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);cursor:default;}
+#lb-close{position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;color:#fff;font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+#lb-close:hover{background:rgba(233,69,96,.7);}
+
+mark{background:rgba(233,69,96,.32);color:#fff;border-radius:2px;padding:0 2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:820px){
+  .sidebar{display:none;}
+  .sec-body{padding:20px;}
+  .sec-head{padding:14px 18px;}
+  #cover{padding:40px 18px;}
+  #cover h1{font-size:32px;}
+  .img-snap img{height:180px;}
+}
+</style>
+<style>
+.layout{display:block;}
+main,.content{max-width:960px;margin:0 auto;padding:32px 24px;}
+section{display:block !important;}
+</style>
+</head>
+<body>
+<div id="topbar"><span class="logo">SNAPLEVEL</span><span class="top-title">Table Of Contents</span></div>
+<div class="layout"><main class="content">
+<section id="cleaning" class="doc-section">
+<div class="sec-head">
+<div class="sec-num">16</div>
+<div class="sec-title">Cleaning</div>
+<a href="#topbar" class="btn-top">&#8593; Top</a>
+</div>
+<div class="sec-body">
+<h2 class="dh1"><strong>Table Of Contents</strong></h2>
+<p>Cleaning Business Website Overview</p>
+<p>Linktrees Overview</p>
+<p>Funnels Overview</p>
+<p>Appointment Workflows Overview</p>
+<p>52-Week Nurture Campaigns Overview</p>
+<p>Database Reactivation Campaigns Overview</p>
+<p>Google Review Campaign Overview</p>
+<p>Incoming Lead Follow-Up Campaigns Overview</p>
+<p>Missed Call Text Back Automations Overview</p>
+<p>Payment Automations Documentation</p>
+<p>Website Automations Overview</p>
+<p>Birthday Workflow Overview</p>
+<p>Customer Referral Campaign Overview</p>
+<p>Post-Service Follow-Up Automation</p>
+<p>Holiday Emails Overview</p>
+<h2 class="dh1"><strong>Cleaning Business Website </strong></h2>
+<h3 class="dh2"><strong>1. Website Overview</strong></h3>
+<p>The <strong>Cleaning Business Website</strong> included in the snapshot is designed to provide a professional, conversion-optimized online presence for your cleaning business. The website comes pre-built with key pages, and any business-specific information will <strong>auto-populate</strong> using custom values, ensuring quick and easy customization without needing to edit individual elements manually.</p>
+<h3 class="dh2"><strong>2. Key Features of the Website</strong></h3>
+<p><strong>Customizable Design</strong>: All sections of the website can be easily modified to fit your branding, messaging, and services. Whether you want to add your logo, adjust the color scheme, or update content, this snapshot allows full flexibility.</p>
+<p><strong>Auto-Populated Custom Values</strong>: Fields such as business name, phone number, website URL, and service-specific details will automatically pull from the custom values you set in GoHighLevel, ensuring that your website is ready to go live without needing manual updates.</p>
+<h3 class="dh2"><strong>Pre-Built Pages</strong>: The snapshot includes essential pages for any cleaning business:</h3>
+<p><strong>Home Page</strong>: Designed to give a professional first impression, showcasing your cleaning services, client testimonials, and a prominent call to action for booking.</p>
+<p><strong>Contact Us Page</strong>: Includes a contact form that allows leads to easily get in touch with your business. All submissions will be stored in the CRM for follow-up.</p>
+<p><strong>Thank You Page</strong>: A post-contact page that thanks customers for reaching out and informs them of next steps. This page can also serve as a confirmation page for appointments.</p>
+<p><strong>About Us Page</strong>: Provides an overview of your cleaning business and its mission. This page can be customized with your company’s history, values, and team information.</p>
+<p><strong>Residential Cleaning Services Page</strong>: Lists detailed descriptions of your home cleaning services, emphasizing the value and professionalism of your business.</p>
+<p><strong>Move Cleaning Page</strong>: Specifically tailored to moving-in/moving-out cleaning services, highlighting how your company can ease the stress of moving with thorough clean-ups.</p>
+<p><strong>Deep Cleaning Page</strong>: Focuses on in-depth cleaning services, perfect for customers seeking a more comprehensive clean.</p>
+<p><strong>Office Cleaning Page</strong>: Aimed at commercial clients, showcasing your office cleaning services and highlighting the importance of a clean workplace.</p>
+<p><strong>Privacy Policy</strong>: Pre-built with placeholder text that can easily be customized to fit your company’s privacy guidelines.</p>
+<p><strong>Terms of Service</strong>: Includes a professional terms of service agreement that is essential for any business. This page also mentions that no refunds can be offered due to the downloadable nature of the services (applicable to digital snapshots or service agreements).</p>
+<h3 class="dh2"><strong>3. Custom Values for Website Personalization</strong></h3>
+<p>The snapshot uses the following <strong>custom values</strong> to automatically update business information across all pages:</p>
+<h3 class="dh2"><strong>Business Name</strong>: {{ location.name }}</h3>
+<h3 class="dh2"><strong>Phone Number</strong>: {{ location.phone }}</h3>
+<h3 class="dh2"><strong>Website URL</strong>: {{ location.website }}</h3>
+<h3 class="dh2"><strong>Contact Information</strong>: {{ location.email }}</h3>
+<p>These custom values ensure that your website will look personalized and professional from the start without needing to manually update each page.</p>
+<h3 class="dh2"><strong>4. How to Customize Your Website</strong></h3>
+<p>To make any edits or personal customizations to your website:</p>
+<p>Navigate to the <strong>&quot;Sites&quot;</strong> section in GoHighLevel.</p>
+<p>Click &quot;Edit&quot; on any page you wish to modify.</p>
+<p>Use the drag-and-drop builder to add new sections, change text, or adjust images.</p>
+<p>Update your custom values to reflect your business's information.</p>
+<h3 class="dh2"><strong>5. Responsive Design</strong></h3>
+<p>The website is built with mobile responsiveness in mind, ensuring that your site looks and functions great on all devices, from smartphones to desktops.</p>
+<h2 class="dh1"><strong>2. Linktrees Overview</strong></h2>
+<p>The <strong>Cleaning Business Snapshot</strong> includes four pre-built <strong>Linktrees</strong> designed to streamline navigation and make it easy for customers to find the services, offers, and resources they need. These Linktrees act as a centralized hub, allowing quick access to key areas of your cleaning business, making it more user-friendly and enhancing customer engagement.</p>
+<p>Each Linktree is customizable with your own branding, and as with other parts of the website, key business information is automatically populated through custom values.</p>
+<h3 class="dh2"><strong>1. Commercial Cleaning Services Linktree</strong></h3>
+<p>This Linktree is designed for businesses and commercial clients, offering quick access to all of your <strong>commercial cleaning services</strong>. It's perfect for presenting services tailored specifically to office spaces, retail stores, warehouses, and other business-related cleaning needs.</p>
+<h3 class="dh2"><strong>Features</strong>:</h3>
+<p>Commercial Cleaning Overview</p>
+<p>Office Cleaning Services</p>
+<p>Industrial Cleaning Services</p>
+<p>Retail Store Cleaning Services</p>
+<p>Custom Service Requests</p>
+<h3 class="dh2"><strong>2. Residential Cleaning Services Linktree</strong></h3>
+<p>This Linktree is tailored for homeowners and residential clients, offering easy access to your <strong>residential cleaning services</strong>. It simplifies the process for potential customers to explore the various home cleaning solutions you offer, making it easy to find exactly what they need.</p>
+<h3 class="dh2"><strong>Features</strong>:</h3>
+<p>Standard House Cleaning</p>
+<p>Deep Cleaning Services</p>
+<p>Move-In/Move-Out Cleaning</p>
+<p>Post-Construction Cleaning</p>
+<p>Customized Home Cleaning Options</p>
+<h3 class="dh2"><strong>3. Special Offers &amp; Promotions Linktree</strong></h3>
+<p>The <strong>Special Offers &amp; Promotions Linktree</strong> is designed to showcase any ongoing discounts, seasonal promotions, and special deals. This page is perfect for enticing new and returning customers to take advantage of limited-time offers or recurring service discounts.</p>
+<h3 class="dh2"><strong>Features</strong>:</h3>
+<p>Holiday Cleaning Discounts</p>
+<p>New Customer Discounts</p>
+<p>Subscription Plan Offers</p>
+<p>Referral Program Promotions</p>
+<p>Seasonal Cleaning Specials</p>
+<h3 class="dh2"><strong>4. Quick Links Linktree</strong></h3>
+<p>The <strong>Quick Links Linktree</strong> is a general navigation hub that provides quick access to essential sections of your cleaning business. It’s an excellent resource for customers looking for information or wanting to reach out to your business directly.</p>
+<h3 class="dh2"><strong>Features</strong>:</h3>
+<p>Book an Appointment</p>
+<p>Contact Us</p>
+<p>Privacy Policy</p>
+<p>Terms of Service</p>
+<p>About Us Page</p>
+<p>Frequently Asked Questions (FAQs)</p>
+<h3 class="dh2"><strong>How to Customize the Linktrees</strong></h3>
+<p>Each Linktree can be easily modified to fit your business’s unique services and offers. Here’s how:</p>
+<p>Navigate to the <strong>&quot;Sites&quot;</strong> section in GoHighLevel.</p>
+<p>Click &quot;Edit&quot; on the specific Linktree you want to update.</p>
+<p>Add, edit, or remove links to customize the options based on your current services or promotions.</p>
+<p>Ensure that custom values are set correctly to automatically update your business details where necessary.</p>
+<p>By offering a simple, easy-to-navigate Linktree for different service categories and promotions, you’ll enhance the user experience and encourage more bookings from both residential and commercial clients.</p>
+<h2 class="dh1"><strong>3. Funnels Overview</strong></h2>
+<p>The <strong>Cleaning Business Snapshot</strong> includes five fully automated funnels designed to help you generate leads, capture bookings, and offer special promotions. Each funnel is linked to the <strong>Cleaning Pipeline</strong> that tracks leads from inquiry to service completion, ensuring no lead slips through the cracks.</p>
+<h3 class="dh2"><strong>1. $100 Off Discount Funnel</strong></h3>
+<p><strong>Purpose</strong>: This funnel is designed to attract new customers by offering a $100 discount on their first cleaning service.</p>
+<h3 class="dh2"><strong>Steps</strong>:</h3>
+<p>Landing Page: Customers enter their details to claim the $100 discount.</p>
+<p>Thank You Page: Confirmation of the offer with next steps to book.</p>
+<p>Automation: Once the form is submitted, the customer will receive an SMS and an email confirming the discount and prompting them to schedule a service.</p>
+<p><strong>Pipeline Updates</strong>: When a new lead claims the discount, their details are automatically added to the <strong>Cleaning Pipeline</strong>, starting at the &quot;New Lead&quot; stage.</p>
+<h3 class="dh2"><strong>2. Carpet Cleaning Funnel</strong></h3>
+<p><strong>Purpose</strong>: This funnel is tailored for promoting your carpet cleaning services.</p>
+<h3 class="dh2"><strong>Steps</strong>:</h3>
+<p>Landing Page: A professional page showcasing the benefits of carpet cleaning services with a form to schedule a consultation.</p>
+<p>Confirmation Page: After submitting, leads are prompted to schedule their cleaning or receive a quote.</p>
+<p>Automation: SMS and email follow-ups will guide the lead through the booking process.</p>
+<p><strong>Pipeline Updates</strong>: Leads who inquire about carpet cleaning will automatically move through the pipeline based on their booking progress.</p>
+<h3 class="dh2"><strong>3. Free Quote Funnel</strong></h3>
+<p><strong>Purpose</strong>: Designed to generate leads by offering a free quote for any cleaning service.</p>
+<h3 class="dh2"><strong>Steps</strong>:</h3>
+<p>Landing Page: The lead fills out a form requesting a free quote.</p>
+<p>Thank You Page: Confirmation of their inquiry, with instructions on the next steps.</p>
+<p>Automation: The customer will receive an SMS and email confirming their quote request and prompting them to schedule a follow-up call or consultation.</p>
+<p><strong>Pipeline Updates</strong>: Leads requesting quotes will be tagged as &quot;Hot Lead&quot; and move through the pipeline as they progress towards booking.</p>
+<h3 class="dh2"><strong>4. Maid Service Special Funnel</strong></h3>
+<p><strong>Purpose</strong>: This funnel promotes your maid service with a special offer.</p>
+<h3 class="dh2"><strong>Steps</strong>:</h3>
+<p>Landing Page: Highlights the special offer for maid services, encouraging visitors to sign up for the deal.</p>
+<p>Thank You Page: Confirmation of the special with a prompt to schedule a cleaning service.</p>
+<p>Automation: SMS and email notifications encourage the lead to complete their booking.</p>
+<p><strong>Pipeline Updates</strong>: Leads entering the maid service special are tracked in the pipeline, moving from &quot;New Lead&quot; to &quot;Appointment Booked&quot; as they schedule their service.</p>
+<h3 class="dh2"><strong>5. Recurring Service Discount Funnel</strong></h3>
+<p><strong>Purpose</strong>: Promote discounted rates for customers who sign up for recurring cleaning services (e.g., weekly or bi-weekly).</p>
+<h3 class="dh2"><strong>Steps</strong>:</h3>
+<p>Landing Page: Explains the benefits of signing up for recurring services with discounted pricing.</p>
+<p>Thank You Page: Encourages the lead to schedule their recurring service and includes instructions on how to get started.</p>
+<p>Automation: The system sends reminders via SMS and email to encourage booking and confirm appointments.</p>
+<p><strong>Pipeline Updates</strong>: Leads who express interest in recurring services will be tracked through the stages, with reminders to keep them engaged and ensure their appointments are booked.</p>
+<h3 class="dh2"><strong>Pipeline for All Funnels: Cleaning Pipeline</strong></h3>
+<p>Each funnel is linked to the <strong>Cleaning Pipeline</strong>, which has the following stages:</p>
+<p><strong>New Lead</strong>: A lead has entered the funnel but hasn't yet booked.</p>
+<p><strong>Hot Lead</strong>: The lead has shown interest by filling out a form or claiming an offer.</p>
+<p><strong>Appointment Booked</strong>: The lead has scheduled a cleaning service.</p>
+<p><strong>Appointment No Show</strong>: If the lead misses an appointment, this status is updated.</p>
+<p><strong>Appointment Canceled</strong>: Leads who cancel are moved to this stage.</p>
+<p><strong>Service Completed</strong>: Once the service is successfully provided, the lead is marked as completed.</p>
+<p><strong>Follow-Up</strong>: If further follow-up is needed, the system will move the lead here for future engagement.</p>
+<h3 class="dh2"><strong>Automations for Each Funnel</strong></h3>
+<p>All five funnels are <strong>fully automated</strong>, ensuring that once a lead enters the funnel, they receive:</p>
+<p><strong>SMS reminders</strong> and <strong>emails</strong> at each stage to keep them engaged and on track to book a service.</p>
+<p><strong>Internal notifications</strong> for your team to follow up as needed, ensuring timely responses.</p>
+<p><strong>Custom tags</strong> applied to leads based on their funnel entry, which helps with segmentation and future marketing efforts.</p>
+<p>By integrating automated funnels with the <strong>Cleaning Pipeline</strong>, you'll have a streamlined system that tracks every lead’s journey from initial contact to service completion, increasing efficiency and improving conversion rates.</p>
+<h2 class="dh1"><strong>4. Appointment Workflows Overview</strong></h2>
+<p>The <strong>Cleaning Business Snapshot</strong> includes four key appointment-related workflows to ensure smooth communication and management of your cleaning appointments. These workflows handle appointment reminders, no-shows, cancellations, and service completions, ensuring your customers stay informed and engaged throughout their experience with your business.</p>
+<h3 class="dh2"><strong>1. Appointment Reminder Workflow (Cleaning Service)</strong></h3>
+<p><strong>Purpose</strong>: Automatically sends reminders to customers about their upcoming cleaning appointments, ensuring they are prepared and reducing the chances of missed appointments.</p>
+<h3 class="dh2"><strong>Triggers</strong>:</h3>
+<p>When an appointment is booked.</p>
+<p>Reminder notifications are sent 24 hours and 1 hour before the scheduled appointment.</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<p><strong>SMS Reminder</strong>: A text message is sent to remind the customer of their upcoming service, including the appointment date and time.</p>
+<p>Example Message:
+&quot;Hi {{ contact.first_name }}! 🎉 Your cleaning service with {{ location.name }} is confirmed for {{ appointment.only_start_date }} at {{ appointment.only_start_time }}. We can’t wait to make your space spotless! 🧼✨&quot;</p>
+<p><strong>Email Reminder</strong>: An email is also sent to provide further details and allow customers to reschedule if needed.</p>
+<p><strong>Benefits</strong>: Reduces no-shows and helps ensure customers are ready for their service.</p>
+<h3 class="dh2"><strong>2. Appointment No-Show Workflow (Cleaning Service)</strong></h3>
+<p><strong>Purpose</strong>: Automatically manages situations where a customer misses their scheduled cleaning appointment, providing options to reschedule.</p>
+<h3 class="dh2"><strong>Triggers</strong>:</h3>
+<p>When the appointment status is updated to &quot;No Show.&quot;</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<p><strong>SMS Follow-Up</strong>: Sends a message to the customer informing them that they missed their appointment and offering to reschedule.</p>
+<p>Example Message:
+&quot;Hi {{ contact.first_name }}, we noticed you missed your scheduled cleaning appointment with {{ location.name }} today. 😔 If you'd like to reschedule, please reply to this message or call us at {{ location.phone }} to find a new time that works for you. We’re happy to get your cleaning service back on track!&quot;</p>
+<p><strong>Internal Notification</strong>: Your team receives an internal notification, allowing them to follow up manually if needed.</p>
+<p><strong>Email</strong>: An email is also sent with similar rescheduling options.</p>
+<p><strong>Benefits</strong>: Ensures no missed appointments are left unaddressed, increasing the chances of retaining customers.</p>
+<h3 class="dh2"><strong>3. Appointment Canceled Workflow (Cleaning Service)</strong></h3>
+<p><strong>Purpose</strong>: This workflow handles situations where a customer cancels their appointment, allowing them to easily reschedule and keeping your team informed.</p>
+<h3 class="dh2"><strong>Triggers</strong>:</h3>
+<p>When the appointment status is updated to &quot;Canceled.&quot;</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<p><strong>SMS Confirmation</strong>: Sends a message confirming the cancellation and providing rescheduling options.</p>
+<p>Example Message:
+&quot;Hi {{ contact.first_name }}, your cleaning appointment with {{ location.name }} on {{ appointment.only_start_date }} at {{ appointment.only_start_time }} has been successfully canceled. If you’d like to reschedule, please contact us at {{ location.phone }}. We’d love to assist you when you’re ready!&quot;</p>
+<p><strong>Internal Notification</strong>: Notifies your team of the cancellation for manual follow-up if necessary.</p>
+<p><strong>Email</strong>: Sends a cancellation confirmation email to the customer.</p>
+<p><strong>Benefits</strong>: Allows for seamless communication with customers after cancellations and provides opportunities to rebook.</p>
+<h3 class="dh2"><strong>4. Appointment Completed Workflow (Cleaning Service)</strong></h3>
+<p><strong>Purpose</strong>: Automatically manages completed appointments by updating the status in your system and ensuring the customer has received all necessary communications.</p>
+<h3 class="dh2"><strong>Triggers</strong>:</h3>
+<p>When an appointment status is updated to &quot;Completed.&quot;</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<p><strong>Remove Tags</strong>: Removes any tags related to the booking process (e.g., &quot;Appointment Booked&quot;) to keep customer records clean.</p>
+<p><strong>Create or Update Opportunity</strong>: Updates the lead's opportunity status in your pipeline to reflect the completed service.</p>
+<p><strong>Benefits</strong>: Helps keep your CRM and pipeline clean and organized, ensuring accurate reporting and follow-ups for completed services.</p>
+<h3 class="dh2"><strong>Workflow Automations and Benefits</strong></h3>
+<p>Each of these workflows is <strong>fully automated</strong>, ensuring seamless communication with your customers at every stage of the appointment process. Key benefits include:</p>
+<p><strong>Reduced No-Shows</strong>: Through timely reminders and follow-ups.</p>
+<p><strong>Improved Rescheduling</strong>: By providing easy ways for customers to reschedule missed or canceled appointments.</p>
+<p><strong>Increased Customer Satisfaction</strong>: By keeping customers informed and engaged throughout their experience.</p>
+<p><strong>Efficient Team Management</strong>: With internal notifications, your team will always stay informed about the status of each appointment.</p>
+<p>By integrating these appointment workflows into your cleaning business operations, you ensure that every appointment is managed effectively, improving customer satisfaction and streamlining your business processes.</p>
+<h2 class="dh1"><strong>5. 52-Week Nurture Campaigns Overview</strong></h2>
+<p>The <strong>Cleaning Business Snapshot</strong> includes two fully automated, year-long nurture campaigns designed to keep leads engaged and gradually convert them into loyal customers. These campaigns share educational content and cleaning tips on a regular basis, helping you stay top-of-mind for potential clients while providing valuable insights.</p>
+<h3 class="dh2"><strong>1. 52-Week Email Nurture Campaign (Educational)</strong></h3>
+<p><strong>Purpose</strong>: This year-long email campaign is designed to educate leads and prospects about various aspects of cleaning, offering valuable tips and highlighting your services along the way. The goal is to build a relationship with leads by consistently providing value, eventually guiding them toward booking your services.</p>
+<h3 class="dh2"><strong>Structure</strong>:</h3>
+<p><strong>Frequency</strong>: One email per week for 52 weeks.</p>
+<p><strong>Content</strong>: Each email provides useful cleaning tips, seasonal cleaning advice, or ways to maintain a cleaner home or office. It also subtly promotes your services, encouraging leads to take the next step.</p>
+<p><strong>CTAs</strong>: Call-to-actions such as &quot;Book Now,&quot; &quot;Reply Yes,&quot; or &quot;Visit our Website&quot; are rotated throughout the campaign to prompt engagement without being overly sales-focused.</p>
+<h3 class="dh2"><strong>Automation</strong>:</h3>
+<p>Each email is scheduled automatically after the lead opts in.</p>
+<p>Emails are customized with dynamic placeholders like {{ contact.first_name }} and {{ location.phone }} to ensure personalization.</p>
+<h3 class="dh2"><strong>Benefits</strong>:</h3>
+<p>Keeps your cleaning business top-of-mind all year round.</p>
+<p>Builds trust and credibility by providing consistent value.</p>
+<p>Gradually nurtures leads into customers with well-timed offers.</p>
+<h3 class="dh2"><strong>2. 52-Week Text Message (SMS) Nurture Campaign (Educational)</strong></h3>
+<p><strong>Purpose</strong>: Similar to the email campaign, the SMS nurture campaign focuses on educating leads but in a more concise, mobile-friendly format. This campaign is designed to deliver bite-sized tips and value directly to your leads' phones on a weekly basis.</p>
+<h3 class="dh2"><strong>Structure</strong>:</h3>
+<p><strong>Frequency</strong>: One SMS per week for 52 weeks.</p>
+<p><strong>Content</strong>: Each message includes a short cleaning tip or seasonal advice, followed by a CTA prompting the recipient to take action (e.g., book a cleaning service, reply to the message, visit your website).</p>
+<p><strong>CTAs</strong>: The calls to action rotate between &quot;Reply Yes,&quot; &quot;Call Us at {{ location.phone }},&quot; and &quot;Visit Our Website {{ location.website }},&quot; depending on the message content.</p>
+<h3 class="dh2"><strong>Automation</strong>:</h3>
+<p>Each SMS is automatically sent every week.</p>
+<p>The campaign leverages dynamic placeholders (e.g., {{ contact.first_name }}) to add a personal touch.</p>
+<h3 class="dh2"><strong>Benefits</strong>:</h3>
+<p>Provides immediate value with concise, actionable tips.</p>
+<p>Leverages SMS for higher open and engagement rates compared to email.</p>
+<p>Keeps your business in regular contact with leads while gradually encouraging them to book services.</p>
+<h3 class="dh2"><strong>Customization</strong></h3>
+<p>Both the <strong>Email</strong> and <strong>SMS Nurture Campaigns</strong> can be customized to fit your business’s unique style, branding, and messaging. You can easily:</p>
+<p>Update the content of each email or SMS.</p>
+<p>Change the frequency of messages if needed.</p>
+<p>Tailor the CTA based on your latest promotions or offers.</p>
+<h3 class="dh2"><strong>Personalization with Custom Values</strong></h3>
+<p>The campaigns use the following custom values to dynamically personalize messages:</p>
+<p><strong>{{ contact.first_name }}</strong>: To address the lead by their first name.</p>
+<p><strong>{{ location.name }}</strong>: For your business name.</p>
+<p><strong>{{ location.phone }}</strong>: For your business contact number.</p>
+<p><strong>{{ location.website }}</strong>: For directing leads to your website.</p>
+<p>By maintaining ongoing communication with your leads through these campaigns, you increase the likelihood of converting them into paying customers while offering them consistent value and insights into maintaining a clean and healthy environment.</p>
+<p>These 52-week nurture campaigns are designed to work in tandem with your lead generation efforts, ensuring that no lead is left unattended and that you have regular touchpoints with prospects throughout the year.</p>
+<h2 class="dh1"><strong>6. Database Reactivation Campaigns Overview</strong></h2>
+<p>The <strong>Cleaning Business Snapshot</strong> includes four fully automated <strong>Database Reactivation Campaigns</strong>, designed to engage your past clients with special offers and promotions. These campaigns are an excellent way to bring back customers who haven’t booked services in a while, encouraging them to take action by offering attractive deals.</p>
+<p>Each campaign is connected to the <strong>Database Reactivation Pipeline</strong>, which tracks lead progress as they interact with your offers.</p>
+<h3 class="dh2"><strong>1. 20% Off Your Next Cleaning Campaign</strong></h3>
+<p><strong>Purpose</strong>: To entice past customers with a 20% discount on their next cleaning service.</p>
+<h3 class="dh2"><strong>Automation Steps</strong>:</h3>
+<p><strong>SMS</strong>: Day 1 sends a message with the offer:
+&quot;Hey {{ contact.first_name }}! We’ve missed you at {{ location.name }}! As a thank you for being a valued customer, enjoy 20% OFF your next cleaning service! 🧹✨ Reply with 'YES' to claim this offer!&quot;</p>
+<p><strong>Follow-Up</strong>: Additional reminders are sent via SMS and email if there is no response.</p>
+<h3 class="dh2"><strong>Pipeline Updates</strong>: The lead’s progress is tracked in the <strong>Database Reactivation Pipeline</strong>:</h3>
+<h3 class="dh2"><strong>Offer Sent</strong> → <strong>Responded</strong> → <strong>Offer Claimed</strong> → <strong>Not Interested</strong></h3>
+<p><strong>Benefits</strong>: This campaign provides a strong incentive for customers to return by offering a significant discount, keeping your cleaning business top of mind.</p>
+<h3 class="dh2"><strong>2. $50 Off Any Full House Cleaning Campaign</strong></h3>
+<p><strong>Purpose</strong>: To reactivate lapsed customers by offering a $50 discount on a full house cleaning service.</p>
+<h3 class="dh2"><strong>Automation Steps</strong>:</h3>
+<p><strong>SMS</strong>: Day 1 sends a promotional text:
+&quot;Hi {{ contact.first_name }}! It’s been a while! We’re offering $50 OFF your next full house cleaning service at {{ location.name }}! 🏡✨ Reply 'YES' to book your cleaning now!&quot;</p>
+<p><strong>Follow-Up</strong>: Follow-up messages are sent if there’s no response to the first SMS.</p>
+<p><strong>Pipeline Updates</strong>: The same <strong>Database Reactivation Pipeline</strong> is used to track progress, ensuring no lead is left unattended.</p>
+<p><strong>Benefits</strong>: Offering a flat discount like $50 off makes it easy for customers to understand the savings and encourages them to book a service.</p>
+<h3 class="dh2"><strong>3. Free Carpet Cleaning with Any Deep Cleaning Service Campaign</strong></h3>
+<p><strong>Purpose</strong>: To incentivize past customers with a free carpet cleaning when they book a deep cleaning service.</p>
+<h3 class="dh2"><strong>Automation Steps</strong>:</h3>
+<p><strong>SMS</strong>: The campaign starts with an SMS promoting the special:
+&quot;Hey {{ contact.first_name }}! Book a deep cleaning service today, and we’ll include a <strong>FREE carpet cleaning</strong>! 🧼 Reply 'YES' to claim this limited-time offer!&quot;</p>
+<p><strong>Follow-Up</strong>: The workflow continues with additional messages until the offer is claimed or the lead is marked as &quot;Not Interested.&quot;</p>
+<p><strong>Pipeline Updates</strong>: As customers respond, they will move through the stages of the <strong>Database Reactivation Pipeline</strong>.</p>
+<p><strong>Benefits</strong>: This campaign adds value by offering a free additional service, which can be highly appealing to customers looking for a comprehensive clean.</p>
+<h3 class="dh2"><strong>4. Pet Hair Removal Special – Free with Cleaning Campaign</strong></h3>
+<p><strong>Purpose</strong>: To attract pet owners by offering free pet hair removal with their next cleaning.</p>
+<h3 class="dh2"><strong>Automation Steps</strong>:</h3>
+<p><strong>SMS</strong>: The campaign begins with a message offering the deal:
+&quot;Hi {{ contact.first_name }}! Got pets? 🐾 We’re offering <strong>FREE pet hair removal</strong> with your next cleaning! Book now by replying 'YES' to this message.&quot;</p>
+<p><strong>Follow-Up</strong>: Reminders are sent to keep the offer fresh in the customer's mind until they respond or decline.</p>
+<p><strong>Pipeline Updates</strong>: The customer’s journey is tracked in the <strong>Database Reactivation Pipeline</strong>, helping you monitor the effectiveness of the campaign.</p>
+<p><strong>Benefits</strong>: This offer targets a specific segment (pet owners) and gives them an extra reason to book a cleaning, adding perceived value without cutting into profit margins too deeply.</p>
+<h3 class="dh2"><strong>Database Reactivation Pipeline Stages</strong></h3>
+<p>All four campaigns use the <strong>Database Reactivation Pipeline</strong> to track customer engagement. The stages include:</p>
+<p><strong>Offer Sent</strong>: The initial offer has been sent to the lead.</p>
+<p><strong>Responded</strong>: The lead has responded positively to the message.</p>
+<p><strong>Offer Claimed</strong>: The customer has claimed the offer and booked a service.</p>
+<p><strong>Not Interested</strong>: The lead has declined the offer or hasn’t responded after follow-ups.</p>
+<p>This pipeline ensures you can easily monitor where each lead stands, allowing your team to follow up manually if necessary and maximize the reactivation of old customers.</p>
+<h3 class="dh2"><strong>Key Benefits of Database Reactivation Campaigns</strong></h3>
+<p><strong>Boosts Revenue</strong>: By re-engaging old customers, these campaigns increase the likelihood of repeat bookings.</p>
+<p><strong>Automated Follow-Up</strong>: The system automatically sends reminders and tracks customer responses, freeing up your team’s time.</p>
+<p><strong>Targeted Offers</strong>: Each campaign is designed to appeal to different customer segments, increasing the effectiveness of your marketing efforts.</p>
+<p>These campaigns ensure that your past customers are consistently reminded of your services, helping to re-establish long-term relationships and encourage repeat business.</p>
+<h2 class="dh1"><strong>7. Google Review Campaign Overview</strong></h2>
+<p>The <strong>Cleaning Business Snapshot</strong> includes a <strong>Google Review Campaign</strong> designed to automate the process of gathering customer reviews. This campaign encourages satisfied customers to leave positive feedback on your Google Business profile, which helps boost your online reputation and attract more clients.</p>
+<p>The campaign is integrated with the <strong>Google Review Campaign Pipeline</strong>, which tracks customer engagement and interactions with your review requests.</p>
+<h3 class="dh2"><strong>Google Review Campaign Workflow</strong></h3>
+<p><strong>Purpose</strong>: To prompt customers to leave a Google review after they’ve received a cleaning service.</p>
+<h3 class="dh2"><strong>Automation Steps</strong>:</h3>
+<p><strong>SMS 1</strong>: Sent after the service is completed, requesting feedback.</p>
+<p>Example SMS:
+&quot;Hi {{ contact.first_name }}! We hope you enjoyed your experience with {{ location.name }}. 🧼✨ We’d love to hear your feedback! Please take a moment to leave us a Google review: {{ custom_values.google_review_link }}. Thank you for your support!&quot;</p>
+<p><strong>Follow-Up</strong>: Additional reminders are sent via SMS and email over the next few days if no action is taken.</p>
+<p><strong>Pipeline Updates</strong>: The lead’s journey through the <strong>Google Review Campaign Pipeline</strong> is tracked automatically, allowing you to monitor the effectiveness of the campaign.</p>
+<h3 class="dh2"><strong>Review Campaign Pipeline Stages</strong></h3>
+<p>The <strong>Google Review Campaign Pipeline</strong> includes the following stages to track customer interactions:</p>
+<p><strong>Request Sent</strong>: The initial review request has been sent to the customer.</p>
+<p><strong>Review Link Clicked</strong>: The customer clicked the link to leave a review, indicating engagement.</p>
+<p><strong>Review Link NOT Clicked</strong>: The customer has not clicked the link, and follow-up messages will continue to be sent.</p>
+<p>This pipeline helps you gauge which customers are responding to your review requests and which ones may need additional follow-up.</p>
+<h3 class="dh2"><strong>Follow-Up Workflow: Review Link Clicked</strong></h3>
+<p>If the customer clicks on the review link, an additional automation is triggered:</p>
+<p><strong>Internal Notification</strong>: Your team will receive an internal notification to inform them that the customer clicked on the Google review link, allowing for further follow-up if necessary.</p>
+<p>Example Notification:
+&quot;{{ contact.first_name }} clicked on your GMB Review Link! They may have left a review, so make sure to thank them!&quot;</p>
+<p>This internal communication ensures that your team can personally follow up and thank the customer for leaving a review, adding a personal touch to the interaction.</p>
+<h3 class="dh2"><strong>Benefits of the Google Review Campaign</strong></h3>
+<p><strong>Increased Reviews</strong>: By automating the review request process, you’re more likely to receive consistent feedback from satisfied customers.</p>
+<p><strong>Improved Reputation</strong>: Positive Google reviews can significantly improve your business’s online visibility and credibility.</p>
+<p><strong>Automation Saves Time</strong>: You won’t need to manually request reviews, as the system automatically handles sending reminders and follow-ups based on customer actions.</p>
+<p><strong>Pipeline Tracking</strong>: You can easily see which customers have clicked on the review link and who may need additional prompting.</p>
+<p>This campaign helps you maintain an active presence on Google while leveraging satisfied customers to help grow your business through positive online reviews.</p>
+<h2 class="dh1"><strong>8. Incoming Lead Follow-Up Campaigns Overview</strong></h2>
+<p>The <strong>Cleaning Business Snapshot</strong> includes three <strong>Incoming Lead Follow-Up Automations</strong>, specifically designed to handle new leads coming through different channels (email, Facebook DM, and Instagram DM). These automations ensure that every lead gets an immediate and personalized response, regardless of how they contact your business.</p>
+<p>All three campaigns update the lead’s status in the pipeline, allowing you to track their progress and manage follow-ups efficiently.</p>
+<h3 class="dh2"><strong>1. Incoming Lead: Email Automation</strong></h3>
+<p><strong>Purpose</strong>: To automatically follow up with leads who submit an inquiry via email.</p>
+<h3 class="dh2"><strong>Automation Steps</strong>:</h3>
+<p><strong>Initial Email</strong>: Sent within minutes after receiving the inquiry to acknowledge the lead.</p>
+<p>Example Email:
+&quot;Hi {{ contact.first_name }}, thanks for reaching out to {{ location.name }}! We received your email and will get back to you shortly. In the meantime, feel free to visit our website for more information: {{ location.website }}.&quot;</p>
+<p><strong>Follow-Up</strong>: If the lead doesn’t respond within 24 hours, a follow-up email is sent to encourage further action.</p>
+<p><strong>Pipeline Tracking</strong>: The lead’s journey is tracked in the system, updating statuses like <strong>New Lead</strong> and <strong>Lead Responded</strong> to ensure no one is missed.</p>
+<h3 class="dh2"><strong>2. Incoming Lead: Facebook DM Automation</strong></h3>
+<p><strong>Purpose</strong>: To respond to inquiries sent via Facebook Messenger quickly and efficiently.</p>
+<h3 class="dh2"><strong>Automation Steps</strong>:</h3>
+<p><strong>Facebook Messenger</strong>: Within minutes of receiving the inquiry, a Facebook Messenger message is sent.</p>
+<p>Example Message:
+&quot;Hi {{ contact.first_name }}, thanks for reaching out on Facebook! Our team is on it and will be in touch shortly. When's a good time for a brief call?&quot;</p>
+<p><strong>Follow-Up</strong>: If no response is received, the system sends a reminder after 15 minutes and then waits for a lead response.</p>
+<p><strong>Pipeline Tracking</strong>: The lead’s progress is monitored, and the system updates their status based on their engagement.</p>
+<h3 class="dh2"><strong>3. Incoming Lead: Instagram DM Automation</strong></h3>
+<p><strong>Purpose</strong>: To engage leads who send direct messages via Instagram.</p>
+<h3 class="dh2"><strong>Automation Steps</strong>:</h3>
+<p><strong>Instagram DM</strong>: Similar to the Facebook DM automation, an Instagram message is sent promptly after receiving the inquiry.</p>
+<p>Example Message:
+&quot;Hi {{ contact.first_name }}, thanks for reaching out to us on Instagram! We’ve received your message and will be in touch soon. Is there a good time for a quick chat?&quot;</p>
+<p><strong>Follow-Up</strong>: If the lead doesn’t respond right away, additional prompts are sent to encourage engagement.</p>
+<p><strong>Pipeline Tracking</strong>: Just like the other automations, the system updates the lead’s status throughout the follow-up process, ensuring no leads are left behind.</p>
+<h3 class="dh2"><strong>Benefits of the Incoming Lead Follow-Up Automations</strong></h3>
+<p><strong>Instant Response</strong>: These automations ensure that your leads are acknowledged immediately, improving the customer experience and increasing the likelihood of conversion.</p>
+<p><strong>Cross-Platform Coverage</strong>: Whether your leads come through email, Facebook, or Instagram, the system ensures they receive a timely and appropriate response.</p>
+<p><strong>Tracking and Updates</strong>: Each lead’s progress is tracked in the pipeline, making it easy for your team to follow up manually if needed and ensuring no lead slips through the cracks.</p>
+<p>These automations streamline your lead follow-up process, allowing you to focus on converting inquiries into bookings while the system handles the initial engagement.</p>
+<h2 class="dh1"><strong>9. Missed Call Text Back </strong></h2>
+<p>For the <strong>Missed Call Text Back Automations</strong> in the <strong>Cleaning Business Snapshot</strong>, you have two variations: a <strong>Basic Missed Call Text Back</strong> and an <strong>Advanced Missed Call Text Back Sequence</strong>. These automations ensure no lead is left unattended if a call is missed.</p>
+<h3 class="dh2"><strong>1. Basic Missed Call Text Back</strong></h3>
+<p>This automation triggers whenever a call is missed. It sends an immediate follow-up message to the missed caller to ensure quick re-engagement. The automation checks if the contact is new and then proceeds with the following steps:</p>
+<h3 class="dh2"><strong>SMS to Missed Caller</strong>:</h3>
+<p>Message:</p>
+<p>&quot;Hey there, this is {{user.first_name}} from {{location.name}}. We just got a missed call from this number, sorry about that! How can I help?&quot;</p>
+<h3 class="dh2"><strong>Internal Notification</strong>:</h3>
+<p>Sends a notification to the team to ensure they are aware of the missed call.</p>
+<h3 class="dh2"><strong>2. Advanced Missed Call Text Back Sequence</strong></h3>
+<p>This automation is more comprehensive, following up multiple times in case there are repeated missed calls. It uses branching logic to adjust the follow-up based on customer interaction.</p>
+<p><strong>Trigger</strong>: A missed call is detected.</p>
+<h3 class="dh2"><strong>Multiple SMS Follow-Ups</strong>:</h3>
+<p>First SMS (immediately after missed call):</p>
+<p>&quot;Sorry, we’ve missed your call again. How can we help you?&quot;</p>
+<p>Further follow-up messages are triggered depending on whether the lead responds, ensuring persistent engagement.</p>
+<p><strong>Internal Notifications</strong>: Updates the team at various stages to ensure follow-up actions are taken.</p>
+<p>Both automations work seamlessly in the pipeline to make sure leads are not lost due to missed calls, improving response time and customer experience.</p>
+<h2 class="dh1"><strong>10. Payment Automations Documentation</strong></h2>
+<h4 class="dh3"><strong>1. Initial Payment Request After Service Completion</strong></h4>
+<p>This automation sends a payment request to the client after the service has been completed. It follows up with both email and SMS reminders to ensure the client receives the invoice and can make payment in a timely manner.</p>
+<h3 class="dh2"><strong>Automation Trigger:</strong></h3>
+<p>Service status changes to &quot;Service Completed.&quot;</p>
+<h3 class="dh2"><strong>Workflow Steps:</strong></h3>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>This automation is triggered once the service is marked as completed in the system.</p>
+<h3 class="dh2"><strong>Email 1:</strong></h3>
+<p>Sends an email with the invoice details, including the amount due, due date, and payment link.</p>
+<p>Example Message:
+Hi {{contact.first_name}}! 🧹 Your invoice for {{invoice.amount}} is ready and due by {{invoice.due_date}}. Click here to make your payment: {{invoice.url}}. If you have any questions, feel free to call us at {{location.phone}}. Thanks for choosing {{location.name}}!</p>
+<h3 class="dh2"><strong>SMS 1:</strong></h3>
+<p>Sends a similar message via SMS to ensure clients who may not check their email receive the invoice.</p>
+<p>Example SMS Message:
+Hi {{contact.first_name}}! 🧹 Your invoice for {{invoice.amount}} is ready and due by {{invoice.due_date}}. Click here to make your payment: {{invoice.url}}. Feel free to call us at {{location.phone}} if you have any questions.</p>
+<h3 class="dh2"><strong>Wait 2 Days:</strong></h3>
+<p>Waits 2 days, then sends a follow-up reminder.</p>
+<h3 class="dh2"><strong>Email 2:</strong></h3>
+<p>Sends a second reminder email if the payment has not yet been made.</p>
+<h3 class="dh2"><strong>SMS 2:</strong></h3>
+<p>Sends a second SMS with the same reminder details.</p>
+<h3 class="dh2"><strong>Wait 3 Days:</strong></h3>
+<p>Waits another 3 days, and repeats the follow-up sequence.</p>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>After 7 days of non-payment, an internal notification is sent to your team to follow up with the client.</p>
+<h4 class="dh3"><strong>2. Payment Received</strong></h4>
+<p>This automation confirms receipt of payment once the invoice has been paid and sends a thank-you message to the client.</p>
+<h3 class="dh2"><strong>Automation Trigger:</strong></h3>
+<p>Invoice status changes to &quot;Paid.&quot;</p>
+<h3 class="dh2"><strong>Workflow Steps:</strong></h3>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>This automation is triggered when the payment is successfully processed and marked as paid in the system.</p>
+<h3 class="dh2"><strong>Remove from Workflow:</strong></h3>
+<p>Removes the client from the &quot;Initial Payment Request&quot; workflow to stop further payment reminders.</p>
+<h3 class="dh2"><strong>Thank You Email:</strong></h3>
+<p>Sends a thank-you email to the client acknowledging receipt of payment.</p>
+<p>Example Message:
+Thank you for your payment, {{contact.first_name}}! We appreciate your business. If you have any questions or feedback, please feel free to reach out to us at {{location.phone}}.</p>
+<h3 class="dh2"><strong>Thank You SMS:</strong></h3>
+<p>Sends a similar thank-you message via SMS.</p>
+<p>Example SMS:
+Thank you for your payment, {{contact.first_name}}! Let us know if you have any questions!</p>
+<h3 class="dh2"><strong>Wait 2 Days:</strong></h3>
+<p>Waits 2 days after payment confirmation.</p>
+<h3 class="dh2"><strong>Feedback Email &amp; SMS:</strong></h3>
+<p>After 2 days, the system sends a request for feedback, encouraging the client to provide feedback on the service provided.</p>
+<h4 class="dh3"><strong>3. Refund</strong></h4>
+<p>This automation informs the client when a refund has been processed and provides an estimated timeframe for when the client will receive the funds.</p>
+<h3 class="dh2"><strong>Automation Trigger:</strong></h3>
+<p>Invoice status changes to &quot;Refund.&quot;</p>
+<h3 class="dh2"><strong>Workflow Steps:</strong></h3>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>This automation is triggered when a refund is processed and marked as such in the system.</p>
+<h3 class="dh2"><strong>Refund Email:</strong></h3>
+<p>Sends an email to the client to notify them that the refund has been approved.</p>
+<p>Example Email:
+Hi {{contact.first_name}}, your refund for the cleaning services at {{location.name}} has been approved. You should receive the funds back within 7-14 days. Call us at {{location.phone}} if you have any questions.</p>
+<h3 class="dh2"><strong>Refund SMS:</strong></h3>
+<p>Sends a similar message via SMS.</p>
+<p>Example SMS:
+Hi {{contact.first_name}}, your refund for the cleaning services at {{location.name}} has been approved. You should receive the funds back within 7-14 days. Call us at {{location.phone}} if you have any questions.</p>
+<h3 class="dh2"><strong>Wait 7 Days:</strong></h3>
+<p>Waits 7 days after sending the refund notification.</p>
+<h3 class="dh2"><strong>Feedback Email &amp; SMS:</strong></h3>
+<p>After 7 days, a follow-up message is sent asking the client for feedback about their experience, even though a refund was processed. This ensures the company learns from the customer's experience.</p>
+<h3 class="dh2"><strong>Conclusion:</strong></h3>
+<p>These three automations ensure that the entire payment process is automated, from sending invoices after service completion to acknowledging receipt of payment and handling refunds. They improve customer communication and help maintain a professional, organized approach to handling payments and related inquiries.</p>
+<h2 class="dh1"><strong>11. Website Automations </strong></h2>
+<h3 class="dh2"><strong>1. Website Form Submitted Automation:</strong></h3>
+<p><strong>Trigger</strong>: The automation starts when a website form is submitted by a lead on the cleaning business website.</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<p><strong>Tag Assignment</strong>: The system adds a tag &quot;Website Form&quot; to the lead.</p>
+<p><strong>Opportunity Creation/Update</strong>: A new lead is created or updated in the CRM system.</p>
+<p><strong>Internal Notification</strong>: An internal notification is sent to inform the team about the new lead.</p>
+<p><strong>SMS</strong>: An SMS is sent to the lead, thanking them for their inquiry and notifying them that someone from the team will contact them shortly.</p>
+<p>Example: &quot;Hi {{contact.first_name}}, thank you for reaching out to us at {{location.name}}! We’ve received your inquiry about our cleaning services, and a member of our team will contact you shortly. If you have any urgent questions, feel free to call us at {{location.phone}}.&quot;</p>
+<p><strong>Email</strong>: An email is also sent to confirm the receipt of their inquiry.</p>
+<h3 class="dh2"><strong>2. Live Chat Automation:</strong></h3>
+<p><strong>Trigger</strong>: The automation is triggered when a customer replies to the live chat widget on the website.</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<h3 class="dh2"><strong>Tag Assignment</strong>: The system tags the lead as a &quot;Live Chat Lead.&quot;</h3>
+<p><strong>Opportunity Creation/Update</strong>: A new lead is created or updated in the CRM system.</p>
+<p><strong>Internal Notification</strong>: The team is notified internally about the lead’s response in the live chat.</p>
+<p><strong>Send Live Chat Message</strong>: A message is automatically sent via the live chat, acknowledging the lead's message and promising a response as soon as possible.</p>
+<p>Example: &quot;Hi {{contact.first_name}}! 👋 Thanks for reaching out to us through our website. We’ve received your message and will get back to you as soon as possible! If you need immediate assistance, feel free to call us at {{location.phone}}. Talk soon!&quot;</p>
+<h3 class="dh2"><strong>3. Chat Widget Automation:</strong></h3>
+<p><strong>Trigger</strong>: The automation is triggered when a customer responds to the website's chat widget.</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<h3 class="dh2"><strong>Tag Assignment</strong>: The system adds a tag to the lead, marking them as a &quot;Chat Widget Lead.&quot;</h3>
+<p><strong>Opportunity Creation/Update</strong>: The lead is created or updated in the CRM.</p>
+<p><strong>Internal Notification</strong>: The internal team receives a notification that the lead has responded via the chat widget.</p>
+<p><strong>SMS</strong>: A follow-up SMS is sent to the lead, acknowledging their message and informing them that the team will contact them shortly.</p>
+<p>Example: &quot;Hi {{contact.first_name}}! 👋 Thanks for reaching out to us through our website. We’ve received your message and will get back to you as soon as possible! If you need immediate assistance, feel free to call us at {{location.phone}}. Talk soon!&quot;</p>
+<h2 class="dh1"><strong>12. Birthday Workflow:</strong></h2>
+<p><strong>Trigger</strong>: The automation is triggered based on the birthday reminder set for the contact. This ensures that the campaign is sent out on or just before the contact’s birthday.</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<p><strong>Birthday SMS</strong>: An SMS is sent to the contact, wishing them a happy birthday and offering a special discount.</p>
+<h3 class="dh2"><strong>Message</strong>:</h3>
+<p>&quot;Hi {{contact.first_name}}! 🎉 Happy Birthday from all of us at {{location.name}}! 🍰 To celebrate, enjoy 20% OFF your next cleaning service on us! Reply YES to claim your birthday gift! 🎁✨&quot;</p>
+<p><strong>Wait (24 hours)</strong>: The automation waits for 24 hours to give the contact time to respond.</p>
+<h3 class="dh2"><strong>Branch</strong>:</h3>
+<p><strong>Yes Branch</strong>: If the contact replies with &quot;YES&quot;, an internal notification is sent to notify the team that the contact has claimed their birthday offer.</p>
+<p><strong>No Response</strong>: If the contact does not respond within the 24-hour period, the system sends a follow-up SMS to remind them about the offer.</p>
+<h3 class="dh2"><strong>Follow-up SMS</strong>:</h3>
+<p>&quot;Hi {{contact.first_name}}, we noticed you haven’t claimed your 20% OFF birthday gift from {{location.name}}! 🎁 Reply YES if you’d like to use this on your next cleaning service.&quot;</p>
+<p><strong>Wait 15 hours</strong>: The system waits for another 15 hours to allow for a response.</p>
+<h3 class="dh2"><strong>Branch</strong>:</h3>
+<p><strong>Interested Branch</strong>: If the contact expresses interest, an internal notification is sent to notify the team.</p>
+<p><strong>Not Interested</strong>: If there is still no response, the workflow ends with no further actions.</p>
+<p>This birthday workflow is designed to engage leads and offer them a special birthday discount to increase engagement and conversions while celebrating their special day. Let me know if you need further adjustments or more details!</p>
+<h2 class="dh1"><strong>13. Customer Referral Campaign:</strong></h2>
+<h3 class="dh2"><strong>Trigger</strong>:</h3>
+<p>The automation is triggered when a customer completes a service with the business, prompting the referral campaign.</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<p><strong>Wait 7 Days</strong>: The system waits 7 days after service completion to allow some time before requesting a referral.</p>
+<h3 class="dh2"><strong>SMS</strong>:</h3>
+<p>After 7 days, an SMS is sent to the customer, encouraging them to refer a friend to the business.</p>
+<h3 class="dh2"><strong>Message</strong>:</h3>
+<p>&quot;Hi {{contact.first_name}}! 💬 Love our cleaning services? Refer a friend to {{location.name}} and you’ll both get $25 OFF your next cleaning! 🧼✨ Reply YES to refer and start saving today!&quot;</p>
+<h3 class="dh2"><strong>Wait 1 Day</strong>:</h3>
+<p>The system waits 1 day to give the contact time to respond.</p>
+<h3 class="dh2"><strong>Condition Check</strong>:</h3>
+<p>The automation checks if the customer has responded by replying &quot;YES&quot;.</p>
+<h3 class="dh2"><strong>Customer Responded Branch</strong>:</h3>
+<p>If the customer responds positively (with &quot;YES&quot;), an internal notification is sent to the team to inform them that the customer is interested in referring someone.</p>
+<p>A follow-up SMS is sent thanking them for their interest and promising to follow up with further instructions.</p>
+<h3 class="dh2"><strong>Follow-up SMS</strong>:</h3>
+<p>&quot;Thank you for referring someone! Our team will reach out to you soon to collect the details.&quot;</p>
+<h3 class="dh2"><strong>No Response Branch</strong>:</h3>
+<p>If the customer does not respond, the system waits 7 days before sending a final SMS reminder.</p>
+<h3 class="dh2"><strong>Final SMS Reminder</strong>:</h3>
+<p>&quot;Hi {{contact.first_name}}, there’s still time to refer a friend and claim your $25 OFF your next cleaning! 🧼 Reply YES to refer a friend now!&quot;</p>
+<h3 class="dh2"><strong>End of Workflow</strong>:</h3>
+<p>If the customer either responds with interest or does not engage after the second message, the workflow ends with no further actions.</p>
+<p>This referral workflow is designed to encourage satisfied customers to refer their friends or family to the business, with a clear and enticing offer of a discount. It includes follow-up reminders and internal notifications to ensure the team can track and manage responses. Let me know if you need any changes!</p>
+<h3 class="dh2"><strong>14. Post-Service Follow-Up Automation:</strong></h3>
+<h3 class="dh2"><strong>Trigger</strong>:</h3>
+<p>This automation is triggered when the opportunity status is changed to <strong>WON</strong>, indicating the service has been completed successfully.</p>
+<h3 class="dh2"><strong>Actions</strong>:</h3>
+<h3 class="dh2"><strong>Wait 1 Hour</strong>:</h3>
+<p>The system waits 1 hour after the service is marked as completed before initiating the follow-up.</p>
+<h3 class="dh2"><strong>Send Thank You Email</strong>:</h3>
+<p>A thank-you email is sent to the customer to express gratitude for choosing the business.</p>
+<h3 class="dh2"><strong>Send Thank You SMS</strong>:</h3>
+<p>An SMS is also sent to the customer, thanking them for their business.</p>
+<h3 class="dh2"><strong>Message</strong>:</h3>
+<p>&quot;Hi {{contact.first_name}}, thank you for choosing {{location.name}}! We hope you're happy with the cleaning service. If you have any questions or need further assistance, feel free to reply.&quot;</p>
+<h3 class="dh2"><strong>Wait 1 Day</strong>:</h3>
+<p>The system waits for a day before proceeding to the next step.</p>
+<h3 class="dh2"><strong>Request for Feedback Email</strong>:</h3>
+<p>A follow-up email is sent requesting feedback on the service provided.</p>
+<h3 class="dh2"><strong>Request for Feedback SMS</strong>:</h3>
+<p>An SMS is sent alongside the email to ensure the customer sees the request for feedback.</p>
+<h3 class="dh2"><strong>Message</strong>:</h3>
+<p>&quot;Hi {{contact.first_name}}, we'd love to hear your thoughts on the service you received from {{location.name}}! Your feedback helps us improve and provide better service. Feel free to reply with your feedback!&quot;</p>
+<h3 class="dh2"><strong>End of Workflow</strong>:</h3>
+<p>Once the thank-you messages and feedback requests have been sent, the workflow ends with no further actions.</p>
+<p>This <strong>Post-Service Follow-Up</strong> automation ensures that the business maintains a strong relationship with the customer by thanking them for their business and gathering valuable feedback. This automation reinforces customer satisfaction and helps improve future services. Let me know if any adjustments are needed!</p>
+<h3 class="dh2"><strong>15. Holiday Emails</strong></h3>
+<h3 class="dh2"><strong>Holiday Campaign Template</strong>:</h3>
+<p>Customize each email subject to reflect the holiday being promoted (e.g., &quot;Happy Thanksgiving,&quot; &quot;Valentine's Day Special,&quot; etc.).</p>
+<p>In the body of each email, include a mention of the special offer related to the holiday by using the custom value {{custom_values.holiday_email_offer}} wherever the holiday promotion or discount is mentioned.</p>
+<h3 class="dh2"><strong>Offers</strong>:</h3>
+<p>Ensure the custom value {{custom_values.holiday_email_offer}} is pre-populated with the appropriate offer (e.g., percentage off, free add-on service) that aligns with the holiday.</p>
+<p>Example message:
+&quot;As a thank you for being a loyal customer, we're offering you {{custom_values.holiday_email_offer}} off your next cleaning service! This special holiday offer is only valid for a limited time.&quot;</p>
+<h3 class="dh2"><strong>Design &amp; Structure</strong>:</h3>
+<p>Follow the general structure of each holiday template, including greetings, the core message around the holiday, the special offer (using the custom value), and a call to action.</p>
+<p>CTAs should encourage recipients to book a service or claim the offer.</p>
+<h3 class="dh2"><strong>List of 13 Holiday Emails:</strong></h3>
+<h3 class="dh2"><strong>Happy Birthday Email</strong></h3>
+<h3 class="dh2"><strong>Black Friday Email</strong></h3>
+<h3 class="dh2"><strong>Father's Day Email</strong></h3>
+<h3 class="dh2"><strong>Happy New Year Email</strong></h3>
+<h3 class="dh2"><strong>Easter Email</strong></h3>
+<h3 class="dh2"><strong>Valentine's Day Email</strong></h3>
+<h3 class="dh2"><strong>Spring Cleaning Email</strong></h3>
+<h3 class="dh2"><strong>Closed for the 4th of July Email</strong></h3>
+<h3 class="dh2"><strong>Happy Halloween Email</strong></h3>
+<h3 class="dh2"><strong>Happy Thanksgiving Email</strong></h3>
+<h3 class="dh2"><strong>Thanksgiving Cleaning Checklist Email</strong></h3>
+<h3 class="dh2"><strong>Make Christmas Cleaning Easy Email</strong></h3>
+<h3 class="dh2"><strong>Tips for the Festive Season Email</strong></h3>
+<p>Each email will use the {{custom_values.holiday_email_offer}} to dynamically display the specific offer for that holiday email.</p>
+</div>
+</section>
+</main></div>
+<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">&#10005;</button><img id="lb-img" src="" alt="" onclick="event.stopPropagation()"></div>
+<script>
+document.querySelectorAll('main img').forEach(im=>{im.style.cursor='zoom-in';im.addEventListener('click',()=>{document.getElementById('lb-img').src=im.src;document.getElementById('lb').classList.add('open');});});
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Custom Values for Dentist GoHighLevel Snapshot</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:#0d0f18;--surf:#13151f;--surf2:#191c2a;--surf3:#1e2236;
+  --border:#252a3d;--acc:#e94560;--txt:#e8eaf4;--muted:#8b93b5;--dim:#4e556e;
+  --sw:268px;--hh:58px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);line-height:1.72;font-size:15px;overflow-x:hidden;}
+
+/* topbar */
+#topbar{position:sticky;top:0;z-index:200;height:var(--hh);background:rgba(13,15,24,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;}
+.logo{background:var(--acc);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:5px 12px;border-radius:6px;}
+.top-title{font-size:14px;font-weight:600;flex:1;}
+.srch-wrap{position:relative;}
+.srch-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+#srch{background:var(--surf2);border:1px solid var(--border);border-radius:8px;
+  padding:7px 12px 7px 32px;color:var(--txt);font-size:13px;width:220px;
+  outline:none;transition:border .18s,box-shadow .18s;}
+#srch:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,69,96,.14);}
+#srch::placeholder{color:var(--dim);}
+.badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surf2);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+/* layout */
+.layout{display:flex;min-height:calc(100vh - var(--hh));}
+
+/* sidebar */
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);
+  position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow-y:auto;padding:10px 0 24px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 18px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:13px;
+  font-weight:500;color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  transition:all .13s;cursor:pointer;user-select:none;}
+.nav-item:hover{color:var(--txt);background:var(--surf2);border-left-color:var(--dim);}
+.nav-item.active{color:var(--acc);background:rgba(233,69,96,.08);border-left-color:var(--acc);font-weight:600;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .13s;}
+.nav-item.active .ndot,.nav-item:hover .ndot{background:var(--acc);}
+
+/* main */
+main{flex:1;min-width:0;}
+
+/* cover */
+#cover{background:linear-gradient(155deg,#0d0f18 0%,#14102a 50%,#0d0f18 100%);
+  border-bottom:1px solid var(--border);padding:72px 60px 60px;text-align:center;
+  position:relative;overflow:hidden;}
+#cover::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(233,69,96,.17) 0%,transparent 72%);
+  pointer-events:none;}
+.cv-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);
+  border:1px solid rgba(233,69,96,.3);color:var(--acc);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+#cover h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 25%,#9095b8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#cover>p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 40px;}
+.stats{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-num{font-size:34px;font-weight:800;color:var(--acc);line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:640px;margin:0 auto;}
+.pill{background:var(--surf2);border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;transition:all .13s;}
+.pill:hover{color:var(--txt);border-color:rgba(233,69,96,.5);}
+
+/* section */
+.doc-section{border-bottom:1px solid var(--border);scroll-margin-top:var(--hh);}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 42px;
+  background:var(--surf);border-bottom:1px solid var(--border);
+  position:sticky;top:var(--hh);z-index:10;}
+.sec-num{width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);
+  color:var(--acc);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);flex:1;}
+.btn-top{font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;
+  background:var(--surf2);border:1px solid var(--border);
+  padding:5px 13px;border-radius:6px;transition:all .13s;white-space:nowrap;}
+.btn-top:hover{color:var(--acc);border-color:rgba(233,69,96,.5);}
+.sec-body{padding:32px 42px 48px;max-width:860px;}
+
+/* typography */
+.dh1{font-size:21px;font-weight:800;color:var(--txt);margin:28px 0 10px;}
+.dh2{font-size:15px;font-weight:700;color:var(--txt);margin:22px 0 10px;
+  padding:10px 15px;background:var(--surf2);border-left:3px solid var(--acc);border-radius:0 7px 7px 0;}
+.dh3{font-size:12px;font-weight:700;color:var(--acc);margin:16px 0 7px;
+  text-transform:uppercase;letter-spacing:.09em;}
+.sec-body p{color:var(--muted);font-size:15px;line-height:1.78;margin-bottom:12px;}
+.sec-body p strong{color:var(--txt);font-weight:600;}
+.sec-body p em{color:#9a9ec0;font-style:italic;}
+
+/* images */
+.img-snap{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px;padding:20px;
+  background:var(--surf2);border:1px solid var(--border);border-radius:12px;}
+.img-snap img{height:260px;width:auto;max-width:100%;border-radius:8px;
+  border:1px solid var(--border);cursor:zoom-in;object-fit:contain;
+  background:var(--surf3);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-snap img:hover{transform:scale(1.03);box-shadow:0 8px 32px rgba(233,69,96,.22);border-color:var(--acc);}
+
+.img-inline{margin:20px 0;}
+.img-inline img{width:100%;max-width:780px;height:auto;display:block;
+  border-radius:10px;border:1px solid var(--border);cursor:zoom-in;
+  background:var(--surf2);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-inline img:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(233,69,96,.18);border-color:var(--acc);}
+
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;cursor:zoom-out;}
+#lb.on{display:flex;}
+#lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:8px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);cursor:default;}
+#lb-close{position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;color:#fff;font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+#lb-close:hover{background:rgba(233,69,96,.7);}
+
+mark{background:rgba(233,69,96,.32);color:#fff;border-radius:2px;padding:0 2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:820px){
+  .sidebar{display:none;}
+  .sec-body{padding:20px;}
+  .sec-head{padding:14px 18px;}
+  #cover{padding:40px 18px;}
+  #cover h1{font-size:32px;}
+  .img-snap img{height:180px;}
+}
+</style>
+<style>
+.layout{display:block;}
+main,.content{max-width:960px;margin:0 auto;padding:32px 24px;}
+section{display:block !important;}
+</style>
+</head>
+<body>
+<div id="topbar"><span class="logo">SNAPLEVEL</span><span class="top-title">Custom Values for Dentist GoHighLevel Snapshot</span></div>
+<div class="layout"><main class="content">
+<section id="dentist" class="doc-section">
+<div class="sec-head">
+<div class="sec-num">18</div>
+<div class="sec-title">Dentist</div>
+<a href="#topbar" class="btn-top">&#8593; Top</a>
+</div>
+<div class="sec-body">
+<h3 class="dh2"><strong>Dentist Snapshot Documentation</strong></h3>
+<p>Custom Values </p>
+<p>Dentist Website</p>
+<p>Linktrees</p>
+<p>Dental Implants Quiz Funnel</p>
+<p>Dental Voucher Funnel</p>
+<p>Free 5 Step Checklist Funnel</p>
+<p>Free Teeth Cleaning Funnel</p>
+<p>52-Week Email and SMS Nurture Campaign</p>
+<p>Database Reactivation Campaigns</p>
+<p>Google Review Campaign</p>
+<p>Inbound Lead Sources Automations </p>
+<p>Insurance Benefits May Be Expiring SMS Automation</p>
+<p>New Client Onboarding Automations</p>
+<p>Payment and Billing Reminders Automations</p>
+<p>Post-Treatment Follow-Up Automation</p>
+<p>Birthday Campaign Automation</p>
+<p>Customer Referral Campaign Automation</p>
+<p>Missed Call Text Back Automation</p>
+<p>Post-Surgery Recovery Tips Automation</p>
+<p>13 Beautifully Designed Holiday Emails</p>
+<h2 class="dh1"><strong>Custom Values for Dentist GoHighLevel Snapshot</strong></h2>
+<h3 class="dh2"><strong>Dental Implants Consultation Calendar Link</strong></h3>
+<p>Placeholder: {{custom_values.dental_implants_consultation_calendar_link}}</p>
+<p>Use: This link should direct patients to book a consultation for dental implants.</p>
+<h3 class="dh2"><strong>Dental Practice Name</strong></h3>
+<p>Placeholder: {{custom_values.dental_practice_name}}</p>
+<p>Use: This represents the name of the dental practice and can be used across communications, emails, SMS, and landing pages.</p>
+<h3 class="dh2"><strong>Dentist Name</strong></h3>
+<p>Placeholder: {{custom_values.dentist_name}}</p>
+<p>Use: The dentist's name will be inserted where a personal touch is needed, such as in introductions, signatures, or when addressing the dentist directly in communications.</p>
+<h3 class="dh2"><strong>Free Smile Consultation Calendar Link</strong></h3>
+<p>Placeholder: {{custom_values.free_smile_consultation_calendar_link}}</p>
+<p>Use: This link directs patients to schedule a free smile consultation.</p>
+<h3 class="dh2"><strong>Free Teeth Cleaning Calendar Link</strong></h3>
+<p>Placeholder: {{custom_values.free_teeth_cleaning_calendar_link}}</p>
+<p>Use: Patients can use this link to book a free teeth cleaning session.</p>
+<h3 class="dh2"><strong>Google Review Campaign Link</strong></h3>
+<p>Placeholder: {{custom_values.google_review_campaign_link}}</p>
+<p>Use: Directs patients to a campaign page where they can leave a Google review for the dental practice.</p>
+<h3 class="dh2"><strong>Holiday Email Offer</strong></h3>
+<p>Placeholder: {{custom_values.holiday_email_offer}}</p>
+<p>Use: This value can be used to insert special offers in emails sent during holidays.</p>
+<h3 class="dh2"><strong>Years of Experience</strong></h3>
+<p>Placeholder: {{custom_values.years_of_experience}}</p>
+<p>Use: Displays the number of years the practice or dentist has been in service, adding credibility and trust.</p>
+<h3 class="dh2"><strong>Link to Team Page or Photos</strong></h3>
+<p>Placeholder: {{custom_values.link_to_team_page_or_photos}}</p>
+<p>Use: This link directs patients to a page featuring the dental team or photos of the practice.</p>
+<h3 class="dh2"><strong>Implementation</strong></h3>
+<p>These custom values are designed to personalize the experience for the patients and streamline the communication process. They can be used across various touchpoints within the GoHighLevel snapshot, such as email campaigns, SMS campaigns, landing pages, and forms.</p>
+<h2 class="dh1"><strong>2. Customizable Dentist Website Overview</strong></h2>
+<p>This GoHighLevel snapshot includes a fully customizable website tailored specifically for dental practices. The website is designed to be user-friendly and can be personalized to reflect the unique identity of any dental business. Here are some of the key features:</p>
+<h3 class="dh2"><strong>Customizable Design</strong>:</h3>
+<p>The website templates provided can be edited to match your brand's colors, imagery, and overall aesthetic. You have the flexibility to modify any part of the site, from headers and footers to the individual pages, ensuring it aligns perfectly with your practice’s branding.</p>
+<h3 class="dh2"><strong>Pre-built Pages</strong>:</h3>
+<p>The website includes several pre-built pages such as Home, Dentures, Calendar Page, Dental Implants, General Dentistry, Clear Aligners, Emergency, Terms of Service, and Privacy Policy. Each of these pages is designed to highlight key services and provide essential information to potential patients.</p>
+<h3 class="dh2"><strong>Auto-Population with Custom Values</strong>:</h3>
+<p>The website is equipped with custom values that allow for automatic population of your business information across the site. This means that once your details (such as your dental practice name, dentist name, consultation links, etc.) are set up in the GoHighLevel system, they will be automatically inserted into the appropriate places on the website. This saves time and ensures consistency across all pages.</p>
+<h3 class="dh2"><strong>Integrated Scheduling</strong>:</h3>
+<p>The Calendar Page is set up to streamline appointment scheduling, allowing patients to easily book consultations or treatments directly through the website. These links can also be customized based on the services you offer, such as dental implants or free smile consultations.</p>
+<h3 class="dh2"><strong>Legal Compliance</strong>:</h3>
+<p>The Terms of Service and Privacy Policy pages are already set up to protect your practice legally. These can also be customized to reflect your specific terms and conditions.</p>
+<p>By using this snapshot, you'll have a professional, well-structured, and fully functional dental website that you can easily customize to fit your specific needs. This makes it simple to launch a polished online presence that reflects the quality and professionalism of your dental practice.</p>
+<h3 class="dh2"><strong>Automated Website Chat Widget with Integrated Lead Management</strong></h3>
+<p>The snapshot for the dental practice includes a fully automated <strong>Website Chat Widget</strong> designed to enhance lead engagement directly on your website. This widget not only interacts with potential patients but also ensures that every new lead generated through the chat is seamlessly integrated into the <strong>Dentist Main Pipeline</strong>.</p>
+<h4 class="dh3"><strong>Key Features:</strong></h4>
+<h3 class="dh2"><strong>Automated Lead Capture</strong>:</h3>
+<p>As soon as a potential patient engages with the chat widget, the system automatically captures their details and begins interacting with them, providing necessary information or answering common questions.</p>
+<h3 class="dh2"><strong>Pipeline Integration</strong>:</h3>
+<p>Every new lead generated via the chat widget is automatically updated in the <strong>Dentist Main Pipeline</strong>. This pipeline is structured to help manage leads effectively, tracking them from the initial inquiry to the final outcome. The stages include:</p>
+<p>New Lead</p>
+<p>Lead Responded</p>
+<p>Appointment Booked</p>
+<p>Appointment No Show</p>
+<p>Follow Up</p>
+<p>Not Interested</p>
+<h3 class="dh2"><strong>Internal Notifications and Follow-ups</strong>:</h3>
+<p>The workflow includes internal notifications to ensure that your team is promptly alerted when a lead responds or takes action. This allows for timely follow-ups and ensures no potential patient falls through the cracks.</p>
+<h3 class="dh2"><strong>Seamless Workflow</strong>:</h3>
+<p>The chat widget workflow is designed for efficiency, ensuring that each interaction with a potential patient is logged, followed up on, and moved through the pipeline appropriately.</p>
+<p>This automated system is a powerful tool for any dental practice looking to streamline their lead management process, ensuring that every potential patient receives the attention they deserve while reducing the manual effort required from your team.</p>
+<h3 class="dh2"><strong>Fully Automated Website Calendar</strong></h3>
+<p>The snapshot includes a <strong>fully automated Website Calendar</strong> specifically designed to streamline the appointment scheduling process for your dental practice. This calendar is seamlessly integrated with the <strong>Dentist Main Pipeline</strong>, ensuring that every appointment booked through the website is automatically tracked and managed.</p>
+<h4 class="dh3"><strong>Key Features:</strong></h4>
+<h3 class="dh2"><strong>Automated Appointment Scheduling</strong>:</h3>
+<p>Patients can easily book their appointments online by selecting their preferred date and time directly from the website. The system automatically handles the scheduling, reducing the need for manual intervention.</p>
+<h3 class="dh2"><strong>Pipeline Integration</strong>:</h3>
+<p>Once an appointment is booked through the website, it is immediately updated in the <strong>Dentist Main Pipeline</strong>. This integration allows you to track the patient’s journey through stages such as:</p>
+<p><strong>Website Calendar Appointment Booked</strong>: The stage where the appointment is confirmed.</p>
+<p><strong>Website Calendar Appointment Cancelled</strong>: The stage for any cancellations.</p>
+<p><strong>Website Calendar Appointment No Show</strong>: The stage to track if a patient does not show up for their appointment.</p>
+<h3 class="dh2"><strong>Real-Time Updates</strong>:</h3>
+<p>The calendar provides real-time availability, ensuring that patients only see open slots, preventing double bookings or scheduling conflicts.</p>
+<h3 class="dh2"><strong>Automatic Notifications</strong>:</h3>
+<p>The system can be configured to send automatic notifications to both your team and the patients. These notifications can include appointment confirmations, reminders, or updates if the appointment status changes.</p>
+<p>By leveraging this automated website calendar, your practice can offer a smoother, more efficient booking experience for patients while ensuring that all appointments are properly managed and tracked within your pipeline. This helps maintain organization and ensures that your team can focus on delivering excellent care rather than managing appointments manually.</p>
+<h2 class="dh1"><strong>3. Linktrees Included in the Dentist Snapshot</strong></h2>
+<p>The GoHighLevel snapshot for dental practices includes four specialized Linktrees that are designed to direct patients to the most relevant services your practice offers. Each Linktree version is tailored to specific aspects of dental care, making it easy for patients to navigate your offerings and find the services they need.</p>
+<h4 class="dh3"><strong>1. General Dental Services Linktree</strong></h4>
+<p><strong>Purpose</strong>: This Linktree covers a wide range of general dental services that your practice provides. It’s a go-to resource for patients looking for routine care, including cleanings, check-ups, and other standard dental procedures.</p>
+<p><strong>Use Case</strong>: Ideal for directing patients who are interested in maintaining their dental health and need regular services.</p>
+<h4 class="dh3"><strong>2. Cosmetic Dentistry Linktree</strong></h4>
+<p><strong>Purpose</strong>: This Linktree focuses on cosmetic dentistry services, such as teeth whitening, veneers, and smile makeovers. It’s designed to help patients interested in improving the appearance of their teeth and smile.</p>
+<p><strong>Use Case</strong>: Best suited for patients looking to enhance the aesthetic aspects of their dental care.</p>
+<h4 class="dh3"><strong>3. Emergency Dental Care Linktree</strong></h4>
+<p><strong>Purpose</strong>: This Linktree is dedicated to urgent and emergency dental care services. It provides quick access to resources and scheduling for patients experiencing dental emergencies, such as severe pain, broken teeth, or other immediate concerns.</p>
+<p><strong>Use Case</strong>: A critical resource for patients needing prompt dental care due to unexpected issues.</p>
+<h4 class="dh3"><strong>4. Pediatric Dentistry Linktree</strong></h4>
+<p><strong>Purpose</strong>: This Linktree is tailored to pediatric dentistry, offering information and services specifically for children’s dental care. It ensures that parents can easily find and schedule appointments for their kids.</p>
+<p><strong>Use Case</strong>: Perfect for families seeking specialized dental care for their children.</p>
+<h3 class="dh2"><strong>Integration and Usage</strong></h3>
+<p>These Linktrees can be integrated across your marketing materials, social media profiles, and website to ensure patients can easily access the specific services they are interested in. They provide a clear and organized way for patients to find and book the services they need, enhancing their experience with your dental practice. Each Linktree is also customizable to fit the unique offerings of your practice.</p>
+<h2 class="dh1"><strong>4. Dental Implants Quiz Funnel</strong></h2>
+<p>The <strong>Dental Implants Quiz Funnel</strong> is one of the specialized sales funnels included in the GoHighLevel snapshot for dental practices. This funnel is designed to guide potential patients through a series of steps, helping them determine whether dental implants are right for them and ultimately driving them to book a consultation.</p>
+<h4 class="dh3"><strong>Funnel Structure:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Home Page</strong></h3>
+<p>The patient is introduced to the concept of dental implants and encouraged to take a quiz to determine if they are a suitable candidate.</p>
+<h3 class="dh2"><strong>Step 2: Quiz Page</strong></h3>
+<p>The quiz is presented to the patient, asking relevant questions about their dental health, needs, and eligibility for dental implants.</p>
+<h3 class="dh2"><strong>Step 3: Thank You Page (TY)</strong></h3>
+<p>After completing the quiz, the patient is directed to the Thank You page, where they are encouraged to book a consultation. If they proceed to book, they are scheduled on the <strong>Dental Consultation Calendar</strong>.</p>
+<h3 class="dh2"><strong>Step 4: Follow Us On FB Page</strong></h3>
+<p>Patients are encouraged to follow the dental practice on social media for ongoing engagement.</p>
+<h4 class="dh3"><strong>Dedicated Sales Pipeline:</strong></h4>
+<p>The <strong>Dental Implants Quiz Funnel</strong> comes with its own dedicated sales pipeline named <strong>Dental Implants Quiz</strong>. This pipeline tracks the progression of leads through the following stages:</p>
+<h3 class="dh2"><strong>New Lead</strong></h3>
+<h3 class="dh2"><strong>Survey Submitted</strong></h3>
+<h3 class="dh2"><strong>Consultation Booked</strong></h3>
+<h3 class="dh2"><strong>Consultation Cancelled</strong></h3>
+<h3 class="dh2"><strong>Consultation No Show</strong></h3>
+<h3 class="dh2"><strong>Not Interested</strong></h3>
+<h3 class="dh2"><strong>Not Qualified</strong></h3>
+<h3 class="dh2"><strong>Follow Up</strong></h3>
+<p>This setup allows you to monitor the patient's journey through the funnel and take appropriate actions based on their stage in the pipeline.</p>
+<h4 class="dh3"><strong>Fully Automated Funnel:</strong></h4>
+<p>The entire funnel is fully automated, minimizing manual intervention. When a patient submits their quiz responses, an internal notification is triggered, and they are prompted to book an appointment. The system will wait for them to book, and if they do, the information is automatically recorded in the pipeline.</p>
+<h4 class="dh3"><strong>Calendar Integration:</strong></h4>
+<p>If a patient books a consultation on Step 3 of the funnel, they will be scheduled on the <strong>Dental Consultation Calendar</strong>. This calendar is fully automated with the following features:</p>
+<p><strong>Appointment Confirmation and Reminders</strong>: Automatically sends confirmation and reminder messages to the patient before their appointment.</p>
+<p><strong>Appointment Canceled Automation</strong>: Manages and updates the pipeline if a patient cancels their appointment.</p>
+<p><strong>Appointment No Show Automation</strong>: Tracks and sends follow-ups for patients who do not show up for their scheduled consultation.</p>
+<p>This robust system ensures that every lead generated through the Dental Implants Quiz Funnel is properly managed, followed up on, and nurtured towards becoming a patient.</p>
+<h2 class="dh1"><strong>5. </strong><strong>Dental Voucher Funnel</strong></h2>
+<p>The <strong>Dental Voucher Funnel</strong> is a simple yet effective 2-step funnel designed to capture leads by offering a promotional voucher, such as a $50 discount on a dental appointment. This funnel is optimized to quickly convert visitors into leads, providing an enticing offer in exchange for their contact information.</p>
+<h4 class="dh3"><strong>Funnel Structure:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Voucher Opt-In Page</strong></h3>
+<p>This page offers a promotional deal, such as a $50 off voucher for new patients. Visitors are prompted to enter their email address to receive the voucher.</p>
+<h3 class="dh2"><strong>Step 2: Thank You Page</strong></h3>
+<p>After opting in, the visitor is directed to a thank you page with instructions on how to redeem the voucher, and additional information to encourage them to take further action, like calling to schedule their appointment.</p>
+<h4 class="dh3"><strong>Automation Features:</strong></h4>
+<h3 class="dh2"><strong>Lead Tagging</strong>:</h3>
+<p>When someone opts in by submitting their email on the Voucher Opt-In Page, the automation workflow will automatically tag the lead with a specific identifier (e.g., &quot;$50 off Dental Voucher&quot;). This allows easy tracking and segmentation of leads who have shown interest in this specific offer.</p>
+<h3 class="dh2"><strong>Internal Notification</strong>:</h3>
+<p>An internal notification is sent to your team as soon as a lead opts in, alerting them of the new lead. This enables your team to follow up promptly, ensuring that the lead is nurtured towards booking their first appointment.</p>
+<p>This streamlined funnel is designed to maximize lead capture while ensuring that every new lead is properly tagged and followed up on, making it an efficient tool for growing your dental practice.</p>
+<h2 class="dh1"><strong>6. Free 5 Step Checklist Funnel</strong></h2>
+<p>The <strong>Free 5 Step Checklist Funnel</strong> is a comprehensive 3-step funnel designed to provide value upfront while guiding leads towards booking a consultation and claiming an exclusive bonus offer. This funnel is ideal for educating potential patients about how they can achieve a &quot;Hollywood Smile&quot; and then driving them to take further action with your dental practice.</p>
+<h4 class="dh3"><strong>Funnel Structure:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Opt-In Page</strong></h3>
+<p>Visitors are prompted to enter their name, email, and phone number to receive a free checklist on how to get a Hollywood smile in 5 easy steps. This step captures essential lead information.</p>
+<h3 class="dh2"><strong>Step 2: Calendar Page</strong></h3>
+<p>After opting in, visitors are immediately offered a chance to book a <strong>Free Smile Consultation</strong>. The page highlights the importance of getting a professional opinion and helps convert leads into booked consultations.</p>
+<h3 class="dh2"><strong>Step 3: Bonus Page</strong></h3>
+<p>As a final step, after booking the consultation, leads are presented with a special bonus offer. This bonus might include a discount or an additional service that adds value to their consultation.</p>
+<h4 class="dh3"><strong>Dedicated Automated Pipeline:</strong></h4>
+<p>The funnel comes with its own dedicated pipeline named <strong>FREE 5 step checklist</strong>. This pipeline is fully automated to track the lead’s progress through the following stages:</p>
+<h3 class="dh2"><strong>New Lead</strong></h3>
+<h3 class="dh2"><strong>Appointment Booked</strong></h3>
+<h3 class="dh2"><strong>Appointment No Show</strong></h3>
+<h3 class="dh2"><strong>Appointment Cancelled</strong></h3>
+<h3 class="dh2"><strong>Special Bonus Offer Claimed</strong></h3>
+<h4 class="dh3"><strong>Automation Features:</strong></h4>
+<h3 class="dh2"><strong>FREE 5 Step Checklist Automation</strong>:</h3>
+<p>As soon as a lead opts in on the first step, this automation is triggered, sending them the promised 5-step checklist. This instant delivery helps build trust and keeps the lead engaged.</p>
+<h3 class="dh2"><strong>5 Step Checklist Bonus Claimed Automation</strong>:</h3>
+<p>If the lead opts into the bonus offer on the third step, this automation is triggered, sending them the bonus details. This step adds an extra layer of value to the funnel, ensuring that leads feel they’re getting exclusive benefits.</p>
+<h4 class="dh3"><strong>Appointment Management:</strong></h4>
+<p><strong>Appointment Confirmation and Reminders</strong>: Leads who book a consultation on the Calendar Page will receive automatic appointment confirmations and reminders, ensuring they are well-informed and less likely to miss their appointment.</p>
+<p><strong>Appointment Cancellation Automation</strong>: If a lead cancels their consultation, this automation updates the pipeline and can trigger follow-up actions to potentially reschedule.</p>
+<p><strong>Appointment No Show Automation</strong>: For leads who do not show up to their scheduled consultation, this automation triggers appropriate follow-up sequences to either reschedule or engage the lead further.</p>
+<p>This funnel is a powerful tool to attract, educate, and convert leads while maintaining a high level of automation to reduce manual efforts and enhance lead management.</p>
+<h2 class="dh1"><strong>7. Free Teeth Cleaning Funnel</strong></h2>
+<p>The <strong>Free Teeth Cleaning Funnel</strong> is a highly effective 3-step funnel designed to attract new leads by offering a free teeth cleaning. This funnel not only captures leads but also encourages them to book an appointment and follow through with it.</p>
+<h4 class="dh3"><strong>Funnel Structure:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Opt-In Page</strong></h3>
+<p>Visitors are offered a free teeth cleaning worth $100, and they are prompted to enter their full name, phone number, and email address to claim their coupon.</p>
+<h3 class="dh2"><strong>Step 2: Book Appointment Page</strong></h3>
+<p>After opting in, visitors are encouraged to book their free teeth cleaning appointment immediately. The page highlights the urgency, mentioning the need to book within 24 hours to avoid losing the offer. Additionally, they are informed about a special code for a free X-ray, adding more value to the offer.</p>
+<h3 class="dh2"><strong>Step 3: Thank You Page</strong></h3>
+<p>After booking the appointment, visitors are directed to a thank you page that confirms their appointment details and provides further instructions or directions, making it easy for them to follow through.</p>
+<h4 class="dh3"><strong>Dedicated Automated Pipeline:</strong></h4>
+<p>The funnel includes a dedicated pipeline named <strong>Free Teeth Cleaning</strong>. This pipeline is fully automated to track the lead’s progress through the following stages:</p>
+<h3 class="dh2"><strong>New Lead</strong></h3>
+<h3 class="dh2"><strong>Appointment Booked</strong></h3>
+<h3 class="dh2"><strong>Appointment No Show</strong></h3>
+<h3 class="dh2"><strong>Appointment Cancelled</strong></h3>
+<h3 class="dh2"><strong>Follow Up</strong></h3>
+<h4 class="dh3"><strong>Automation Features:</strong></h4>
+<h3 class="dh2"><strong>Appointment Booking Encouragement Automation</strong>:</h3>
+<p>If a lead opts in but does not immediately book an appointment, this automation will trigger follow-up messages encouraging them to schedule their teeth cleaning. This can include emails and SMS reminders.</p>
+<h3 class="dh2"><strong>Appointment Confirmation</strong>:</h3>
+<p>Once the lead books an appointment, an automation will send a confirmation message along with reminders leading up to the appointment date, ensuring the lead is well-informed and ready for their visit.</p>
+<h3 class="dh2"><strong>Appointment Cancellation Follow-Up</strong>:</h3>
+<p>If the lead cancels their appointment, this automation will initiate a follow-up sequence to reschedule or offer alternative solutions, helping to retain the lead's interest.</p>
+<h3 class="dh2"><strong>Appointment No Show Automation</strong>:</h3>
+<p>In cases where a lead does not show up for their scheduled appointment, this automation will trigger follow-up actions aimed at re-engaging the lead and rescheduling their appointment.</p>
+<p>This funnel, with its built-in automations and dedicated pipeline, ensures that every lead is nurtured effectively, increasing the chances of converting them into long-term patients while minimizing the manual workload on your team.</p>
+<h2 class="dh1"><strong>8. 52-Week Email and SMS Nurture Campaign</strong></h2>
+<p>The <strong>52-Week Email and SMS Nurture Campaign</strong> is designed to engage and educate potential dental patients over the course of a year, building trust and encouraging them to choose your dental practice for their needs. These campaigns are carefully structured to provide value, share tips, and gently nudge leads towards booking an appointment.</p>
+<h4 class="dh3"><strong>Email Nurture Campaign</strong></h4>
+<h3 class="dh2"><strong>Duration</strong>: 52 Weeks</h3>
+<h3 class="dh2"><strong>Frequency</strong>: Weekly</h3>
+<p><strong>Purpose</strong>: To educate, provide value, and keep your dental practice top-of-mind for potential patients.</p>
+<h3 class="dh2"><strong>Campaign Structure</strong>:</h3>
+<h3 class="dh2"><strong>CTAs</strong>:</h3>
+<p>Each email will include a single, clear CTA such as &quot;Book Your Appointment,&quot; &quot;Visit Our Website,&quot; or &quot;Call Us Today.&quot;</p>
+<h3 class="dh2"><strong>Automation</strong>:</h3>
+<p>The campaign is fully automated, sending out one email every week without any manual intervention, ensuring consistent communication with the lead.</p>
+<h4 class="dh3"><strong>SMS Nurture Campaign</strong></h4>
+<h3 class="dh2"><strong>Duration</strong>: 52 Weeks</h3>
+<h3 class="dh2"><strong>Frequency</strong>: Weekly</h3>
+<p><strong>Purpose</strong>: To provide bite-sized tips and reminders that keep your practice top-of-mind while also being more direct and personal.</p>
+<h3 class="dh2"><strong>Campaign Structure</strong>:</h3>
+<h3 class="dh2"><strong>CTAs</strong>:</h3>
+<p>CTAs in the SMS messages are direct, such as &quot;Reply YES to book your next appointment,&quot; &quot;Visit our website for more tips,&quot; or &quot;Call us at {{location.phone}}.&quot;</p>
+<h3 class="dh2"><strong>Automation</strong>:</h3>
+<p>The SMS campaign is also fully automated, ensuring a seamless experience for both the practice and the lead.</p>
+<p>This combined approach using both email and SMS ensures that your dental practice maintains a presence in the lives of potential patients, gently guiding them towards becoming regular patients. The campaigns are fully automated, allowing you to focus on running your practice while the system takes care of nurturing your leads.</p>
+<h2 class="dh1"><strong>9. Database Reactivation Campaigns</strong></h2>
+<p>The snapshot includes four database reactivation (DR) campaigns designed to re-engage previous patients or leads who have not been active for a while. The goal is to bring them back to your dental practice with targeted offers and incentives.</p>
+<h3 class="dh2"><strong>Database Reactivation Campaigns Included:</strong></h3>
+<h3 class="dh2"><strong>DR (Complimentary Dental Check-Up for Kids)</strong></h3>
+<h3 class="dh2"><strong>DR (Complimentary Oral Health Kit)</strong></h3>
+<h3 class="dh2"><strong>DR (Free Fluoride Treatment with Cleaning)</strong></h3>
+<h3 class="dh2"><strong>DR (Free Whitening with Cleaning)</strong></h3>
+<h3 class="dh2"><strong>Shared Pipeline:</strong></h3>
+<p>All four campaigns share the &quot;DR Campaign&quot; pipeline, which tracks the progress of each lead through the stages:</p>
+<h3 class="dh2"><strong>Offer Sent</strong></h3>
+<h3 class="dh2"><strong>Responded</strong></h3>
+<h3 class="dh2"><strong>Interested</strong></h3>
+<h3 class="dh2"><strong>Not Interested</strong></h3>
+<h3 class="dh2"><strong>Automation Flow:</strong></h3>
+<p>Each campaign includes a series of SMS and email automations to follow up with leads, encourage engagement, and track their responses.</p>
+<p>The automations are designed to adjust based on the lead’s interaction, ensuring personalized follow-up.</p>
+<h2 class="dh1"><strong>10. Google Review Campaign Documentation</strong></h2>
+<h4 class="dh3"><strong>Overview:</strong></h4>
+<p>This campaign is designed to encourage customers to leave a Google review. It consists of a dedicated pipeline and two workflows.</p>
+<h4 class="dh3"><strong>Pipeline: Google Review Campaign 🌟</strong></h4>
+<h3 class="dh2"><strong>Stages</strong>:</h3>
+<p><strong>Request Sent</strong>: The initial stage after a review request has been sent.</p>
+<p><strong>Review Link Clicked</strong>: The stage where the lead has clicked on the Google review link.</p>
+<p><strong>Not Clicked</strong>: The stage where the lead has not clicked on the review link.</p>
+<h4 class="dh3"><strong>Workflows:</strong></h4>
+<h3 class="dh2"><strong>Review Campaign</strong>:</h3>
+<p><strong>Purpose</strong>: Sends a sequence of SMS and email messages to request a Google review from the customer.</p>
+<h3 class="dh2"><strong>Flow</strong>:</h3>
+<p>The workflow begins with updating the opportunity and sending the first SMS and email.</p>
+<p>The system waits for a specific period and then sends subsequent SMS and email reminders if no action is taken.</p>
+<p>The sequence continues until the customer either clicks the review link or the sequence is complete.</p>
+<h3 class="dh2"><strong>Review Campaign Link Clicked</strong>:</h3>
+<p><strong>Purpose</strong>: Triggered when the customer clicks on the Google review link.</p>
+<h3 class="dh2"><strong>Flow</strong>:</h3>
+<p>This workflow sends an internal notification, updates the opportunity, tags the contact as &quot;Review Link Clicked,&quot; and then removes the contact from the <strong>Review Campaign</strong> workflow to avoid sending further review requests.</p>
+<p>This setup ensures a structured and automated approach to requesting and following up on Google reviews, improving the likelihood of customer engagement and feedback.</p>
+<h2 class="dh1"><strong>11. Inbound Lead Sources Automations Overview</strong></h2>
+<p>The Inbound Lead Sources Automations are designed to ensure that leads reaching out through various channels receive timely and relevant responses based on the current status (open or closed) of the dental practice. These automations are integrated with the Dental Main Pipeline to efficiently manage and track leads from the initial point of contact through to booking appointments, following up, and nurturing.</p>
+<h4 class="dh3"><strong>Channels Supported</strong></h4>
+<h3 class="dh2"><strong>Facebook Messenger</strong></h3>
+<h3 class="dh2"><strong>Instagram Direct Messages (IG DM)</strong></h3>
+<h3 class="dh2"><strong>Google My Business (GMB)</strong></h3>
+<h3 class="dh2"><strong>SMS</strong></h3>
+<h4 class="dh3"><strong>Workflow Summary</strong></h4>
+<p>Each lead source has a dedicated automation workflow that triggers based on the channel through which the lead initiates contact. The workflows are designed to:</p>
+<p><strong>Tag the Contact</strong>: Each contact is tagged according to the channel they used.</p>
+<p><strong>Create an Opportunity</strong>: An opportunity is created in the Dental Main Pipeline to track the lead's progress.</p>
+<p><strong>Determine Business Status</strong>: The workflow checks if the business is currently open or closed.</p>
+<p><strong>If Open</strong>: The lead receives a response indicating that the practice is open and available to assist them immediately.</p>
+<p><strong>If Closed</strong>: The lead receives an automated message informing them that the practice is currently closed, along with a promise to follow up as soon as the business reopens.</p>
+<h4 class="dh3"><strong>Pipeline Stages</strong></h4>
+<p>All leads are funneled into the <strong>Dental Main Pipeline</strong>, which is structured to handle the various stages of a lead’s journey:</p>
+<p><strong>New Lead</strong>: The initial stage when a lead first reaches out.</p>
+<p><strong>Lead Responded</strong>: When a lead engages in a conversation or responds to the initial outreach.</p>
+<p><strong>Appointment Booked</strong>: When the lead schedules an appointment.</p>
+<p><strong>Appointment No Show</strong>: If the lead fails to attend the scheduled appointment.</p>
+<p><strong>Appointment Cancelled</strong>: If the lead cancels their appointment.</p>
+<p><strong>Follow Up</strong>: For leads that need further engagement or have shown interest but haven’t booked an appointment yet.</p>
+<p><strong>Not Interested</strong>: For leads that have declined services or expressed disinterest.</p>
+<h4 class="dh3"><strong>Notifications</strong></h4>
+<p><strong>Internal Notifications</strong>: Every time a lead reaches out, an internal notification is sent to the dental team to ensure they are aware of new inquiries and can follow up personally if needed.</p>
+<h4 class="dh3"><strong>Benefits</strong></h4>
+<p><strong>Consistent Lead Engagement</strong>: Ensures all leads are responded to promptly, regardless of the time or channel they use.</p>
+<p><strong>Efficient Pipeline Management</strong>: By integrating all lead sources into a single pipeline, the dental practice can easily track and manage leads at different stages.</p>
+<p><strong>Improved Conversion Rates</strong>: By maintaining consistent communication, leads are more likely to convert into booked appointments.</p>
+<p><strong>Streamlined Operations</strong>: The automations reduce the manual effort required to manage leads, allowing the dental team to focus on patient care.</p>
+<h4 class="dh3"><strong>Best Practices</strong></h4>
+<p><strong>Regular Monitoring</strong>: Ensure that the internal notifications are checked promptly by the team.</p>
+<p><strong>Updating Business Hours</strong>: Keep the business hours updated within the automation settings to avoid sending incorrect information to leads.</p>
+<p><strong>Customizing Responses</strong>: Tailor the automated messages to reflect the tone and branding of the dental practice.</p>
+<p>This documentation should be used as a reference for setting up and managing the inbound lead sources automations within the Dental Main Pipeline. Proper implementation of these workflows will ensure a streamlined and efficient process for handling leads from various channels.</p>
+<h2 class="dh1"><strong>12. Insurance Benefits May Be Expiring SMS Automation</strong></h2>
+<h4 class="dh3"><strong>Overview</strong></h4>
+<p>The <strong>Insurance Benefits May Be Expiring SMS Automation</strong> is designed to notify patients that their insurance benefits may be expiring soon, prompting them to schedule an appointment to take full advantage of their coverage. This automation is a simple yet effective reminder that encourages patients to act quickly to avoid losing their benefits.</p>
+<h4 class="dh3"><strong>Workflow Summary</strong></h4>
+<p><strong>Trigger</strong>: This automation is typically triggered manually or through a predetermined schedule (e.g., at the end of the calendar year or before a known expiration period).</p>
+<h3 class="dh2"><strong>Action</strong>:</h3>
+<p><strong>Send SMS</strong>: The workflow sends a personalized SMS message to the patient.</p>
+<h3 class="dh2"><strong>Message Content</strong>:</h3>
+<p>The SMS message is designed to be direct and informative, reminding the patient of the potential expiration of their insurance benefits and urging them to schedule an appointment.</p>
+<h4 class="dh3"><strong>SMS Message Template</strong></h4>
+<p><strong>Message</strong>:
+Hi {{contact.first_name}}, your insurance benefits may be expiring soon. Don’t let them go to waste! Schedule your appointment today to take full advantage of your coverage. Call us at {{location.phone}} or book online.</p>
+<h3 class="dh2"><strong>Placeholders</strong>:</h3>
+<p>{{contact.first_name}}: Automatically inserts the patient's first name for personalization.</p>
+<p>{{location.phone}}: Inserts the phone number of the dental practice.</p>
+<h4 class="dh3"><strong>Use Cases</strong></h4>
+<p><strong>End-of-Year Reminders</strong>: Send out this automation towards the end of the year when many insurance benefits are set to expire.</p>
+<p><strong>Quarterly Checks</strong>: Schedule this automation quarterly for patients who might have varying insurance periods or unused benefits.</p>
+<p><strong>Specific Campaigns</strong>: Use this SMS as part of a broader campaign to fill up appointment slots during slower periods.</p>
+<h4 class="dh3"><strong>Benefits</strong></h4>
+<p><strong>Timely Reminders</strong>: Ensures that patients are aware of the impending expiration of their insurance benefits, prompting them to schedule necessary treatments.</p>
+<p><strong>Increased Appointments</strong>: By highlighting the urgency, this SMS can help fill the calendar with appointments, especially towards the end of the insurance year.</p>
+<p><strong>Patient Satisfaction</strong>: Helps patients maximize their insurance benefits, improving overall satisfaction and loyalty to the dental practice.</p>
+<h4 class="dh3"><strong>Implementation Notes</strong></h4>
+<p><strong>Scheduling</strong>: Consider when to trigger this automation for maximum impact. The timing should align with common insurance expiration dates.</p>
+<p><strong>Message Personalization</strong>: Ensure the placeholders are correctly set up to personalize each message.</p>
+<p><strong>Tracking</strong>: Monitor the responses and bookings resulting from this SMS to measure its effectiveness.</p>
+<h4 class="dh3"><strong>Best Practices</strong></h4>
+<p><strong>Avoid Overuse</strong>: Use this SMS sparingly to avoid overwhelming patients with messages. It should be reserved for periods when benefits are most likely to expire.</p>
+<p><strong>Follow-Up</strong>: If a patient doesn't respond, consider a follow-up message or a call to ensure they received the information.</p>
+<p><strong>Compliance</strong>: Ensure that your messaging complies with any local regulations regarding communication, particularly around health insurance.</p>
+<p>This documentation should serve as a reference for understanding and implementing the <strong>Insurance Benefits May Be Expiring SMS Automation</strong> within your practice’s workflow, ensuring timely and effective communication with patients.</p>
+<h2 class="dh1"><strong>13. New Client Onboarding Automations</strong></h2>
+<p><strong>Purpose:</strong> The New Client Onboarding automations are designed to ensure a smooth and welcoming experience for new patients joining the dental practice. This sequence of communications aims to establish a strong relationship from the start and remind patients of their follow-up care, contributing to patient retention and satisfaction.</p>
+<h3 class="dh2"><strong>Workflows:</strong></h3>
+<h4 class="dh3"><strong>1. Welcome Series</strong></h4>
+<p><strong>Purpose:</strong> To welcome new patients to the dental practice, introduce them to the services offered, and provide essential information to make their experience comfortable and informed.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>The workflow is triggered when a new patient is added to the system, typically after their first appointment or registration.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<h3 class="dh2"><strong>Send Welcome Email</strong></h3>
+<h3 class="dh2"><strong>Wait 2 Days:</strong></h3>
+<p>The workflow pauses for 2 days before sending the next email to avoid overwhelming the patient.</p>
+<h3 class="dh2"><strong>Send Follow-up Email 1:</strong></h3>
+<p>The second email may include additional information such as tips for maintaining oral hygiene, an introduction to the dental team, or a reminder about available services like cosmetic dentistry, orthodontics, etc.</p>
+<h3 class="dh2"><strong>Wait 3 Days:</strong></h3>
+<p>Another pause to give the patient time to absorb the information and interact with the content.</p>
+<h3 class="dh2"><strong>Send Follow-up Email 2:</strong></h3>
+<p>The final email in the welcome series may focus on loyalty programs, special offers, or encourage the patient to schedule their next appointment.</p>
+<h4 class="dh3"><strong>2. First Check-Up Reminder</strong></h4>
+<p><strong>Purpose:</strong> To remind new patients to schedule their first follow-up check-up three months after their initial appointment, reinforcing the importance of regular dental visits for maintaining oral health.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>This workflow is triggered three months after the patient’s first appointment.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<h3 class="dh2"><strong>Send Check-Up Reminder Email:</strong></h3>
+<h3 class="dh2"><strong>End Workflow:</strong></h3>
+<p>After sending the reminder email, the workflow concludes. The patient is encouraged to schedule their next appointment promptly.</p>
+<p><strong>Overview:</strong> These two workflows work in tandem to provide a seamless onboarding experience for new patients. The Welcome Series sets a positive tone and ensures that patients feel valued and informed from the outset. The First Check-Up Reminder serves as a gentle nudge to encourage patients to maintain their oral health by keeping up with regular dental visits, thereby fostering long-term patient relationships and promoting proactive dental care.</p>
+<h2 class="dh1"><strong>14. Payment and Billing Reminders Automations</strong></h2>
+<p><strong>Purpose:</strong> The Payment and Billing Reminders automations are designed to streamline the payment process, ensuring that clients are reminded of upcoming payments, informed when payments are received, and notified of any issues related to payment plans, disputes, or refunds. These automations help maintain clear communication and timely payments, reducing the likelihood of missed payments or disputes.</p>
+<h3 class="dh2"><strong>Automations:</strong></h3>
+<h4 class="dh3"><strong>1. Payments Reminder</strong></h4>
+<p><strong>Purpose:</strong> To remind clients of upcoming payments to reduce the likelihood of late payments.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Activated a set number of days before a payment is due.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<p>Send a payment reminder via SMS or email.</p>
+<p>Wait for payment to be received or for the due date to pass.</p>
+<p>Send a follow-up reminder if payment is not received.</p>
+<h4 class="dh3"><strong>2. Payment Received</strong></h4>
+<p><strong>Purpose:</strong> To confirm receipt of payment and notify the client that the payment was successful.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Activated when a payment is received and processed.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<p>Send a payment confirmation via SMS or email.</p>
+<p>Update the client's payment records.</p>
+<h4 class="dh3"><strong>3. Automated Payment Plans</strong></h4>
+<p><strong>Purpose:</strong> To manage communication related to payment plans, ensuring clients are informed about their scheduled payments.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Activated when a client enrolls in a payment plan.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<p>Send payment plan confirmation via SMS or email.</p>
+<p>Send upcoming payment reminders before each scheduled payment.</p>
+<h4 class="dh3"><strong>4. Automated Payment Plan Cancelled</strong></h4>
+<p><strong>Purpose:</strong> To notify clients when their automated payment plan has been cancelled.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Activated when a payment plan is cancelled.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<p>Send a payment plan cancellation notice via SMS or email.</p>
+<p>Offer alternative payment options if applicable.</p>
+<h4 class="dh3"><strong>5. Payment Dispute Resolution</strong></h4>
+<p><strong>Purpose:</strong> To manage communication and resolution processes for payment disputes.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Activated when a payment dispute is initiated.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<p>Acknowledge the dispute via SMS or email.</p>
+<p>Follow up with a resolution message after investigating the dispute.</p>
+<h4 class="dh3"><strong>6. Refunds</strong></h4>
+<p><strong>Purpose:</strong> To manage and automate the process of issuing refunds.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Activated when a refund is approved and processed.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<p>Send a refund issued notice via SMS or email.</p>
+<p>Follow up to confirm receipt of the refund.</p>
+<p><strong>Overview:</strong> These six automations ensure efficient management of the payment process, reducing the likelihood of missed payments, disputes, and cancellations. By keeping clients informed at every step, the practice builds trust and maintains a positive relationship with its clients, ensuring a smooth billing experience.</p>
+<h2 class="dh1"><strong>16. Post-Treatment Follow-Up Automation</strong></h2>
+<p><strong>Purpose:</strong> The Post-Treatment Follow-Up automation is designed to ensure that patients receive timely and supportive communication after undergoing a procedure. This workflow helps reinforce aftercare instructions, provides an opportunity for patients to ask any questions, and shows a continued commitment to their well-being, which can enhance patient satisfaction and loyalty.</p>
+<h3 class="dh2"><strong>Automation:</strong></h3>
+<h4 class="dh3"><strong>1 Day After Procedure</strong></h4>
+<p><strong>Purpose:</strong> To check in with patients shortly after their procedure, providing them with reassurance and reminding them of aftercare instructions.</p>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Activated one day after the completion of a procedure.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<h3 class="dh2"><strong>Send SMS:</strong></h3>
+<p>A personalized SMS message is sent to the patient, checking in on their well-being and reminding them to follow the aftercare instructions provided.</p>
+<h3 class="dh2"><strong>Message Example:</strong></h3>
+<p>&quot;Hi {{contact.first_name}}, we hope you’re feeling well after your recent procedure at {{location.name}}. Remember to follow the aftercare instructions we provided. If you have any questions or concerns, please don’t hesitate to contact us.&quot;</p>
+<h3 class="dh2"><strong>Send Email:</strong></h3>
+<p>A follow-up email is sent to reinforce the SMS message, providing additional details and resources if needed.</p>
+<h3 class="dh2"><strong>Email Example:</strong></h3>
+<p>The email will contain similar content to the SMS, but with more detailed information or any additional tips that may help in the recovery process.</p>
+<p><strong>Overview:</strong> This automation ensures that patients feel supported and cared for after their procedure. By providing timely follow-up communication, the practice can address any potential concerns early, reduce the likelihood of complications, and enhance the overall patient experience. This proactive approach helps build stronger relationships with patients, increasing their trust and satisfaction with the services provided.</p>
+<h2 class="dh1"><strong>16. Birthday Campaign Automation</strong></h2>
+<p><strong>Purpose:
+</strong>The Birthday Campaign automation is designed to enhance patient engagement by celebrating their special day with personalized messages and exclusive offers. This workflow helps to build stronger relationships with patients, showing them that the practice values their loyalty and well-being. It’s a simple yet effective way to increase patient retention and potentially drive more appointments through special birthday offers.</p>
+<h3 class="dh2"><strong>Automation Overview:</strong></h3>
+<p><strong>1. Trigger:
+</strong>The campaign is triggered on the patient's birthday.</p>
+<h3 class="dh2"><strong>2. Actions:</strong></h3>
+<h3 class="dh2"><strong>Send Birthday SMS:</strong></h3>
+<p>A personalized birthday message is sent to the patient, including a special offer as a gift from the practice.</p>
+<p><strong>Message Example:</strong> &quot;Happy Birthday, {{contact.first_name}}! 🎉 As a special gift from {{location.name}}, we’re giving you a FREE dental care package with your next visit! 🎁 Reply YES to schedule your appointment and claim your gift!&quot;</p>
+<h3 class="dh2"><strong>Wait for Reply (24 hrs):</strong></h3>
+<p>The system waits for the patient to respond to the SMS within 24 hours.</p>
+<h3 class="dh2"><strong>Branch Logic:</strong></h3>
+<h3 class="dh2"><strong>If Replied:</strong></h3>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>Notify the staff that the patient has responded to the offer.</p>
+<h3 class="dh2"><strong>Follow-Up SMS:</strong></h3>
+<p>If necessary, a follow-up message is sent to confirm the appointment or provide further instructions.</p>
+<h3 class="dh2"><strong>If No Response:</strong></h3>
+<h3 class="dh2"><strong>Send Second SMS:</strong></h3>
+<p>Another reminder SMS is sent to the patient if they haven't responded within the first 24 hours.</p>
+<h3 class="dh2"><strong>Wait 15 Hours:</strong></h3>
+<p>The system waits 15 hours after the second SMS.</p>
+<h3 class="dh2"><strong>Branch Logic:</strong></h3>
+<h3 class="dh2"><strong>If Interested:</strong></h3>
+<p>The patient is directed to schedule an appointment or claim their gift.</p>
+<h3 class="dh2"><strong>If Not Interested:</strong></h3>
+<p>A final SMS is sent with a gentle reminder or thank you note.</p>
+<h3 class="dh2"><strong>Overview:</strong></h3>
+<p>This Birthday Campaign automation ensures that patients feel appreciated and valued on their special day. The personalized approach and the inclusion of a special offer help in fostering patient loyalty, encouraging them to return to the practice for future services. The automated follow-up process ensures that no opportunity is missed, making it easy for patients to take advantage of the offer and engage with the practice.</p>
+<h2 class="dh1"><strong>17. Customer Referral Campaign Automation</strong></h2>
+<p><strong>Purpose:
+</strong>The Customer Referral Campaign is designed to encourage existing patients to refer new patients to the practice. By offering incentives, both the referrer and the new patient can benefit, thereby increasing the practice's patient base through word-of-mouth marketing.</p>
+<h3 class="dh2"><strong>Automation Overview:</strong></h3>
+<p><strong>1. Trigger:
+</strong>The campaign is triggered when a patient's pipeline status is marked as &quot;WON,&quot; indicating a successful treatment or service completion.</p>
+<h3 class="dh2"><strong>2. Actions:</strong></h3>
+<h3 class="dh2"><strong>Wait 7 Days:</strong></h3>
+<p>The system waits 7 days after the trigger before sending the first message, giving the patient some time to reflect on their experience.</p>
+<h3 class="dh2"><strong>Send Referral SMS:</strong></h3>
+<p>A personalized SMS is sent to the patient, encouraging them to refer friends or family members to the practice in exchange for a reward.</p>
+<p><strong>Message Example:</strong> &quot;Hi {{contact.first_name}}! Love your smile? 😊 Share it with a friend! Refer someone to {{location.name}}, and both of you will get a $50 credit toward any dental service. 🦷 Reply YES to start referring today!&quot;</p>
+<h3 class="dh2"><strong>Wait 1 Day:</strong></h3>
+<p>The system waits for a day to give the patient time to respond.</p>
+<h3 class="dh2"><strong>Branch Logic:</strong></h3>
+<h3 class="dh2"><strong>If Contact Responded:</strong></h3>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>Notify the staff that the patient has responded and is interested in referring someone.</p>
+<h3 class="dh2"><strong>Send Follow-Up SMS:</strong></h3>
+<p>A follow-up SMS is sent to guide the patient on how to complete the referral process.</p>
+<h3 class="dh2"><strong>If No Response:</strong></h3>
+<h3 class="dh2"><strong>Send Second SMS:</strong></h3>
+<p>A reminder SMS is sent to the patient if they haven't responded, encouraging them to take advantage of the referral offer.</p>
+<h3 class="dh2"><strong>Final Condition:</strong></h3>
+<p>The system checks again after a waiting period to see if the patient has responded.</p>
+<h3 class="dh2"><strong>Final Branch Logic:</strong></h3>
+<h3 class="dh2"><strong>If Interested:</strong></h3>
+<p>Continue guiding the patient through the referral process.</p>
+<h3 class="dh2"><strong>If Not Interested:</strong></h3>
+<p>End the automation, but log the interaction for future reference.</p>
+<h3 class="dh2"><strong>Overview:</strong></h3>
+<p>This Customer Referral Campaign automation leverages the satisfaction of existing patients to bring in new ones. By offering a tangible reward for both the referrer and the new patient, the practice can expand its reach through trusted word-of-mouth referrals. The automation ensures that patients are gently reminded of the offer without being intrusive, helping to maintain a positive relationship with the practice.</p>
+<h2 class="dh1"><strong>18. Missed Call Text Back Automation</strong></h2>
+<p><strong>Purpose:
+</strong>The Missed Call Text Back automation ensures that potential leads or existing patients who attempt to reach the practice and miss a call receive a prompt follow-up. This immediate response helps to capture opportunities, improve customer service, and maintain a positive patient experience.</p>
+<h3 class="dh2"><strong>Automation Overview:</strong></h3>
+<p><strong>1. Trigger:
+</strong>This automation is triggered by a missed call event in the system.</p>
+<h3 class="dh2"><strong>2. Actions:</strong></h3>
+<h3 class="dh2"><strong>Branch Logic - New Contact:</strong></h3>
+<p>The automation checks whether the caller is a new contact or an existing one.</p>
+<h3 class="dh2"><strong>If New Contact:</strong></h3>
+<h3 class="dh2"><strong>Add Tag:</strong></h3>
+<p>A tag is added to the contact to categorize them as a new lead.</p>
+<h3 class="dh2"><strong>Send SMS:</strong></h3>
+<p>An SMS is sent to the missed caller acknowledging the missed call and offering assistance.</p>
+<p><strong>Message Example:</strong> &quot;Hi {{contact.first_name}}! We noticed we missed your call at {{location.name}}. How can we help you today?&quot;</p>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>A notification is sent to the team to inform them of the missed call and the follow-up SMS, ensuring that they are aware and can provide further assistance if needed.</p>
+<h3 class="dh2"><strong>If Existing Contact:</strong></h3>
+<p>The workflow ends without further action, assuming that the caller might be handled through other ongoing communications.</p>
+<h3 class="dh2"><strong>Overview:</strong></h3>
+<p>This Missed Call Text Back automation serves as a safety net to ensure that no potential patient inquiry or opportunity is lost due to a missed call. By sending an immediate, personalized SMS, the practice demonstrates attentiveness and a high level of customer care, which can significantly enhance patient satisfaction and engagement. This automation is crucial for maintaining a responsive and professional image, particularly in a competitive healthcare environment.</p>
+<h2 class="dh1"><strong>19. Post-Surgery Recovery Tips Automation</strong></h2>
+<p><strong>Purpose:
+</strong>The Post-Surgery Recovery Tips automation is designed to provide patients with ongoing support and guidance during their recovery period after surgery. By delivering helpful tips and reminders through a sequence of emails and SMS messages, this workflow ensures that patients have the information they need to recover safely and effectively, leading to better outcomes and increased patient satisfaction.</p>
+<h3 class="dh2"><strong>Automation Overview:</strong></h3>
+<h3 class="dh2"><strong>1. Trigger:</strong></h3>
+<p>This automation is triggered after a patient undergoes surgery and is entered into the recovery process.</p>
+<h3 class="dh2"><strong>2. Actions:</strong></h3>
+<h3 class="dh2"><strong>Email &amp; SMS Sequence:</strong></h3>
+<p>A series of emails and SMS messages are sent over several days to provide recovery tips and check in on the patient’s progress.</p>
+<h3 class="dh2"><strong>Day 1:</strong></h3>
+<h3 class="dh2"><strong>Send Email:</strong></h3>
+<p>An email is sent to the patient with immediate post-surgery care instructions.</p>
+<h3 class="dh2"><strong>Send SMS:</strong></h3>
+<p>A corresponding SMS is sent to reinforce the email message and ensure the patient receives the information promptly.</p>
+<h3 class="dh2"><strong>Wait 1 Day</strong></h3>
+<h3 class="dh2"><strong>Day 2:</strong></h3>
+<h3 class="dh2"><strong>Send Email:</strong></h3>
+<p>A follow-up email with additional recovery tips, such as managing pain and caring for the surgical site.</p>
+<h3 class="dh2"><strong>Send SMS:</strong></h3>
+<p>A follow-up SMS reminding the patient to check their email for detailed recovery tips.</p>
+<h3 class="dh2"><strong>Wait 1 Day</strong></h3>
+<h3 class="dh2"><strong>Day 3:</strong></h3>
+<h3 class="dh2"><strong>Send Email:</strong></h3>
+<p>An email offering tips on maintaining proper nutrition and hydration during recovery.</p>
+<h3 class="dh2"><strong>Send SMS:</strong></h3>
+<p>A corresponding SMS to remind the patient to follow the dietary recommendations.</p>
+<h3 class="dh2"><strong>Wait 1 Day</strong></h3>
+<h3 class="dh2"><strong>Day 4:</strong></h3>
+<h3 class="dh2"><strong>Send Email:</strong></h3>
+<p>An email addressing common post-surgery concerns and encouraging the patient to reach out if they have any questions or complications.</p>
+<h3 class="dh2"><strong>Send SMS:</strong></h3>
+<p>A supportive SMS to let the patient know that the clinic is available to assist them during their recovery.</p>
+<h3 class="dh2"><strong>Overview:</strong></h3>
+<p>This Post-Surgery Recovery Tips automation provides a structured and compassionate approach to post-operative care. By offering timely reminders and valuable information, it helps patients feel supported and well-informed throughout their recovery journey. This workflow enhances the patient experience, reduces the likelihood of complications, and fosters a strong, trust-based relationship between the patient and the clinic.</p>
+<h2 class="dh1"><strong>20. 13 Beautifully Designed Holiday Emails</strong></h2>
+<p><strong>Purpose:
+</strong>The 13 Holiday Email Templates are designed to engage patients during key holidays and special occasions throughout the year. These emails help to maintain a consistent connection with your patient base, offer timely reminders or promotions, and convey a sense of community and appreciation.</p>
+<h3 class="dh2"><strong>Overview of Each Holiday Email:</strong></h3>
+<h3 class="dh2"><strong>Dental Emergency</strong></h3>
+<p><strong>Purpose:</strong> To inform patients about what to do in case of a dental emergency and to remind them that your practice is there to help during urgent situations.</p>
+<h3 class="dh2"><strong>A Healthy Smile Can Boost Your Confidence!</strong></h3>
+<p><strong>Purpose:</strong> To emphasize the importance of dental care for maintaining confidence and to encourage patients to schedule routine check-ups.</p>
+<h3 class="dh2"><strong>Easter</strong></h3>
+<p><strong>Purpose:</strong> A festive email to celebrate Easter with your patients, possibly including a special promotion or a reminder to avoid too many sweets!</p>
+<h3 class="dh2"><strong>The Tooth is We Love You</strong></h3>
+<p><strong>Purpose:</strong> A Valentine's Day-themed email expressing appreciation for your patients and possibly offering a special promotion.</p>
+<h3 class="dh2"><strong>Labor Day</strong></h3>
+<p><strong>Purpose:</strong> To wish your patients a happy Labor Day and remind them to take care of their health during the holiday.</p>
+<h3 class="dh2"><strong>Happy New Year Email</strong></h3>
+<p><strong>Purpose:</strong> To wish your patients a prosperous New Year and encourage them to start the year with a healthy smile by scheduling a dental appointment.</p>
+<h3 class="dh2"><strong>Plaque Is Wack</strong></h3>
+<p><strong>Purpose:</strong> An educational email around the theme of oral hygiene, reminding patients of the importance of regular cleanings.</p>
+<h3 class="dh2"><strong>Have a Boo-tiful Smile</strong></h3>
+<p><strong>Purpose:</strong> A Halloween-themed email to engage with patients in a fun way while reminding them of the importance of avoiding too many sweets.</p>
+<h3 class="dh2"><strong>Give Thanks to Your Teeth</strong></h3>
+<p><strong>Purpose:</strong> A Thanksgiving-themed email expressing gratitude to your patients and encouraging them to give thanks to their dental health by scheduling a check-up.</p>
+<h3 class="dh2"><strong>Summer has Arrived</strong></h3>
+<p><strong>Purpose:</strong> A summer-themed email reminding patients to schedule their dental check-ups before heading on vacations or engaging in summer activities.</p>
+<h3 class="dh2"><strong>Fourth of July</strong></h3>
+<p><strong>Purpose:</strong> Celebrate Independence Day with your patients, possibly offering a promotion or tips for keeping their smiles bright during the summer.</p>
+<h3 class="dh2"><strong>Holiday Greetings</strong></h3>
+<p><strong>Purpose:</strong> A general holiday greeting to spread cheer and remind patients to keep their dental health in mind during the festive season.</p>
+<h3 class="dh2"><strong>Winter Wellness</strong></h3>
+<p><strong>Purpose:</strong> To promote oral health during the winter months, possibly including tips for avoiding dental issues related to the cold weather.</p>
+<h3 class="dh2"><strong>Execution:</strong></h3>
+<p>Each email is crafted to reflect the specific holiday's theme, with appropriate graphics and messaging that resonates with the season. These emails are designed to be both informative and engaging, with a focus on patient education, appreciation, and encouragement to continue regular dental care.</p>
+<h3 class="dh2"><strong>Benefits:</strong></h3>
+<p>By utilizing these holiday-themed emails, your practice can strengthen its relationship with patients, foster a sense of community, and encourage continued engagement with your services. This not only helps maintain patient loyalty but also drives appointments and care during key times of the year.</p>
+</div>
+</section>
+</main></div>
+<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">&#10005;</button><img id="lb-img" src="" alt="" onclick="event.stopPropagation()"></div>
+<script>
+document.querySelectorAll('main img').forEach(im=>{im.style.cursor='zoom-in';im.addEventListener('click',()=>{document.getElementById('lb-img').src=im.src;document.getElementById('lb').classList.add('open');});});
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>

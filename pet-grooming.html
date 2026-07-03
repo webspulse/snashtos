@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>pet-grooming</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:#0d0f18;--surf:#13151f;--surf2:#191c2a;--surf3:#1e2236;
+  --border:#252a3d;--acc:#e94560;--txt:#e8eaf4;--muted:#8b93b5;--dim:#4e556e;
+  --sw:268px;--hh:58px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);line-height:1.72;font-size:15px;overflow-x:hidden;}
+
+/* topbar */
+#topbar{position:sticky;top:0;z-index:200;height:var(--hh);background:rgba(13,15,24,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;}
+.logo{background:var(--acc);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:5px 12px;border-radius:6px;}
+.top-title{font-size:14px;font-weight:600;flex:1;}
+.srch-wrap{position:relative;}
+.srch-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+#srch{background:var(--surf2);border:1px solid var(--border);border-radius:8px;
+  padding:7px 12px 7px 32px;color:var(--txt);font-size:13px;width:220px;
+  outline:none;transition:border .18s,box-shadow .18s;}
+#srch:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,69,96,.14);}
+#srch::placeholder{color:var(--dim);}
+.badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surf2);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+/* layout */
+.layout{display:flex;min-height:calc(100vh - var(--hh));}
+
+/* sidebar */
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);
+  position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow-y:auto;padding:10px 0 24px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 18px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:13px;
+  font-weight:500;color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  transition:all .13s;cursor:pointer;user-select:none;}
+.nav-item:hover{color:var(--txt);background:var(--surf2);border-left-color:var(--dim);}
+.nav-item.active{color:var(--acc);background:rgba(233,69,96,.08);border-left-color:var(--acc);font-weight:600;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .13s;}
+.nav-item.active .ndot,.nav-item:hover .ndot{background:var(--acc);}
+
+/* main */
+main{flex:1;min-width:0;}
+
+/* cover */
+#cover{background:linear-gradient(155deg,#0d0f18 0%,#14102a 50%,#0d0f18 100%);
+  border-bottom:1px solid var(--border);padding:72px 60px 60px;text-align:center;
+  position:relative;overflow:hidden;}
+#cover::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(233,69,96,.17) 0%,transparent 72%);
+  pointer-events:none;}
+.cv-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);
+  border:1px solid rgba(233,69,96,.3);color:var(--acc);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+#cover h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 25%,#9095b8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#cover>p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 40px;}
+.stats{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-num{font-size:34px;font-weight:800;color:var(--acc);line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:640px;margin:0 auto;}
+.pill{background:var(--surf2);border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;transition:all .13s;}
+.pill:hover{color:var(--txt);border-color:rgba(233,69,96,.5);}
+
+/* section */
+.doc-section{border-bottom:1px solid var(--border);scroll-margin-top:var(--hh);}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 42px;
+  background:var(--surf);border-bottom:1px solid var(--border);
+  position:sticky;top:var(--hh);z-index:10;}
+.sec-num{width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);
+  color:var(--acc);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);flex:1;}
+.btn-top{font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;
+  background:var(--surf2);border:1px solid var(--border);
+  padding:5px 13px;border-radius:6px;transition:all .13s;white-space:nowrap;}
+.btn-top:hover{color:var(--acc);border-color:rgba(233,69,96,.5);}
+.sec-body{padding:32px 42px 48px;max-width:860px;}
+
+/* typography */
+.dh1{font-size:21px;font-weight:800;color:var(--txt);margin:28px 0 10px;}
+.dh2{font-size:15px;font-weight:700;color:var(--txt);margin:22px 0 10px;
+  padding:10px 15px;background:var(--surf2);border-left:3px solid var(--acc);border-radius:0 7px 7px 0;}
+.dh3{font-size:12px;font-weight:700;color:var(--acc);margin:16px 0 7px;
+  text-transform:uppercase;letter-spacing:.09em;}
+.sec-body p{color:var(--muted);font-size:15px;line-height:1.78;margin-bottom:12px;}
+.sec-body p strong{color:var(--txt);font-weight:600;}
+.sec-body p em{color:#9a9ec0;font-style:italic;}
+
+/* images */
+.img-snap{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px;padding:20px;
+  background:var(--surf2);border:1px solid var(--border);border-radius:12px;}
+.img-snap img{height:260px;width:auto;max-width:100%;border-radius:8px;
+  border:1px solid var(--border);cursor:zoom-in;object-fit:contain;
+  background:var(--surf3);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-snap img:hover{transform:scale(1.03);box-shadow:0 8px 32px rgba(233,69,96,.22);border-color:var(--acc);}
+
+.img-inline{margin:20px 0;}
+.img-inline img{width:100%;max-width:780px;height:auto;display:block;
+  border-radius:10px;border:1px solid var(--border);cursor:zoom-in;
+  background:var(--surf2);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-inline img:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(233,69,96,.18);border-color:var(--acc);}
+
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;cursor:zoom-out;}
+#lb.on{display:flex;}
+#lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:8px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);cursor:default;}
+#lb-close{position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;color:#fff;font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+#lb-close:hover{background:rgba(233,69,96,.7);}
+
+mark{background:rgba(233,69,96,.32);color:#fff;border-radius:2px;padding:0 2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:820px){
+  .sidebar{display:none;}
+  .sec-body{padding:20px;}
+  .sec-head{padding:14px 18px;}
+  #cover{padding:40px 18px;}
+  #cover h1{font-size:32px;}
+  .img-snap img{height:180px;}
+}
+</style>
+<style>
+.layout{display:block;}
+main,.content{max-width:960px;margin:0 auto;padding:32px 24px;}
+section{display:block !important;}
+</style>
+</head>
+<body>
+<div id="topbar"><span class="logo">SNAPLEVEL</span><span class="top-title">pet-grooming</span></div>
+<div class="layout"><main class="content">
+<section id="pet-grooming" class="doc-section">
+<div class="sec-head">
+<div class="sec-num">23</div>
+<div class="sec-title">Pet Grooming</div>
+<a href="#topbar" class="btn-top">&#8593; Top</a>
+</div>
+<div class="sec-body">
+<h3 class="dh2"><strong>Pet Grooming Snapshot: Website Overview</strong></h3>
+<p>The Pet Grooming GoHighLevel Snapshot includes a fully customizable website designed to attract new clients and showcase your grooming services. This website is built with <strong>custom values</strong>, ensuring that the business information, contact details, and any other client-specific data is automatically populated throughout the site, streamlining the setup process.</p>
+<h4 class="dh3"><strong>Key Website Pages</strong></h4>
+<h3 class="dh2"><strong>Home Page</strong></h3>
+<p>Welcoming visitors with a friendly pet-themed design, the home page invites users to explore services, book appointments, and learn more about the grooming salon.</p>
+<h3 class="dh2"><strong>Services Page</strong></h3>
+<p>A detailed breakdown of available services like teeth brushing, blueberry facials, combing, conditioning, clipping fur, and more. Each service is displayed with descriptions and pricing, and is linked to the booking form for easy scheduling.</p>
+<h3 class="dh2"><strong>Teeth Brushing</strong></h3>
+<p>Specific details about teeth brushing services, including how it's performed, benefits for the pets, and pricing.</p>
+<h3 class="dh2"><strong>Blueberry Facials</strong></h3>
+<p>Highlights the benefits of this unique facial service for pets, including detailed explanations of the process.</p>
+<h3 class="dh2"><strong>Appointment Booking</strong></h3>
+<p>The booking page makes it easy for users to schedule an appointment with a direct call-to-action that syncs with the calendar system integrated in GoHighLevel.</p>
+<h3 class="dh2"><strong>About Us</strong></h3>
+<p>This section shares the grooming salon's story, experience, and values, helping to build trust and connect with pet owners.</p>
+<h3 class="dh2"><strong>Contact Us</strong></h3>
+<p>A simple and intuitive form allowing users to ask questions, request services, or inquire about pricing.</p>
+<h4 class="dh3"><strong>Custom Values for Auto-Population</strong></h4>
+<p>The snapshot utilizes <strong>Custom Values</strong> to automatically insert relevant business information like:</p>
+<p>Salon Name</p>
+<p>Phone Number</p>
+<p>Website URL</p>
+<p>Address</p>
+<p>These custom values make it easy to personalize the website for different clients without needing to manually adjust each page.</p>
+<h3 class="dh2"><strong>2. Linktrees Overview</strong></h3>
+<p>The Pet Grooming GoHighLevel Snapshot also includes <strong>four powerful linktrees</strong> that help organize and present your services, promotions, and resources in a user-friendly way. Each linktree is designed to maximize conversions, guide visitors to the right services, and make booking appointments easy.</p>
+<h4 class="dh3"><strong>1. Pet Grooming Services</strong></h4>
+<p>This linktree provides an overview of all grooming services offered, making it easy for clients to navigate and select the services they are interested in. It includes links to key services like teeth brushing, combing, conditioning, and more.</p>
+<p><strong>Custom Values</strong> automatically populate service details, making it simple to tailor this linktree for different businesses.</p>
+<h4 class="dh3"><strong>2. Special Offers &amp; Promotions</strong></h4>
+<p>Highlight the latest promotions, discounts, and special offers to attract new clients and reward loyal ones. This linktree can feature limited-time deals or ongoing promotions for various grooming packages.</p>
+<p>Custom values ensure that promotional offers are up to date and specific to each business using the snapshot.</p>
+<h4 class="dh3"><strong>3. Pet Care Resources</strong></h4>
+<p>Educate your clients with valuable pet care tips and grooming best practices. This linktree is perfect for sharing blogs, articles, or downloadable resources that add value to your services and establish your business as an expert in pet care.</p>
+<p>The resources can be updated regularly, and they reflect the brand's focus on quality pet grooming and care.</p>
+<h4 class="dh3"><strong>4. Book an Appointment</strong></h4>
+<p>Make it easy for clients to schedule appointments with a simple booking system linked to your calendar. This linktree guides users directly to the booking page, where they can choose services, select dates, and confirm their appointments.</p>
+<p>The appointment booking linktree syncs directly with GoHighLevel's calendar system, ensuring seamless scheduling and no double bookings.</p>
+<h3 class="dh2"><strong>3. Pet Grooming Funnels</strong></h3>
+<h3 class="dh2"><strong>$100 Voucher Funnel Overview</strong></h3>
+<p>This funnel is designed to offer a <strong>$100 discount</strong> on pet grooming services, encouraging leads to schedule an appointment with ease. The funnel is broken down into three key steps, each guiding the customer from learning about the offer to booking their grooming session. Custom values are used throughout to auto-populate business-specific information.</p>
+<h4 class="dh3"><strong>Funnel Steps:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Home - Claim Your $100 Voucher</strong></h3>
+<h3 class="dh2"><strong>Headline</strong>: &quot;Save $100 on Our Best Selling Pet Grooming Services!&quot;</h3>
+<p>This page captures the attention of potential customers by offering a $100 discount on premium pet grooming services. The page is visually appealing, featuring images of happy pets to reinforce the quality of the service.</p>
+<p><strong>Call to Action (CTA)</strong>: The page encourages users to enter their <strong>Full Name</strong>, <strong>Email</strong>, and <strong>Phone Number</strong> to claim the voucher.</p>
+<p><strong>Urgency</strong>: A dynamic element reduces the number of available vouchers, creating a sense of urgency (e.g., &quot;We only have 17 discount vouchers left, so claim yours while they last!&quot;).</p>
+<h3 class="dh2"><strong>Step 2: Book - Schedule a Time for Us to Come Out</strong></h3>
+<p>Once the lead claims their voucher, they are directed to the booking page.</p>
+<p><strong>Booking Form</strong>: Users can schedule a grooming service with options for available dates and times. This step integrates directly with GoHighLevel's calendar system, allowing seamless scheduling.</p>
+<p><strong>Reminder</strong>: The funnel reminds customers that they will receive $100 off when they redeem their voucher during the appointment.</p>
+<h3 class="dh2"><strong>Step 3: Thanks! - Appointment Confirmation</strong></h3>
+<p>After the appointment is booked, users land on the confirmation page, which features a visual of a grooming van and a message confirming their appointment.</p>
+<p><strong>Message</strong>: &quot;Your appointment has been scheduled! We're excited to meet you and offer a complimentary quote, plus $100 off!&quot;</p>
+<h4 class="dh3"><strong>Key Features:</strong></h4>
+<p><strong>Custom Values</strong>: The funnel uses GoHighLevel custom values to auto-populate the grooming salon's contact details, ensuring all customer-facing information is accurate and up-to-date.</p>
+<p><strong>Conversion Focus</strong>: With the combination of urgency (limited vouchers) and convenience (easy booking), the funnel is designed to maximize conversions and ensure leads move quickly from interest to booked appointments.</p>
+<h3 class="dh2"><strong>80% Off Funnel Overview</strong></h3>
+<p>The 80% Off Funnel is designed to capture leads by offering an attractive discount on mobile pet grooming services. This funnel is simple yet highly effective, consisting of an opt-in page followed by a thank you page with a coupon code. It uses <strong>custom values</strong> to ensure the business details are pre-populated throughout the funnel for seamless setup.</p>
+<h4 class="dh3"><strong>Funnel Steps:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Opt-In - Claim Your 80% Off Discount</strong></h3>
+<h3 class="dh2"><strong>Headline</strong>: &quot;Mobile Grooming for Cats &amp; Dogs – Get 80% Off Now!&quot;</h3>
+<p>The opt-in page offers an 80% discount on pet grooming services, reducing the normal price of $45 to a special price of $15.</p>
+<p><strong>Visual Appeal</strong>: The page features an image of a grooming van and a cute puppy to reinforce the service's value.</p>
+<p><strong>Form</strong>: Visitors can claim their discount by entering their <strong>Full Name</strong> and <strong>Email</strong>.</p>
+<p><strong>Call to Action</strong>: A prominent CTA button labeled &quot;Get 80% Off Now!&quot; invites users to submit the form and claim their discount.</p>
+<h3 class="dh2"><strong>Step 2: TY (Thank You) - Coupon Code for 80% Off</strong></h3>
+<p>After submitting the form, visitors are directed to the thank-you page.</p>
+<p><strong>Coupon Code</strong>: The page displays a unique coupon code (&quot;SAVE80CV&quot;) that customers can print or save to redeem during their grooming appointment.</p>
+<p><strong>Instructions</strong>: The message reinforces the excitement by stating &quot;YAY! Your Pet Is Going To Love This!&quot; and encourages the visitor to print the coupon and call the business to book an appointment.</p>
+<h4 class="dh3"><strong>Key Features:</strong></h4>
+<p><strong>Custom Values</strong>: The funnel uses GoHighLevel's custom values to automatically populate the grooming business's contact information (e.g., phone number) and ensure the coupon code is business-specific.</p>
+<p><strong>Lead Generation Focus</strong>: The funnel is optimized for lead generation with a simple form and clear call to action, encouraging visitors to take immediate action.</p>
+<h3 class="dh2"><strong>Book an Appointment Offer Funnel Overview</strong></h3>
+<p>This funnel is designed to encourage leads to schedule an appointment for high-quality mobile pet grooming services. The funnel is simple yet effective, consisting of an opt-in page followed by a thank-you page that confirms the appointment request. It leverages <strong>custom values</strong> to auto-populate business details, making it easy to set up and deploy for any grooming service.</p>
+<h4 class="dh3"><strong>Funnel Steps:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Opt-In - Book an Appointment</strong></h3>
+<h3 class="dh2"><strong>Headline</strong>: &quot;Grooming For Your Beloved Pet Right At Your Home&quot;</h3>
+<p>This opt-in page invites leads to book an appointment for mobile pet grooming services. The page highlights the convenience of having pet grooming done right at home, featuring an appealing visual of friendly pets.</p>
+<p><strong>Call to Action</strong>: The main call to action is a prominent &quot;Book An Appointment&quot; button that leads visitors to enter their details.</p>
+<p><strong>Form</strong>: Visitors can provide their contact information (Name, Phone Number, Email) to schedule an appointment. Custom values ensure the business phone number and branding are automatically filled in.</p>
+<h3 class="dh2"><strong>Step 2: TY (Thank You) - Appointment Request Confirmation</strong></h3>
+<p>Once the visitor submits their details, they are directed to the thank-you page, which confirms that their request has been received.</p>
+<p><strong>Confirmation Message</strong>: The page displays a message thanking the lead for reaching out, asking them to check their email for further details. It also encourages the lead to call if they’d like to book their appointment sooner.</p>
+<p><strong>Call to Action</strong>: A second call-to-action button provides the business's phone number (automatically populated via custom values), offering visitors another option to connect directly for booking.</p>
+<h4 class="dh3"><strong>Key Features:</strong></h4>
+<p><strong>Custom Values</strong>: The funnel uses GoHighLevel's custom values to pre-populate all business-specific information, such as the phone number and logo, ensuring that the funnel is personalized for the business and easy to deploy.</p>
+<p><strong>Conversion-Focused</strong>: By simplifying the booking process and offering multiple ways to schedule, the funnel is designed to maximize lead conversions and make the booking process as easy as possible for potential clients.</p>
+<h3 class="dh2"><strong>Grooming Sessions Package Funnel Overview</strong></h3>
+<p>This funnel is designed to offer a discounted package of multiple grooming sessions, appealing to customers looking for regular pet care at a reduced rate. The funnel consists of an opt-in page where users can purchase the package, followed by a confirmation page. It uses <strong>custom values</strong> to auto-populate business details and streamline the user experience.</p>
+<h4 class="dh3"><strong>Funnel Steps:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Opt-In - Purchase Grooming Sessions</strong></h3>
+<h3 class="dh2"><strong>Headline</strong>: &quot;85% Discount Applied - 6 Grooming Sessions&quot;</h3>
+<p>This page offers a heavily discounted grooming package, reducing the total cost of 6 sessions from $396 to $119.</p>
+<p><strong>Visual Appeal</strong>: The page features images of multiple grooming vans, reinforcing the offer for multiple grooming sessions.</p>
+<p><strong>Form</strong>: Visitors can fill out their contact and shipping information (Full Name, Email, Phone Number, and Address) to complete their purchase. The form is integrated with payment options to facilitate easy transactions.</p>
+<p><strong>Urgency</strong>: The offer emphasizes the significant discount (85% off) to create a sense of urgency and encourage immediate action.</p>
+<h3 class="dh2"><strong>Step 2: TY (Thank You) - Order Confirmation</strong></h3>
+<p>After the purchase, users are directed to the thank-you page, which confirms their order.</p>
+<p><strong>Confirmation Message</strong>: The page displays an order summary with details about the purchased package, including the total amount paid.</p>
+<p><strong>Guarantee</strong>: The page highlights a &quot;No Questions Asked Guarantee,&quot; ensuring customers that they can cancel anytime if they're not satisfied, adding credibility and reassurance.</p>
+<p><strong>Branding</strong>: The page includes the business's branding and custom values for personalized contact details.</p>
+<h4 class="dh3"><strong>Key Features:</strong></h4>
+<p><strong>Custom Values</strong>: The funnel is powered by GoHighLevel's custom values, which auto-populate important details like the business's phone number, logo, and contact information to create a personalized experience for each client.</p>
+<p><strong>Conversion-Focused</strong>: The combination of a substantial discount, a clear call to action, and a money-back guarantee makes this funnel highly conversion-focused, targeting customers who are looking for long-term grooming care at a reduced price.</p>
+<h3 class="dh2"><strong>Mobile Grooming Offer Funnel Overview</strong></h3>
+<p>This funnel is designed to promote professional mobile pet grooming services, offering convenience and quality to customers by bringing grooming right to their homes. The funnel captures leads by offering an enticing service and guides them through the process of requesting an appointment. It uses <strong>custom values</strong> to auto-populate business details, ensuring a personalized setup for each user.</p>
+<h4 class="dh3"><strong>Funnel Steps:</strong></h4>
+<h3 class="dh2"><strong>Step 1: Home - Order Home Pet Grooming</strong></h3>
+<h3 class="dh2"><strong>Headline</strong>: &quot;Expert Pet Grooming Right At Home&quot;</h3>
+<p>The landing page introduces the mobile pet grooming service, emphasizing its convenience and quality. The design features an image of a pet, along with text reinforcing the value of home grooming.</p>
+<p><strong>Call to Action</strong>: The primary CTA button is prominently labeled &quot;Order Home Pet Grooming,&quot; leading visitors to submit their details to book the service.</p>
+<p><strong>Custom Values</strong>: The business's contact information (phone number, logo, etc.) is automatically populated, making the page feel personalized and professional.</p>
+<h3 class="dh2"><strong>Step 2: TY (Thank You) - Request Confirmation</strong></h3>
+<p>Once the visitor submits their details, they are directed to the thank-you page, which confirms that their request has been received.</p>
+<p><strong>Confirmation Message</strong>: The page displays a message thanking the lead and asking them to check their email for further communication. It also offers a phone number to call if they wish to book the service more quickly.</p>
+<p><strong>Call to Action</strong>: A second CTA button allows the lead to call the business directly using a custom value for the phone number, giving them an alternative way to connect.</p>
+<h4 class="dh3"><strong>Key Features:</strong></h4>
+<p><strong>Custom Values</strong>: The funnel leverages GoHighLevel's custom values to auto-fill contact details and logos, ensuring that each grooming business using the funnel can quickly implement their brand and contact information.</p>
+<p><strong>Lead Conversion Focus</strong>: With a strong emphasis on convenience and a clear CTA for booking, this funnel is designed to drive conversions for mobile pet grooming services by offering a smooth and easy process for potential clients.</p>
+<h3 class="dh2"><strong>4. Lead Management Process for Funnels and Website</strong></h3>
+<p>In the <strong>Pet Grooming GoHighLevel Snapshot</strong>, all leads that come through the <strong>funnels</strong> or <strong>website</strong> will be automatically directed into the <strong>Main Pipeline</strong>. This pipeline is structured to manage the lead flow efficiently, ensuring that every stage of the customer journey is captured and followed up appropriately.</p>
+<p>Here’s a breakdown of the pipeline stages:</p>
+<p><strong>New Lead</strong>: This is where all incoming leads from the website or funnels are initially placed.</p>
+<p><strong>Lead Responded</strong>: When the lead engages, responds, or shows interest, they are moved to this stage.</p>
+<p><strong>Online Purchase</strong>: If the lead completes an online purchase (such as booking a grooming session or purchasing a package), they are updated to this stage.</p>
+<p><strong>Appt Booked</strong>: Leads who successfully book an appointment are moved here.</p>
+<p><strong>Appt Canceled</strong>: If an appointment is canceled, the lead is placed in this stage for follow-up.</p>
+<p><strong>Appt No Show</strong>: If a lead doesn't show up for their scheduled appointment, they are tagged here for future follow-up.</p>
+<p><strong>Follow Up</strong>: Any leads needing additional outreach, reminders, or nurturing are placed in this stage to ensure nothing is missed.</p>
+<p>With the visibility features enabled for funnel and pie charts, the pipeline ensures that the status of each lead is tracked and easily viewed, allowing for detailed reporting and continuous optimization of the sales process.</p>
+<h3 class="dh2"><strong>5. 52-Week Nurture Campaigns Overview</strong></h3>
+<p>The <strong>Pet Grooming GoHighLevel Snapshot</strong> includes two 52-week nurture campaigns designed to engage and educate your leads, building trust and encouraging them to convert into long-term customers. These campaigns are automated to deliver consistent communication, either through email or text messages, with valuable tips, reminders, and educational content related to pet grooming.</p>
+<h4 class="dh3"><strong>1. 52-Week Email Nurture Campaign (Educational)</strong></h4>
+<p><strong>Objective</strong>: This campaign aims to nurture leads over the course of a year with weekly emails that provide educational content, tips, and advice about pet grooming and pet care. The goal is to build trust and demonstrate expertise while keeping your business top of mind.</p>
+<p><strong>Content</strong>: Each week, the lead will receive an email with grooming tips, seasonal pet care advice, or general information on how to care for their pets. Occasional promotional offers are included to incentivize leads to book grooming services.</p>
+<p><strong>Call to Actions (CTAs)</strong>: Each email will have a single CTA, encouraging leads to book an appointment, call for more information, or visit the website for more details. Custom values will be used to ensure the emails are personalized.</p>
+<h4 class="dh3"><strong>2. 52-Week Text Message Nurture Campaign (Educational)</strong></h4>
+<p><strong>Objective</strong>: Similar to the email campaign, the text message nurture campaign aims to educate and engage leads weekly over a full year. The campaign uses concise, actionable messages to maintain regular contact and remind customers of your grooming services.</p>
+<p><strong>Content</strong>: Each week, leads will receive a short, informative text message with a valuable tip about pet grooming or reminders about seasonal grooming needs. The messages will also occasionally include promotional offers, encouraging leads to take action.</p>
+<p><strong>Call to Actions (CTAs)</strong>: Each message will have a clear CTA such as “Reply Yes” to schedule an appointment, “Call us at {{location.phone}}” for inquiries, or “Visit our website {{location.website}}” for more details.</p>
+<h4 class="dh3"><strong>Key Features:</strong></h4>
+<p><strong>Custom Values</strong>: Both campaigns utilize GoHighLevel’s custom values to personalize the communication with each lead, ensuring that their name, business information, and other details are auto-populated in every email or text message.</p>
+<p><strong>Educational Focus</strong>: The campaigns are designed to share value with leads by offering educational content that builds trust over time. This approach helps convert leads into paying customers by providing them with consistent, helpful information.</p>
+<h3 class="dh2"><strong>6. Appointment Workflow Overview</strong></h3>
+<p>The <strong>Pet Grooming GoHighLevel Snapshot</strong> includes several appointment workflows designed to streamline communication with clients and automate various processes, ensuring that no appointments are missed and all client actions are tracked efficiently. These workflows are integrated with the <strong>Pet Grooming Services Calendar</strong> and update automatically based on client activity.</p>
+<h4 class="dh3"><strong>1a. Appointment Reminder (Pet Grooming Services Calendar)</strong></h4>
+<p><strong>Objective</strong>: To remind clients of their upcoming pet grooming appointments.</p>
+<h3 class="dh2"><strong>Action Steps</strong>:</h3>
+<p>Sends an SMS reminder confirming the appointment details, including the date and time, and provides a contact number for any inquiries.</p>
+<p>An internal notification is sent when the appointment is booked, and an opportunity is created or updated in the pipeline.</p>
+<h4 class="dh3"><strong>1b. Appointment No Show (Pet Grooming Services Calendar)</strong></h4>
+<p><strong>Objective</strong>: To follow up with clients who missed their scheduled appointments.</p>
+<h3 class="dh2"><strong>Action Steps</strong>:</h3>
+<p>Sends an SMS and email to notify the client that they missed their appointment, asking if they’d like to reschedule.</p>
+<p>Updates the opportunity status to &quot;No Show&quot; and tags the client appropriately.</p>
+<h4 class="dh3"><strong>1c. Appointment Canceled (Pet Grooming Services Calendar)</strong></h4>
+<p><strong>Objective</strong>: To handle cases where clients cancel their appointments.</p>
+<h3 class="dh2"><strong>Action Steps</strong>:</h3>
+<p>Sends an SMS and email to the client acknowledging their cancellation and offering the opportunity to reschedule.</p>
+<p>Updates the opportunity status to &quot;Canceled&quot; and tags the client accordingly.</p>
+<h4 class="dh3"><strong>3. Appointment Completed</strong></h4>
+<p><strong>Objective</strong>: To update the system once an appointment has been successfully completed.</p>
+<h3 class="dh2"><strong>Action Steps</strong>:</h3>
+<p>Removes the opportunity related to the completed appointment from the pipeline.</p>
+<p>Tags the client as &quot;Appointment Completed&quot; for tracking purposes.</p>
+<h3 class="dh2"><strong>7. Database Reactivation Campaigns (Shared Pipeline)</strong></h3>
+<p>Each of the following campaigns is designed to maximize customer engagement and encourage previous clients to take advantage of special offers. These campaigns all move through the same stages in the shared &quot;Database Reactivation&quot; pipeline, which helps streamline tracking and follow-up for all campaigns.</p>
+<h3 class="dh2"><strong>Campaign 1: Customer Appreciation Discount</strong></h3>
+<p>Offer: 15% off as a thank-you for previous services.</p>
+<p>Messaging: Encourage customers to claim the discount and schedule another service.</p>
+<h3 class="dh2"><strong>Campaign 2: Exclusive Discount for Returning Customers</strong></h3>
+<p>Offer: Special deal for returning customers.</p>
+<p>Messaging: Highlight the exclusivity of the offer and express appreciation for loyalty.</p>
+<h3 class="dh2"><strong>Campaign 3: Flash Sale</strong></h3>
+<p>Offer: Time-limited discount on grooming services.</p>
+<p>Messaging: Create urgency with limited-time language, pushing for quick responses.</p>
+<h3 class="dh2"><strong>Campaign 4: Limited-Time Special Offer</strong></h3>
+<p>Offer: Another service-specific discount valid for a short period.</p>
+<p>Messaging: Use scarcity and exclusivity to drive urgency for rebooking.</p>
+<p>These campaigns all share the same <strong>Database Reactivation Pipeline</strong>, which tracks the stages from &quot;Offer Sent&quot; to &quot;Offer Claimed&quot; or &quot;Not Interested.&quot; This pipeline ensures clear visibility on the performance of each campaign and smooth follow-up.</p>
+<h3 class="dh2"><strong>Stages:</strong></h3>
+<h3 class="dh2"><strong>Offer Sent</strong></h3>
+<h3 class="dh2"><strong>Responded</strong></h3>
+<h3 class="dh2"><strong>Offer Claimed</strong></h3>
+<h3 class="dh2"><strong>Not Interested</strong></h3>
+<p>This shared workflow allows for efficient and streamlined campaign management across all reactivation efforts.</p>
+<h3 class="dh2"><strong>8. Google Review Campaign:</strong></h3>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>The campaign begins after a successful service or appointment completion, triggering the review request.</p>
+<p>This trigger ensures that only customers who have completed their service enter the campaign.</p>
+<h3 class="dh2"><strong>Step 1: SMS Message (Day 1)</strong></h3>
+<p><strong>Message Content:</strong>Hi {{contact.first_name}}, we hope your pet’s grooming experience at {{location.name}} was pawsome! Would you mind leaving us a quick review? Your feedback helps us improve and grow. Just tap here: {{custom_values.google_review_link}}. Thanks so much!</p>
+<p><strong>Purpose:</strong> Encourage the customer to leave a review, making it simple and quick with a direct link to the Google Review page.</p>
+<h3 class="dh2"><strong>Step 2: Email Follow-Up (Day 1)</strong></h3>
+<p><strong>Message Content:</strong> Similar to SMS, but longer, and with a visual element (e.g., branding) encouraging the customer to review.</p>
+<p><strong>Purpose:</strong> Reinforce the request in case the customer missed the SMS or prefers email communication.</p>
+<h3 class="dh2"><strong>Step 3: Wait 1 Day</strong></h3>
+<p><strong>Action:</strong> The workflow waits one day to give the customer time to respond to the initial review request.</p>
+<h3 class="dh2"><strong>Step 4: Second SMS Message</strong></h3>
+<p><strong>Message Content:</strong> A second, friendly reminder to the customer if they haven’t clicked the review link yet.</p>
+<p><strong>Purpose:</strong> To gently nudge customers who haven’t responded yet, offering another chance to leave a review.</p>
+<h3 class="dh2"><strong>Step 5: Second Email Follow-Up</strong></h3>
+<p>Another follow-up email, similar to the SMS reminder, but in a longer form to give them more details or incentive to leave feedback.</p>
+<h3 class="dh2"><strong>Step 6: Wait 1 Day</strong></h3>
+<h3 class="dh2"><strong>Step 7: Third SMS Message</strong></h3>
+<p>Final reminder SMS asking if they can leave feedback.</p>
+<h3 class="dh2"><strong>Step 8: Third Email Follow-Up</strong></h3>
+<p>A final email follow-up in case previous attempts were not effective.</p>
+<h3 class="dh2"><strong>End of Workflow</strong></h3>
+<p><strong>Trigger:</strong> Workflow ends for customers who have not interacted or clicked the review link after three contact attempts.</p>
+<h3 class="dh2"><strong>Opportunity Pipeline Stages:</strong></h3>
+<h3 class="dh2"><strong>Request Sent:</strong></h3>
+<p>All contacts who receive the initial review request are marked in this stage.</p>
+<h3 class="dh2"><strong>Link Clicked:</strong></h3>
+<p>When the customer clicks the Google review link, they are moved to the &quot;Link Clicked&quot; stage.</p>
+<p><strong>Action:</strong> An internal notification is sent, and the opportunity is updated in the pipeline.</p>
+<h3 class="dh2"><strong>Link Not Clicked:</strong></h3>
+<p>If the customer does not interact with the review link, they remain in this stage.</p>
+<p><strong>Action:</strong> After the third message, the workflow ends, and they are not sent additional follow-ups.</p>
+<h3 class="dh2"><strong>Internal Notifications:</strong></h3>
+<p>Whenever a customer clicks the review link, an internal notification is sent to the team, updating them that a review may be incoming.</p>
+<p>The system also tags the customer as &quot;Review Link Clicked.&quot;</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Automated Review Request:</strong> The system automatically reaches out to customers post-service, asking them to leave a review, thus simplifying follow-up efforts.</p>
+<p><strong>Multi-Channel Approach:</strong> The use of both SMS and email maximizes the chances of customers seeing the review request.</p>
+<p><strong>Pipeline Tracking:</strong> The pipeline tracks the progress of each contact through stages, offering clarity on the customer’s interaction with the review process.</p>
+<p><strong>Custom Values:</strong> Custom values (like the customer’s first name, business name, and review link) make the communication feel personal and relevant.</p>
+<h3 class="dh2"><strong>9. Incoming Lead Follow-Up Campaigns Documentation</strong></h3>
+<h4 class="dh3"><strong>1. Incoming Lead: Email</strong></h4>
+<p><strong>Trigger</strong>: The workflow is initiated when a new lead reaches out via email.</p>
+<h3 class="dh2"><strong>Message Flow</strong>:</h3>
+<p>An automatic email response is sent to acknowledge receipt of the lead's message.</p>
+<p>A follow-up email is scheduled after a set period if there is no response.</p>
+<p>Internal notifications are sent to the team to ensure the lead is being managed effectively.</p>
+<h3 class="dh2"><strong>Automation Features</strong>:</h3>
+<p>Lead is marked as &quot;Responded&quot; when they reply.</p>
+<p>If no response is received, reminders are triggered to follow up with the lead.</p>
+<h4 class="dh3"><strong>2. Incoming Lead: Facebook DM</strong></h4>
+<p><strong>Trigger</strong>: The workflow is triggered when a lead reaches out via Facebook Messenger.</p>
+<h3 class="dh2"><strong>Message Flow</strong>:</h3>
+<p>A Facebook Messenger auto-response acknowledges the lead’s message.</p>
+<p>During business hours, an internal notification is sent to a team member to follow up with the lead directly.</p>
+<p>Follow-up messages are sent if the lead does not respond within the given timeframe.</p>
+<h3 class="dh2"><strong>Automation Features</strong>:</h3>
+<p>If the lead responds, their status in the pipeline is updated automatically.</p>
+<p>If the lead has not responded after several attempts, the workflow flags the lead for further action.</p>
+<h4 class="dh3"><strong>3. Incoming Lead: Instagram DM</strong></h4>
+<p><strong>Trigger</strong>: Initiates when a lead sends a DM on Instagram.</p>
+<h3 class="dh2"><strong>Message Flow</strong>:</h3>
+<p>An automatic Instagram message is sent, acknowledging the lead’s inquiry and letting them know a team member will follow up shortly.</p>
+<p>The workflow waits for a certain time before sending another follow-up message if no response is received.</p>
+<p>Internal notifications are sent to ensure timely responses during business hours.</p>
+<h3 class="dh2"><strong>Automation Features</strong>:</h3>
+<p>If the lead responds, their status in the pipeline is updated.</p>
+<p>If no response, follow-up notifications prompt the team to reach out again.</p>
+<p>This structure ensures that no leads slip through the cracks, and each type of inquiry is handled in a systematic way with automations tailored to the platform. You can adjust message templates and timing based on your campaign goals.</p>
+<h3 class="dh2"><strong>10. Missed Call Text Back</strong></h3>
+<h3 class="dh2"><strong>Basic Missed Call Text Back Workflow:</strong></h3>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Initiates when a call status is missed.</p>
+<h3 class="dh2"><strong>Branches:</strong></h3>
+<p>If the contact's first name field is empty (i.e., new contact), no further action.</p>
+<p>Otherwise, the workflow continues.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<p><strong>Tag:</strong> Adds a &quot;Missed Call&quot; tag to the contact.</p>
+<p><strong>SMS:</strong> Sends an SMS to the contact saying:
+Hey there, this is {{user.first_name}} from {{location.name}}, we just got a missed call from this number, sorry about that! How can I help?</p>
+<p><strong>Internal Notification:</strong> Sends an internal notification to the team.</p>
+<h3 class="dh2"><strong>Advanced Missed Call Text Back Sequence:</strong></h3>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>Initiates when a call status is missed.</p>
+<h3 class="dh2"><strong>Branches:</strong></h3>
+<p>If the contact has already received a missed call tag, the workflow repeats the text back actions.</p>
+<p>If the contact is new or hasn't missed a call before, it proceeds with initial outreach.</p>
+<h3 class="dh2"><strong>Actions:</strong></h3>
+<p><strong>Tag:</strong> Adds a &quot;Missed Call&quot; tag to the contact.</p>
+<h3 class="dh2"><strong>SMS Sequence:</strong></h3>
+<p>1st SMS: Acknowledges the missed call with a similar message as the basic workflow.</p>
+<p>2nd SMS (If missed again): Sends a follow-up message:
+Sorry, we've missed your call for the 2nd time. How can we help you?</p>
+<p><strong>Internal Notification:</strong> Sends internal notifications to the team at each missed call checkpoint.</p>
+<p><strong>Branching Logic:</strong> Depending on whether the missed call occurs during business hours or after hours, different actions (e.g., immediate follow-up or delayed messages) are triggered.</p>
+<p>These workflows are set up to ensure that no missed calls go unanswered, providing a friendly and prompt response to potential clients and notifying the team internally for any necessary follow-up.</p>
+<h3 class="dh2"><strong>11. Payment Automations Documentation</strong></h3>
+<h4 class="dh3"><strong>1. Initial Payment Request After Service Completion</strong></h4>
+<p><strong>Trigger</strong>: This workflow starts once a pet grooming session is marked as completed in the system.</p>
+<p><strong>SMS Action</strong>: A payment request is sent to the customer via SMS. The message includes the grooming session details and a clickable link to pay the invoice.</p>
+<p><strong>Message</strong>:
+Hi {{contact.first_name}}, your pet's grooming session is complete, and the invoice is ready. Click here to pay: {{invoice.url}}. Thank you for choosing {{location.name}}!</p>
+<p><strong>Email Action</strong>: Similar to the SMS, an email with the payment request and invoice link is sent.</p>
+<p><strong>Follow-up Actions</strong>: After 3 days, a reminder SMS and email are sent if the payment has not been made.</p>
+<h4 class="dh3"><strong>2. Payment Received</strong></h4>
+<p><strong>Trigger</strong>: This workflow activates when the invoice is marked as paid in the system.</p>
+<p><strong>SMS Action</strong>: A thank you message is sent to the customer acknowledging the receipt of payment.</p>
+<p><strong>Message</strong>:
+Thank you for your payment, {{contact.first_name}}! Let us know if you have any questions!</p>
+<p><strong>Email Action</strong>: A thank you email with similar content is sent.</p>
+<p><strong>Follow-up Actions</strong>: After 2 days, a feedback email and SMS are sent asking the customer to provide feedback on the service.</p>
+<h4 class="dh3"><strong>3. Refund Process</strong></h4>
+<p><strong>Trigger</strong>: This workflow is triggered when a refund request is approved.</p>
+<p><strong>SMS Action</strong>: An SMS is sent to inform the customer about the approved refund and estimated timeline for the funds to be returned.</p>
+<p><strong>Message</strong>:
+Hi {{contact.first_name}}, your refund for the pet grooming service has been approved. You should receive the funds back within 7-14 days. Call us at {{location.phone}} if you have any questions.</p>
+<p><strong>Email Action</strong>: A similar refund approval email is sent to the customer.</p>
+<p><strong>Follow-up Actions</strong>: After 7 days, a feedback email and SMS are sent to ensure the customer is satisfied with the refund process.</p>
+<p>These workflows ensure that customers receive timely notifications about payments and refunds, improving the overall customer experience. Let me know if you need more specific details or changes!</p>
+<h3 class="dh2"><strong>12. Birthday Workflow Documentation</strong></h3>
+<h4 class="dh3"><strong>Trigger:</strong></h4>
+<p>This workflow is triggered based on a birthday reminder, either for the pet or the owner depending on the setup in your system.</p>
+<h4 class="dh3"><strong>1. Birthday SMS:</strong></h4>
+<p><strong>Action</strong>: An SMS is sent to the customer wishing their pet a happy birthday and offering a discount for grooming services.</p>
+<p><strong>Message</strong>:
+Hi {{contact.first_name}}, it’s your furry friend’s birthday! 🎉 Celebrate with 20% off their next grooming session at {{location.name}}. Reply YES to book now and treat your pet!</p>
+<h4 class="dh3"><strong>2. Wait for Reply (24 hrs):</strong></h4>
+<p>The system waits for 24 hours to see if the customer responds to the initial birthday offer.</p>
+<h4 class="dh3"><strong>3. Reply Check:</strong></h4>
+<p><strong>Branch</strong>: If the customer responds with &quot;Yes,&quot; the workflow proceeds to the next step for booking.</p>
+<p>If <strong>Yes</strong>, an internal notification is triggered, and the system sends another SMS for confirmation.</p>
+<p>If <strong>No Response</strong>, the system waits for 15 hours and checks again if they are interested in the offer.</p>
+<h4 class="dh3"><strong>4. Follow-Up Actions:</strong></h4>
+<p><strong>Branch</strong>: After 15 hours, if the customer still has not responded, the system checks once more if they are interested.</p>
+<p>If <strong>Yes</strong>, it proceeds with an internal notification and another SMS.</p>
+<p>If <strong>No</strong>, the workflow ends.</p>
+<p>This workflow helps you engage customers around their pet's birthday by offering a special discount, encouraging them to return for grooming services while creating a personalized experience.</p>
+<h3 class="dh2"><strong>13. Customer Referral Campaign Documentation</strong></h3>
+<h4 class="dh3"><strong>Trigger:</strong></h4>
+<p>This workflow is triggered when a customer is marked as a successful opportunity (e.g., after completing a service or booking an appointment).</p>
+<h4 class="dh3"><strong>1. Initial SMS:</strong></h4>
+<p><strong>Action</strong>: An SMS is sent after a 7-day wait, encouraging the customer to refer a friend.</p>
+<p><strong>Message</strong>:
+
+Hi {{contact.first_name}}, love our grooming services? Refer a friend to {{location.name}} and both of you will get $20 off your next grooming sessions! Reply YES to refer someone today!</p>
+<h4 class="dh3"><strong>2. Wait for Reply:</strong></h4>
+<p>The system waits for 1 day to see if the customer replies with &quot;Yes.&quot;</p>
+<h4 class="dh3"><strong>3. Follow-Up:</strong></h4>
+<h3 class="dh2"><strong>Branch</strong>: If the customer responds positively (&quot;Yes&quot;):</h3>
+<p>An internal notification is triggered for your team to follow up on the referral.</p>
+<p>The system sends a second SMS thanking them for the referral and proceeds with the next steps.</p>
+<p>If <strong>No Response</strong>, the system waits and checks again after a set time.</p>
+<h4 class="dh3"><strong>4. Ending:</strong></h4>
+<p>The workflow will either end if the customer is not interested, or continue with further actions based on their engagement, such as sending reminders or handling the referral process.</p>
+<p>This referral campaign is designed to encourage satisfied customers to bring in new clients by offering them a mutual discount, benefiting both the referrer and the referee.</p>
+<h3 class="dh2"><strong>14. New Client Welcome Sequence Documentation</strong></h3>
+<h4 class="dh3"><strong>Trigger:</strong></h4>
+<p>The sequence is initiated once a new client is added to the system or a new service is completed.</p>
+<h4 class="dh3"><strong>1. Welcome SMS:</strong></h4>
+<p><strong>Action</strong>: An SMS is sent immediately to welcome the new client.</p>
+<p><strong>Message</strong>:
+Hi {{contact.first_name}}, thank you for trusting {{location.name}} with your pet’s grooming! We loved meeting your pet. We can’t wait to see you both again soon! 😊</p>
+<h4 class="dh3"><strong>2. Sequence of Follow-Ups:</strong></h4>
+<p>The workflow continues with a sequence of touchpoints (SMS and Email) over the next few days or weeks:</p>
+<h3 class="dh2"><strong>Thank You Messages</strong> for choosing the business</h3>
+<h3 class="dh2"><strong>Appointment Reminders</strong> or follow-ups to remind them of any future grooming appointments</h3>
+<p><strong>Offer Notifications</strong>: Informing them about any special offers, discounts, or promotions.</p>
+<p><strong>Feedback Requests</strong>: Asking for feedback or a review after their service to gauge their satisfaction and improve future experiences.</p>
+<h4 class="dh3"><strong>3. Branching Logic:</strong></h4>
+<p>Based on responses from the client (e.g., if they provide feedback or respond to offers), the workflow will branch off, allowing for personalized follow-up actions such as:</p>
+<h3 class="dh2"><strong>Internal Notifications</strong> for staff to follow up</h3>
+<p><strong>Additional offers or discounts</strong> if they showed interest.</p>
+<h4 class="dh3"><strong>End of Sequence:</strong></h4>
+<p>The workflow will end with a final reminder or check-in if there is no further interaction, closing the loop and keeping the customer engaged for future services.</p>
+<p>This welcome sequence is designed to make the customer feel appreciated and nurtured, while keeping them engaged with friendly and valuable communication after their first experience with your business.</p>
+</div>
+</section>
+</main></div>
+<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">&#10005;</button><img id="lb-img" src="" alt="" onclick="event.stopPropagation()"></div>
+<script>
+document.querySelectorAll('main img').forEach(im=>{im.style.cursor='zoom-in';im.addEventListener('click',()=>{document.getElementById('lb-img').src=im.src;document.getElementById('lb').classList.add('open');});});
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>

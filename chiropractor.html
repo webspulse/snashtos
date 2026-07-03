@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2. Chiropractor Snapshot Documentation: Website</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:#0d0f18;--surf:#13151f;--surf2:#191c2a;--surf3:#1e2236;
+  --border:#252a3d;--acc:#e94560;--txt:#e8eaf4;--muted:#8b93b5;--dim:#4e556e;
+  --sw:268px;--hh:58px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);line-height:1.72;font-size:15px;overflow-x:hidden;}
+
+/* topbar */
+#topbar{position:sticky;top:0;z-index:200;height:var(--hh);background:rgba(13,15,24,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;}
+.logo{background:var(--acc);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:5px 12px;border-radius:6px;}
+.top-title{font-size:14px;font-weight:600;flex:1;}
+.srch-wrap{position:relative;}
+.srch-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+#srch{background:var(--surf2);border:1px solid var(--border);border-radius:8px;
+  padding:7px 12px 7px 32px;color:var(--txt);font-size:13px;width:220px;
+  outline:none;transition:border .18s,box-shadow .18s;}
+#srch:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,69,96,.14);}
+#srch::placeholder{color:var(--dim);}
+.badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surf2);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+/* layout */
+.layout{display:flex;min-height:calc(100vh - var(--hh));}
+
+/* sidebar */
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);
+  position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow-y:auto;padding:10px 0 24px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 18px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:13px;
+  font-weight:500;color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  transition:all .13s;cursor:pointer;user-select:none;}
+.nav-item:hover{color:var(--txt);background:var(--surf2);border-left-color:var(--dim);}
+.nav-item.active{color:var(--acc);background:rgba(233,69,96,.08);border-left-color:var(--acc);font-weight:600;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .13s;}
+.nav-item.active .ndot,.nav-item:hover .ndot{background:var(--acc);}
+
+/* main */
+main{flex:1;min-width:0;}
+
+/* cover */
+#cover{background:linear-gradient(155deg,#0d0f18 0%,#14102a 50%,#0d0f18 100%);
+  border-bottom:1px solid var(--border);padding:72px 60px 60px;text-align:center;
+  position:relative;overflow:hidden;}
+#cover::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(233,69,96,.17) 0%,transparent 72%);
+  pointer-events:none;}
+.cv-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);
+  border:1px solid rgba(233,69,96,.3);color:var(--acc);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+#cover h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 25%,#9095b8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#cover>p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 40px;}
+.stats{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-num{font-size:34px;font-weight:800;color:var(--acc);line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:640px;margin:0 auto;}
+.pill{background:var(--surf2);border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;transition:all .13s;}
+.pill:hover{color:var(--txt);border-color:rgba(233,69,96,.5);}
+
+/* section */
+.doc-section{border-bottom:1px solid var(--border);scroll-margin-top:var(--hh);}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 42px;
+  background:var(--surf);border-bottom:1px solid var(--border);
+  position:sticky;top:var(--hh);z-index:10;}
+.sec-num{width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);
+  color:var(--acc);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);flex:1;}
+.btn-top{font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;
+  background:var(--surf2);border:1px solid var(--border);
+  padding:5px 13px;border-radius:6px;transition:all .13s;white-space:nowrap;}
+.btn-top:hover{color:var(--acc);border-color:rgba(233,69,96,.5);}
+.sec-body{padding:32px 42px 48px;max-width:860px;}
+
+/* typography */
+.dh1{font-size:21px;font-weight:800;color:var(--txt);margin:28px 0 10px;}
+.dh2{font-size:15px;font-weight:700;color:var(--txt);margin:22px 0 10px;
+  padding:10px 15px;background:var(--surf2);border-left:3px solid var(--acc);border-radius:0 7px 7px 0;}
+.dh3{font-size:12px;font-weight:700;color:var(--acc);margin:16px 0 7px;
+  text-transform:uppercase;letter-spacing:.09em;}
+.sec-body p{color:var(--muted);font-size:15px;line-height:1.78;margin-bottom:12px;}
+.sec-body p strong{color:var(--txt);font-weight:600;}
+.sec-body p em{color:#9a9ec0;font-style:italic;}
+
+/* images */
+.img-snap{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px;padding:20px;
+  background:var(--surf2);border:1px solid var(--border);border-radius:12px;}
+.img-snap img{height:260px;width:auto;max-width:100%;border-radius:8px;
+  border:1px solid var(--border);cursor:zoom-in;object-fit:contain;
+  background:var(--surf3);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-snap img:hover{transform:scale(1.03);box-shadow:0 8px 32px rgba(233,69,96,.22);border-color:var(--acc);}
+
+.img-inline{margin:20px 0;}
+.img-inline img{width:100%;max-width:780px;height:auto;display:block;
+  border-radius:10px;border:1px solid var(--border);cursor:zoom-in;
+  background:var(--surf2);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-inline img:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(233,69,96,.18);border-color:var(--acc);}
+
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;cursor:zoom-out;}
+#lb.on{display:flex;}
+#lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:8px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);cursor:default;}
+#lb-close{position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;color:#fff;font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+#lb-close:hover{background:rgba(233,69,96,.7);}
+
+mark{background:rgba(233,69,96,.32);color:#fff;border-radius:2px;padding:0 2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:820px){
+  .sidebar{display:none;}
+  .sec-body{padding:20px;}
+  .sec-head{padding:14px 18px;}
+  #cover{padding:40px 18px;}
+  #cover h1{font-size:32px;}
+  .img-snap img{height:180px;}
+}
+</style>
+<style>
+.layout{display:block;}
+main,.content{max-width:960px;margin:0 auto;padding:32px 24px;}
+section{display:block !important;}
+</style>
+</head>
+<body>
+<div id="topbar"><span class="logo">SNAPLEVEL</span><span class="top-title">2. Chiropractor Snapshot Documentation: Website</span></div>
+<div class="layout"><main class="content">
+<section id="chiropractor" class="doc-section">
+<div class="sec-head">
+<div class="sec-num">15</div>
+<div class="sec-title">Chiropractor</div>
+<a href="#topbar" class="btn-top">&#8593; Top</a>
+</div>
+<div class="sec-body">
+<h3 class="dh2"><strong>Chiropractor Snapshot Documentation:</strong></h3>
+<h3 class="dh2">Custom Values Overview</h3>
+<p>Website</p>
+<p>Lintrees </p>
+<p>Funnels </p>
+<p>52 Week Nurture Campaigns </p>
+<p>Database Reactivation Campaigns </p>
+<p>Google Review Campaign </p>
+<p>Inbound Lead Sources </p>
+<p>Missed Call Text Back</p>
+<p>Payment Automations</p>
+<p>Customer Referral Campaign</p>
+<p>Happy Birthday Offer Automation </p>
+<p>Inactive Patient Survey</p>
+<p>New Patient Welcome Sequence </p>
+<p>Post Appt Check-Up</p>
+<p>Pre-Appt Instructions </p>
+<p>13 Holiday Emails</p>
+<h3 class="dh2"><strong>Chiropractor Snapshot Documentation: Custom Values </strong></h3>
+<p><strong>Afternoon Timing
+</strong>Key: {{ custom_values.afternoon_timing }}
+This value is used to indicate the chiropractor's operating hours in the afternoon. It will appear on the website, funnels, and any time-based automations.</p>
+<p><strong>Chiropractor Address
+</strong>Key: {{ custom_values.chiropractor_address }}
+Update this value to reflect your clinic's address across all communication channels, including website, email signatures, and booking confirmations.</p>
+<p><strong>Chiropractor Clinic Name
+</strong>Key: {{ custom_values.chiropractor_clinic_name }}
+Your clinic’s name will automatically populate throughout your websites, emails, and forms. Make sure this is updated to ensure consistent branding.</p>
+<p><strong>Email
+</strong>Key: {{ custom_values.email }}
+This will populate the main email address for communications and will be used in your contact forms, email footers, and funnel pages.</p>
+<p><strong>Google Review Campaign Link
+</strong>Key: {{ custom_values.google_review_campaign_link }}
+Use this link to direct patients to leave a review on Google. This will be integrated into review request campaigns and automated follow-up emails.</p>
+<p><strong>Holiday Email Offer
+</strong>Key: {{ custom_values.holiday_email_offer }}
+Customize this value with any special holiday promotions you offer. It will automatically be included in holiday-specific emails and automations.</p>
+<p><strong>Inactivity Patient Survey URL
+</strong>Key: {{ custom_values.inactivity_patient_survey_url }}
+Insert the link to your patient survey here. It will be sent in re-engagement campaigns for inactive patients.</p>
+<p><strong>Link to Educational Page/Blog
+</strong>Key: {{ custom_values.link_to_educational_pageblog }}
+Direct your patients to helpful content or blog articles via this link, which will be used in nurturing email campaigns and SMS.</p>
+<p><strong>Morning Timing
+</strong>Key: {{ custom_values.morning_timing }}
+Similar to afternoon timing, this value displays your clinic's morning hours on relevant pages and communications.</p>
+<p><strong>YouTube Link
+</strong>Key: {{ custom_values.youtube_link }}
+Add your practice's YouTube channel or video playlist here. It will be linked in email automations, educational campaigns, and funnels.</p>
+<p><strong>Copyright
+</strong>Key: {{ custom_values.copyright }}
+Ensures your website and email footers display the correct copyright information.</p>
+<p><strong>Facebook Link
+</strong>Key: {{ custom_values.facebook_link }}
+Include your clinic's Facebook page link for use in email footers and other marketing communications.</p>
+<p><strong>Full Timing
+</strong>Key: {{ custom_values.full_timing }}
+Displays your complete hours of operation on your website, emails, and funnel pages.</p>
+<p><strong>Instagram Link
+</strong>Key: {{ custom_values.instagram_link }}
+Share your Instagram profile via this custom value, used in marketing materials and communications.</p>
+<p><strong>Learn More About Dr. {{user.name}}
+</strong>Key: {{ custom_values.learn_more_about_dr_page }}
+Direct patients to a bio page or an introduction about the chiropractor.</p>
+<p><strong>Out of Office Timing
+</strong>Key: {{ custom_values.out_of_office_timing }}
+This value is used in automations or notifications when your clinic is closed.</p>
+<p><strong>Phone Number
+</strong>Key: {{ custom_values.phone_number }}
+The main phone number for your clinic, updated across the entire system, including calls to action and contact pages.</p>
+<p><strong>Working Days
+</strong>Key: {{ custom_values.working_days }}
+Reflects your active business days and is shown in funnels, websites, and communications.</p>
+<p><strong>Years in Business
+</strong>Key: {{ custom_values.years_in_business }}
+Adds credibility by automatically displaying how long your clinic has been in operation on your site and marketing materials.</p>
+<h3 class="dh2"><strong>How to Update Custom Values</strong></h3>
+<p>To update these custom values, navigate to your <strong>Settings</strong> &gt; <strong>Custom Values</strong> in GoHighLevel. When you make changes to any of the custom values listed above, they will automatically update in all associated funnels, websites, email sequences, and more, ensuring consistency and saving you time.</p>
+<h2 class="dh1"><strong>2. Chiropractor Snapshot Documentation: Website</strong></h2>
+<p>The chiropractor website included in this snapshot is fully customizable, allowing you to tailor the design and content to match your clinic’s needs and branding. The website leverages <strong>custom values</strong> to automatically populate key information such as the clinic name, address, phone number, and hours of operation. This ensures consistency across all pages and makes updates simple—when a custom value is changed, it will update the relevant fields across the entire site.</p>
+<h3 class="dh2"><strong>Key Features of the Website</strong></h3>
+<p><strong>Customization</strong>:
+The website is pre-built but can easily be modified to suit your practice's branding and services. Pages such as &quot;About Us,&quot; &quot;Meet The Doctors,&quot; &quot;Chiropractic Care,&quot; and more are preloaded but fully editable.</p>
+<p><strong>Custom Value Integration</strong>:
+Fields like the clinic name, address, and contact details are auto-populated using custom values, streamlining the process of keeping your website information up to date.</p>
+<h3 class="dh2"><strong>Automations</strong>:
+The website is fully automated with two essential workflows:</h3>
+<p><strong>Website Form Automation</strong>: If a website form is added, this automation will trigger actions such as sending a follow-up email, tagging leads, and more.</p>
+<p><strong>Website Chat Widget Automation</strong>: Leads that interact with the live chat or chat widget on the website will be automatically enrolled in this automation for follow-up and lead nurturing.</p>
+<p><strong>Lead Tracking</strong>:
+Any leads generated from the website, whether through form submissions or chat interactions, will be tracked within the <strong>Main Pipeline</strong> in the snapshot. This ensures that all leads are properly managed and followed up on, helping to convert website visitors into appointments and paying clients.</p>
+<p>By keeping everything automated and integrated, the website section of this snapshot provides a comprehensive and efficient tool for managing your chiropractic business’s online presence.</p>
+<h2 class="dh1"><strong>3. Chiropractor Snapshot Documentation: Linktrees</strong></h2>
+<p>This chiropractor snapshot includes <strong>eight customizable Linktrees</strong> that can be tailored to various aspects of your practice. These Linktrees allow for easy navigation and quick access to specific services, making them a valuable resource for patient engagement. You can choose the one that best fits your practice’s focus, or use multiple depending on your marketing needs.</p>
+<h3 class="dh2"><strong>Available Linktrees</strong></h3>
+<p><strong>General Practice Linktree
+</strong>This Linktree provides a general overview of your chiropractic services, suitable for clinics offering a wide range of treatments.</p>
+<p><strong>Pain Relief Focused Linktree
+</strong>Perfect for practices that specialize in pain management and relief, directing patients to relevant information and services.</p>
+<p><strong>Wellness and Preventive Care Linktree
+</strong>Designed for clinics focusing on holistic wellness and preventive care, offering patients insights into maintaining long-term health.</p>
+<p><strong>Sports Injury and Rehabilitation Linktree
+</strong>Tailored to practices that provide specialized care for sports injuries and rehabilitation programs.</p>
+<p><strong>Bonus Chiro Linktree
+</strong>A versatile option that can be adapted for any promotional or niche chiropractic service. There are multiple versions available for added flexibility.</p>
+<p><strong>Bonus Chiro Linktree
+</strong>Additional version for further customization and use in specialized campaigns.</p>
+<p><strong>Bonus Chiro Linktree
+</strong>Another option for bonus services or unique chiropractic offerings.</p>
+<p><strong>Bonus Chiro Linktree
+</strong>An extra bonus Linktree, allowing for maximum customization depending on your practice's needs.</p>
+<h3 class="dh2"><strong>Customization</strong></h3>
+<p>Each Linktree can be customized with your clinic’s branding, colors, and specific services. The integration of <strong>custom values</strong> ensures that any updates to your clinic’s contact information or service offerings will be reflected automatically in the Linktrees.</p>
+<h3 class="dh2"><strong>Usage</strong></h3>
+<p>These Linktrees are ideal for use in your social media bios, email footers, SMS campaigns, and any other digital marketing materials to make it easy for patients to navigate to the services they need most.</p>
+<h2 class="dh1"><strong>4. Chiropractor Snapshot Documentation: Funnels</strong></h2>
+<p>This chiropractor snapshot comes with <strong>six customizable funnels</strong> designed to attract and convert leads into paying patients. Each funnel targets a specific offer or service, helping you engage potential clients based on their needs. These funnels are optimized for lead generation and can be easily customized to align with your practice’s branding and services.</p>
+<h2 class="dh1"><strong>Chiropractic Certificate Funnel</strong></h2>
+<h3 class="dh2"><strong>Funnel Overview</strong></h3>
+<p>The <strong>Chiropractic Certificate Funnel</strong> is designed to generate leads by offering potential patients a free spinal exam and chiropractic adjustment in the form of a downloadable certificate. This funnel has a clear 3-step process:</p>
+<p><strong>Opt-in Page</strong>:
+Prospective patients enter their name and email to claim the free chiropractic certificate.</p>
+<p><strong>Thank You Page</strong>:
+After submission, the patient is taken to a page where they can download the certificate and are encouraged to share it on social media.</p>
+<p><strong>Gift Certificate Download</strong>:
+The downloadable gift certificate serves as their voucher for a free spinal exam and chiropractic adjustment, redeemable on their first visit.</p>
+<h3 class="dh2"><strong>Sales Pipeline</strong></h3>
+<p>This funnel has its own dedicated <strong>Sales Pipeline</strong> called the <strong>Chiropractic Certificate Pipeline</strong>. The stages in this pipeline include:</p>
+<p>New Download</p>
+<p>Replied</p>
+<p>Appt Booked</p>
+<p>Appt No Show</p>
+<p>Appt Cancelled</p>
+<p>Certificate Redeemed</p>
+<p>Each lead that comes through the funnel is automatically tracked through these stages, ensuring that no lead is missed and every opportunity is organized.</p>
+<h3 class="dh2"><strong>Funnel Automation</strong></h3>
+<p>The <strong>Chiropractic Certificate Funnel</strong> is fully automated. Once a lead opts in, they receive a series of automated communications:</p>
+<p><strong>Offer Delivery</strong>: The lead receives an email or SMS with the chiropractic certificate.</p>
+<p><strong>Appointment Scheduling Push</strong>: The automation encourages the lead to schedule an appointment to redeem their certificate.</p>
+<p>The funnel workflows are designed to continue nurturing the lead until they either book an appointment or engage with your practice.</p>
+<h3 class="dh2"><strong>Appointment Workflows</strong></h3>
+<p>If the lead books an appointment through the <strong>Chiropractor Certificate Calendar</strong>, they are automatically removed from the funnel workflow and enrolled in the <strong>Appointment Workflows</strong>:</p>
+<p><strong>Appointment Booked</strong>: Sends the patient an appointment confirmation and reminders leading up to their scheduled visit.</p>
+<p><strong>Appointment Cancelled</strong>: If the patient cancels, they are moved to this workflow, which sends follow-up messages encouraging them to reschedule.</p>
+<p><strong>No Show Workflow</strong>: If the patient does not show up for their appointment, they are moved to this workflow, where they receive reminders and options to reschedule.</p>
+<p>These workflows help ensure that leads are followed up with consistently, increasing the likelihood of converting them into patients.</p>
+<p>This funnel provides a powerful lead generation and follow-up system to keep track of leads, appointments, and certificate redemptions with minimal manual effort. Let me know if you need any more details or changes!</p>
+<h2 class="dh1"><strong>2. Family Plan Funnel</strong></h2>
+<h3 class="dh2"><strong>Funnel Overview</strong></h3>
+<p>The <strong>Family Plan Funnel</strong> is designed to promote a comprehensive family wellness plan with a special 20% discount. It consists of three steps:</p>
+<p><strong>Opt-in Page</strong>:
+Visitors enter their details and express interest in the family plan, receiving the offer for a 20% discount on total wellness care for the entire family.</p>
+<p><strong>Calendar Page</strong>:
+After opting in, the visitor is encouraged to book an appointment directly on the calendar for the Family Plan.</p>
+<p><strong>Thank You Page</strong>:
+After booking an appointment, the visitor is directed to a thank you page where they are thanked for booking, and additional client testimonials or information can be displayed.</p>
+<h3 class="dh2"><strong>Sales Pipeline</strong></h3>
+<p>This funnel has its own dedicated <strong>Sales Pipeline</strong> called the <strong>Family Plan Pipeline</strong>. The stages in this pipeline include:</p>
+<p>Opt In</p>
+<p>Appt Booked</p>
+<p>Appt No Show</p>
+<p>Appt Cancelled</p>
+<p>Follow Up</p>
+<p>Not Interested</p>
+<p>Each lead is tracked through these stages, ensuring effective lead management and follow-up.</p>
+<h3 class="dh2"><strong>Funnel Automation</strong></h3>
+<p>The <strong>Family Plan Funnel</strong> is fully automated to nurture leads and encourage them to book an appointment. Here’s how the automation works:</p>
+<p>When a lead opts in but <strong>does not book an appointment</strong> within <strong>10 minutes</strong>, they will automatically receive an <strong>SMS and email</strong> reminder, encouraging them to return and complete the booking.</p>
+<p>Once the lead <strong>books an appointment</strong> on the second page (calendar page), they are automatically removed from the funnel workflow and added to the <strong>Appointment Workflow</strong>.</p>
+<h3 class="dh2"><strong>Appointment Workflows</strong></h3>
+<p>Once the lead is added to the <strong>Appointment Workflow</strong>, they will receive appointment-specific communications:</p>
+<p><strong>Appointment Booked</strong>: The lead will receive a confirmation message and reminders leading up to the scheduled visit.</p>
+<p><strong>Appointment Cancelled</strong>: If the lead cancels the appointment, they will be enrolled in this workflow to encourage rescheduling.</p>
+<p><strong>No Show Workflow</strong>: If the lead fails to show up, they will receive messages reminding them to reschedule their visit.</p>
+<p>These automations ensure that leads are nurtured and followed up with effectively throughout their journey in the Family Plan Funnel.</p>
+<p>This funnel is designed to generate consistent leads for the family wellness plan, offering smooth lead tracking and automated follow-ups. Let me know if you need further adjustments!</p>
+<h2 class="dh1"><strong>3. Consultation Funnel</strong></h2>
+<h3 class="dh2"><strong>Funnel Overview</strong></h3>
+<p>The <strong>Free Consultation Funnel</strong> is designed to attract potential clients by offering a complimentary chiropractic consultation. It’s built with a three-step process:</p>
+<p><strong>Opt-in Page</strong>:
+Leads enter their details (name, email) to claim their free consultation.</p>
+<p><strong>Calendar Page</strong>:
+After opting in, leads are directed to a page where they can book their free consultation directly on the calendar.</p>
+<p><strong>Thank You Page</strong>:
+Once the appointment is booked, the lead is taken to a thank you page where they receive confirmation of their scheduled consultation.</p>
+<h3 class="dh2"><strong>Sales Pipeline</strong></h3>
+<p>This funnel has its own dedicated <strong>Sales Pipeline</strong> called the <strong>Free Consultation Pipeline</strong>. The stages of the pipeline include:</p>
+<p>Opt In</p>
+<p>Appt Booked</p>
+<p>Appt No Show</p>
+<p>Appt Cancelled</p>
+<p>Follow Up</p>
+<p>Not Interested</p>
+<p>Each stage helps track the lead's journey from initial interest to a completed consultation, ensuring organized follow-up and lead management.</p>
+<h3 class="dh2"><strong>Funnel Automation</strong></h3>
+<p>The <strong>Free Consultation Funnel</strong> is fully automated to maximize lead engagement and encourage booking. Here's how the automation works:</p>
+<p>If the lead <strong>opts in but does not book an appointment</strong> within <strong>10 minutes</strong>, they will automatically receive an <strong>SMS and email</strong> reminding them to schedule their free consultation.</p>
+<p>If the lead <strong>books an appointment</strong> on the second page (calendar page), they will be removed from the funnel workflow and automatically moved to the <strong>Appointment Workflow</strong> for further follow-up.</p>
+<h3 class="dh2"><strong>Appointment Workflows</strong></h3>
+<p>Once the lead books an appointment, they are added to the appropriate <strong>Appointment Workflow</strong>, which includes:</p>
+<p><strong>Appointment Booked</strong>: Sends an appointment confirmation and reminders leading up to the consultation.</p>
+<p><strong>Appointment Cancelled</strong>: If the appointment is cancelled, the lead is enrolled in this workflow, which sends follow-up messages encouraging rescheduling.</p>
+<p><strong>No Show Workflow</strong>: If the lead doesn’t show up for the consultation, they are moved to the No Show workflow, where they will receive reminders to book a new appointment.</p>
+<p>These workflows ensure that leads are nurtured effectively throughout the consultation process, optimizing conversion rates.</p>
+<p>This funnel helps your practice generate consistent leads for free consultations while automating follow-ups and appointment tracking to ensure high engagement and conversion rates. Let me know if you need any additional details!</p>
+<h2 class="dh1"><strong>4. First Visit Package Funnel</strong></h2>
+<h3 class="dh2"><strong>Funnel Overview</strong></h3>
+<p>The <strong>First Visit Package Funnel</strong> is designed to offer new patients a discounted first visit, including consultation, exam, and initial treatment, for $59. It consists of a three-step process:</p>
+<p><strong>Opt-in Page</strong>:
+Leads enter their details (name, email) to claim the first visit package offer.</p>
+<p><strong>Pre-Pay Page</strong>:
+After opting in, leads are directed to a page where they can <strong>pre-pay</strong> for their appointment, allowing them to secure the discounted rate. There is no direct calendar booking on this page.</p>
+<p><strong>Thank You Page</strong>:
+After pre-payment, the lead is taken to a thank you page, confirming their payment and providing further instructions on what to expect next.</p>
+<h3 class="dh2"><strong>Sales Pipeline</strong></h3>
+<p>This funnel has its own dedicated <strong>Sales Pipeline</strong> called the <strong>First Visit Package Pipeline</strong>. The stages in the pipeline include:</p>
+<p>Voucher Claimed</p>
+<p>Pre Paid</p>
+<p>Appt Booked</p>
+<p>Appt No Show</p>
+<p>Appt Cancelled</p>
+<p>Follow Up</p>
+<p>Not Interested</p>
+<p>Each lead is tracked through these stages, from claiming the offer to booking an appointment and following up if needed.</p>
+<h3 class="dh2"><strong>Funnel Automation</strong></h3>
+<p>There are two key automations associated with the <strong>First Visit Package Funnel</strong>:</p>
+<p><strong>Opt-in Automation</strong>:
+Once the lead claims the voucher and <strong>does not pre-pay</strong> for the appointment within a certain time, they receive <strong>SMS and email reminders</strong> asking when they can come in and prompting them to secure their appointment.</p>
+<p><strong>Pre-Paid Automation</strong>:
+If the lead <strong>pre-pays</strong> on the second page, they are automatically entered into a <strong>Pre-Paid Automation</strong>, where they receive a confirmation message and a follow-up asking when they can come in for their first visit.</p>
+<h3 class="dh2"><strong>Appointment Workflows</strong></h3>
+<p>Once the lead confirms when they can come in, they are transitioned into the <strong>Appointment Workflow</strong>, which includes:</p>
+<p><strong>Appointment Booked</strong>: The lead receives appointment confirmation and reminders leading up to the visit.</p>
+<p><strong>Appointment Cancelled</strong>: If the appointment is cancelled, the lead will receive follow-up messages encouraging them to reschedule.</p>
+<p><strong>No Show Workflow</strong>: If the lead misses their appointment, they are moved to a workflow that reminds them to rebook their first visit.</p>
+<p>The <strong>First Visit Package Funnel</strong> is a powerful tool for converting leads into paying patients, with automations designed to encourage pre-payment and ensure follow-up communication to book the first visit. Let me know if you need further adjustments!</p>
+<h2 class="dh1"><strong>5. Stress &amp; Pain Relief Package Funnel</strong></h2>
+<h3 class="dh2"><strong>Funnel Overview:</strong></h3>
+<p>The <strong>Stress &amp; Pain Relief Package Funnel</strong> is a <strong>2-step funnel</strong> designed to offer a $39 chiropractic adjustment and 15-minute therapeutic massage package to potential patients. The funnel is fully automated to engage the lead, encourage them to claim the package, and schedule their appointment through direct communication.</p>
+<h3 class="dh2"><strong>Funnel Process:</strong></h3>
+<h3 class="dh2"><strong>Step 1 - Claim Offer Page</strong>:</h3>
+<p>The lead arrives at a page where they are presented with the $39 Stress &amp; Pain Relief Package.</p>
+<p>They can claim the offer by submitting their contact information in a form.</p>
+<p>Once the form is submitted, the automation is triggered, and the lead is:</p>
+<p><strong>Tagged</strong> as a new lead in the system.</p>
+<p>Added to the <strong>Stress &amp; Pain Relief Package Pipeline</strong>.</p>
+<p>Sent a <strong>Thank You SMS</strong> and <strong>Email</strong>, which informs them to either call the office or reply with a date and time to schedule their appointment.</p>
+<h3 class="dh2"><strong>Step 2 - Call to Schedule</strong>:</h3>
+<p>After submitting the form, the lead is directed to a second page prompting them to <strong>call the office</strong> to finalize their appointment.</p>
+<p>This funnel does <strong>not include a calendar page</strong>; scheduling relies on phone interaction or SMS communication initiated by the lead or office staff.</p>
+<h3 class="dh2"><strong>Automation and Workflows:</strong></h3>
+<h3 class="dh2"><strong>Initial Automation</strong>:</h3>
+<p>Upon submission of the form on the Claim Offer Page, an internal notification is triggered for the team.</p>
+<p>The lead will receive an automated <strong>SMS</strong> and <strong>Email</strong>, thanking them for claiming the package and prompting them to schedule by responding with their availability or calling the office.</p>
+<h3 class="dh2"><strong>Appointment Workflows</strong>:</h3>
+<p>If the lead <strong>books an appointment</strong>, they will automatically be moved to the <strong>Appointment Booked Workflow</strong>, receiving confirmation and reminder messages before their scheduled visit.</p>
+<p>If the lead <strong>cancels the appointment</strong> or is a <strong>no-show</strong>, they will be moved into separate workflows to prompt rescheduling.</p>
+<h3 class="dh2"><strong>Pipeline Stages:</strong></h3>
+<p>The funnel is linked to a dedicated <strong>Stress &amp; Pain Relief Package Pipeline</strong>, which will track the lead's status through the following stages:</p>
+<p><strong>New Lead</strong> – Lead has claimed the package but hasn’t scheduled an appointment yet.</p>
+<p><strong>Warm Lead</strong> – Lead has shown interest, awaiting a scheduled appointment.</p>
+<p><strong>Appointment Booked</strong> – Lead has scheduled an appointment.</p>
+<p><strong>Appointment No Show</strong> – Lead missed their appointment.</p>
+<p><strong>Appointment Cancelled</strong> – Lead cancelled their appointment.</p>
+<p><strong>Follow Up</strong> – Lead requires further engagement to reschedule or confirm interest.</p>
+<h3 class="dh2"><strong>Not Interested</strong></h3>
+<h2 class="dh1"><strong>6. Wellness Package Funnel</strong></h2>
+<p>The <strong>Wellness Package Funnel</strong> is a 2-step funnel designed to promote and manage the sales process for the <strong>$79 Wellness Package</strong>, which includes an exam and 3 adjustments. This funnel is fully automated, helping users reserve their package, and prompts them to schedule their appointment afterward.</p>
+<h4 class="dh3"><strong>Step 1: Claim Wellness Package</strong></h4>
+<p>The first page allows the lead to reserve the <strong>Wellness Package</strong> by clicking on the “Yes, Reserve my $79 Wellness Package” button.</p>
+<p>This package is heavily discounted, creating urgency by limiting the availability to a certain number of packages (e.g., only 25 left this month).</p>
+<p>Leads are added to the pipeline, with their status set as <strong>New Lead</strong>.</p>
+<h4 class="dh3"><strong>Step 2: Schedule Wellness Appointment</strong></h4>
+<p>After reserving the package, the lead is directed to the second page where they are encouraged to <strong>call the office</strong> to arrange their exam and adjustments with the doctor.</p>
+<p>A custom call-to-action button prompts the lead to call the office at {{location.phone}} for scheduling.</p>
+<h4 class="dh3"><strong>Pipeline Management</strong></h4>
+<p>The funnel is connected to its own <strong>Wellness Package Pipeline</strong>, which includes the following stages:</p>
+<h3 class="dh2"><strong>New Lead</strong></h3>
+<h3 class="dh2"><strong>Warm Lead</strong></h3>
+<h3 class="dh2"><strong>Appt Booked</strong></h3>
+<h3 class="dh2"><strong>Appt No Show</strong></h3>
+<h3 class="dh2"><strong>Appt Cancelled</strong></h3>
+<h3 class="dh2"><strong>Follow Up</strong></h3>
+<h3 class="dh2"><strong>Not Interested</strong></h3>
+<h4 class="dh3"><strong>Automations</strong></h4>
+<p><strong>Lead Confirmation &amp; Reminders</strong>: Once the lead reserves their package, they will receive an SMS and email thanking them for claiming the package. The messages will prompt them to reply with a time that works best for them or to call the office to schedule their first appointment.</p>
+<p><strong>Appointment Workflows</strong>: If the lead books an appointment, they will be automatically moved from the lead funnel to the appointment workflows. These include:</p>
+<h3 class="dh2"><strong>Wellness Package Appt Booked</strong></h3>
+<h3 class="dh2"><strong>Wellness Package Appt Cancelled</strong></h3>
+<h3 class="dh2"><strong>Wellness Package Appt No Show</strong></h3>
+<p>These automations will confirm the appointment and send reminders. If the lead cancels or no-shows, they will be added to workflows encouraging them to reschedule.</p>
+<p>This <strong>Wellness Package Funnel</strong> is a streamlined system to ensure that leads are properly managed from the time they reserve the package to when they schedule their appointment and complete their first adjustment.</p>
+<h2 class="dh1"><strong>6. Chiropractor Snapshot Documentation: 52-Week Nurture Campaign</strong></h2>
+<p>The <strong>52-Week Nurture Campaign</strong> consists of two fully automated workflows aimed at nurturing leads through regular touchpoints via both email and SMS over the course of a year. These workflows are designed to educate and build value while staying top-of-mind with leads to eventually turn them into paying clients.</p>
+<h3 class="dh2"><strong>1. 52-Week Email Nurture Campaign (Educational)</strong></h3>
+<h3 class="dh2"><strong>Overview:</strong></h3>
+<p>This email campaign provides valuable, educational content to leads on a weekly basis, focusing on chiropractic care, health tips, and wellness advice.</p>
+<p>Each email is designed to build a relationship with the lead, position the practice as an authority in chiropractic care, and encourage the recipient to take action (like booking an appointment or calling the practice).</p>
+<h3 class="dh2"><strong>Features:</strong></h3>
+<p><strong>Automated Emails:</strong> Each week, an educational email is sent to the lead. Topics range from stretches for back pain relief to boosting immunity through chiropractic care.</p>
+<p><strong>Wait Times:</strong> The system waits for seven days between each email to ensure consistent, but not overwhelming, communication.</p>
+<p><strong>Action-Oriented Messaging:</strong> Every email ends with a clear call-to-action, such as “Call to schedule an appointment” or “Reply for more information.”</p>
+<h3 class="dh2"><strong>Sample Emails:</strong></h3>
+<h3 class="dh2"><strong>Email 1:</strong> Boost Immunity with Chiropractic Care</h3>
+<h3 class="dh2"><strong>Email 2:</strong> Simple Stretches for Back Pain Relief</h3>
+<h3 class="dh2"><strong>Email 3:</strong> The Importance of Good Posture</h3>
+<p>...and 49 more emails over the course of the year.</p>
+<h3 class="dh2"><strong>2. 52-Week Text Message Nurture Campaign (Educational)</strong></h3>
+<h3 class="dh2"><strong>Overview:</strong></h3>
+<p>Similar to the email campaign, this SMS nurture campaign is designed to provide educational tips and advice to leads in bite-sized text messages.</p>
+<p>The messages are concise and action-oriented, encouraging leads to book appointments, visit the website, or reply for more information.</p>
+<h3 class="dh2"><strong>Features:</strong></h3>
+<p><strong>Automated SMS:</strong> Once a week, a text message is sent to the lead with a short tip or reminder about chiropractic care or general health.</p>
+<p><strong>Customizable Call-to-Actions:</strong> Each SMS contains a CTA like “Call us at {{location.phone}}” or “Reply YES to schedule a visit.”</p>
+<p><strong>Short and Simple Content:</strong> The messages are brief, ensuring they are easy to read and digest in a text message format.</p>
+<h3 class="dh2"><strong>Sample Messages:</strong></h3>
+<p><strong>Week 1:</strong> Did you know chiropractic care can boost your immune system? Give us a call to learn more {{location.phone}}! 😊</p>
+<p><strong>Week 2:</strong> Struggling with back pain? Here’s a quick stretch you can try at home: [link to blog]</p>
+<p><strong>Week 3:</strong> Proper posture is key to a healthy spine! Schedule an appointment to get a posture assessment. 📞{{location.phone}}</p>
+<p>...and 49 more weekly SMS messages.</p>
+<h3 class="dh2"><strong>Automation:</strong></h3>
+<p>Both the email and SMS nurture campaigns are fully automated, meaning that once a lead is enrolled, they will receive weekly content for an entire year.</p>
+<p>These campaigns help to keep leads engaged, build trust over time, and eventually encourage them to convert into paying customers.</p>
+<p>This nurture strategy is a powerful tool for chiropractor offices looking to maintain consistent communication with leads and provide long-term value that keeps the practice top-of-mind.</p>
+<h2 class="dh1"><strong>6. Chiropractor Snapshot Documentation: Database Reactivation Campaigns</strong></h2>
+<h3 class="dh2"><strong>Overview:</strong></h3>
+<p>The database reactivation campaigns are designed to engage previous patients or leads and encourage them to take advantage of various offers. Each campaign shares a common pipeline, which allows for seamless tracking of lead responses based on their interactions with the campaign.</p>
+<h3 class="dh2"><strong>Campaigns:</strong></h3>
+<h3 class="dh2"><strong>DR (50% Off Your Next Visit)</strong></h3>
+<h3 class="dh2"><strong>DR (Complimentary Wellness Check)</strong></h3>
+<h3 class="dh2"><strong>DR (Family Package: 20% Off)</strong></h3>
+<h3 class="dh2"><strong>DR (Free Consultation + Posture Assessment)</strong></h3>
+<h3 class="dh2"><strong>Shared Pipeline Stages:</strong></h3>
+<p><strong>Offer Sent</strong>: Once the campaign is sent, leads will enter the &quot;Offer Sent&quot; stage.</p>
+<p><strong>Responded</strong>: If the lead responds to the offer but does not use the word &quot;Yes,&quot; they will be moved to the &quot;Responded&quot; stage for further engagement.</p>
+<p><strong>Interested</strong>: If the lead responds positively with &quot;Yes,&quot; they will automatically be moved to the &quot;Interested&quot; stage.</p>
+<p><strong>Not Interested</strong>: If the lead does not respond at all within a given time frame, they will be moved to the &quot;Not Interested&quot; stage.</p>
+<h3 class="dh2"><strong>Automation Workflow:</strong></h3>
+<p>Each campaign will follow an automation workflow designed to capture the lead's response. If they respond with &quot;Yes,&quot; they will move to the &quot;Interested&quot; stage, prompting further follow-up. If their response does not include &quot;Yes,&quot; they will be placed in the &quot;Responded&quot; stage for additional nurturing, while those who remain unresponsive are moved to &quot;Not Interested.&quot;</p>
+<p>This documentation outlines how each of the four campaigns operates under a shared pipeline, ensuring that lead responses are accurately tracked and followed up based on their level of engagement.</p>
+<h2 class="dh1"><strong>7. Google Review Campaign Documentation</strong></h2>
+<p>The <strong>Google Review Campaign</strong> consists of two workflows and its own dedicated pipeline to track the stages of the review request process. The goal of this campaign is to collect more Google reviews and track user interactions with the review link.</p>
+<h4 class="dh3"><strong>Workflow 1: Review Campaign</strong></h4>
+<p><strong>Sequence</strong>: This workflow sends a series of review requests to the customer.</p>
+<p>Each request encourages the customer to click a link and leave a Google review.</p>
+<p>If the link is not clicked, follow-up requests are sent as reminders.</p>
+<h3 class="dh2"><strong>Pipeline</strong>:</h3>
+<p><strong>Stage 1: Request Sent</strong>: Once the review request is sent, the customer enters this stage.</p>
+<p><strong>Stage 2: Link Clicked</strong>: If the customer clicks on the review link, they are moved to this stage.</p>
+<p><strong>Stage 3: Link Not Clicked</strong>: If the customer does not click on the link after a sequence of requests, they are moved to this stage.</p>
+<h4 class="dh3"><strong>Workflow 2: Review Campaign - Link Clicked</strong></h4>
+<p><strong>Triggered Workflow</strong>: If the customer clicks the review link, this workflow triggers.</p>
+<p>It sends an internal notification to the business owner, indicating that the customer may have left a review.</p>
+<p>The customer is then updated in the pipeline to reflect their interaction.</p>
+<h4 class="dh3"><strong>Pipeline</strong></h4>
+<p><strong>Request Sent</strong>: Customer has been sent a request for a Google review.</p>
+<p><strong>Link Clicked</strong>: Customer clicked the review link, and a notification is sent to the business owner.</p>
+<p><strong>Link Not Clicked</strong>: The customer has not interacted with the review link after a sequence of requests.</p>
+<p>This campaign helps streamline the process of gathering Google reviews while also keeping track of customer engagement with the requests.</p>
+<h2 class="dh1"><strong>8. Inbound Lead Sources Automations:</strong></h2>
+<h3 class="dh2"><strong>Pipeline Name:</strong> Main Pipeline</h3>
+<h3 class="dh2"><strong>Workflow Overview:</strong></h3>
+<p>These automations handle all leads coming through different channels such as Facebook Messenger, Google My Business (GMB), and Instagram Direct Messages (IG DM). The automation detects the lead source and nurtures them accordingly.</p>
+<h3 class="dh2"><strong>Pipeline Stages:</strong></h3>
+<p><strong>New Lead:</strong> Every new lead that comes through any of the inbound channels starts at this stage.</p>
+<p><strong>Lead Responded:</strong> When the lead replies or engages with the automation, they are moved to this stage.</p>
+<p><strong>Appt Booked:</strong> Leads who book an appointment move here.</p>
+<p><strong>Appt No Show:</strong> Leads who fail to attend their scheduled appointment.</p>
+<p><strong>Appt Cancelled:</strong> Leads who cancel their appointment.</p>
+<h3 class="dh2"><strong>Automations:</strong></h3>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (FB Messenger):</strong></h3>
+<p>Trigger: Customer replies to the business Facebook Messenger.</p>
+<p>An automatic message responds with: &quot;Hi there! 👋 Thanks for messaging us on Facebook! We’ll get back to you shortly. For urgent inquiries or to book an appointment, call {{location.phone}} or visit {{location.website}}.&quot;</p>
+<p>The lead is then tagged and tracked for further actions based on whether the business is open or not.</p>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (GMB):</strong></h3>
+<p>Trigger: Lead sends a message through Google My Business.</p>
+<p>Automation checks the business hours and sends a customized response based on the availability.</p>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (IG DM):</strong></h3>
+<p>Trigger: Lead sends a direct message on Instagram.</p>
+<p>Similar to the FB Messenger automation, an auto-reply is sent, and internal notifications are triggered to follow up with the lead.</p>
+<h3 class="dh2"><strong>Key Notes:</strong></h3>
+<p>All inbound leads are tracked and updated within the <strong>Main Pipeline</strong> to ensure that they receive appropriate responses and follow-up.</p>
+<p>Depending on the lead source, specific internal notifications and follow-up actions are initiated to manage the lead efficiently.</p>
+<p>This framework ensures that leads from various channels are promptly responded to and nurtured through the sales pipeline, allowing the business to maximize conversions from inbound inquiries.</p>
+<h2 class="dh1"><strong>9. Chiropractor Snapshot Documentation: Missed Call Text Back Automations</strong></h2>
+<h4 class="dh3"><strong>1. Basic Missed Call Text Back Sequence</strong></h4>
+<p>This automation is designed to send a basic text response when a missed call is detected. The workflow checks whether the contact is a new lead, tags the contact as a missed call, and sends an SMS response. Additionally, an internal notification is sent to the business team to inform them of the missed call.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Call Status = Missed Call</h3>
+<h3 class="dh2"><strong>Automation Flow:</strong></h3>
+<p>Check if the contact is new</p>
+<p>If new, add the &quot;Missed Call&quot; tag</p>
+<p>Send SMS with:</p>
+<p>Message Example: &quot;Hey there, this is John from {{location.name}}, we just got a missed call from this number, sorry about that! How can I help?&quot;</p>
+<p>Send an internal notification to notify the business team</p>
+<h4 class="dh3"><strong>2. Advanced Missed Call Text Back Sequence</strong></h4>
+<p>This more advanced workflow is tailored for cases where there are multiple missed calls from the same lead. The response sequence changes based on how many times the lead called, whether during or after business hours.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Call Status = Missed Call</h3>
+<h3 class="dh2"><strong>Automation Flow:</strong></h3>
+<p>Add the &quot;1st Missed Call&quot; tag</p>
+<p>If a second or third missed call occurs, adjust the response and remove or update the tags</p>
+<p>A delay of 2 minutes is added before sending SMS responses or internal notifications</p>
+<p>The sequence branches based on business hours (AM/PM) and how many times the lead has called:</p>
+<p>During business hours: SMS and internal notifications are sent based on a set time window</p>
+<p>After business hours: SMS is sent, but the response is delayed for non-business hours</p>
+<h3 class="dh2"><strong>Notable Features:</strong></h3>
+<p>Each call triggers a different response, ensuring that repeat leads get updated interactions.</p>
+<p>If the caller contacts multiple times, the workflow escalates the follow-up process with enhanced internal notifications.</p>
+<p>Both of these automations work together to ensure no lead is missed and proper follow-ups are in place based on how often the lead reaches out.</p>
+<h2 class="dh1"><strong>10. Chiropractor Snapshot Documentation: Payment Automations</strong></h2>
+<h4 class="dh3"><strong>1. Missed Payment Reminder</strong></h4>
+<p>This automation will send a reminder to customers who have missed a scheduled payment. It ensures timely follow-up and prompts the customer to resolve the missed payment issue.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Missed Payment Detected</h3>
+<p><strong>Message:</strong> A reminder SMS or email requesting the customer to resolve their missed payment promptly, with a link or instructions to make the payment.</p>
+<h4 class="dh3"><strong>2. Payment Confirmation</strong></h4>
+<p>After a successful payment, this automation sends a confirmation message to the customer, reassuring them that their payment was processed successfully.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Payment Success</h3>
+<h3 class="dh2"><strong>Message:</strong> &quot;Your payment has been successfully received. Thank you!&quot;</h3>
+<h4 class="dh3"><strong>3. Upcoming Payment Reminder</strong></h4>
+<p>This automation sends a reminder to customers before their next payment is due, ensuring they are aware and can prepare for it.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Payment Due Date Approaching</h3>
+<p><strong>Message:</strong> A gentle reminder of the upcoming payment and instructions on how to pay if needed.</p>
+<h4 class="dh3"><strong>4. Payment Plan Sign-Up Confirmation</strong></h4>
+<p>After a customer signs up for a payment plan, this automation sends them a confirmation, outlining the details of the plan.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Payment Plan Enrollment</h3>
+<p><strong>Message:</strong> Confirmation with details about the plan, the payment schedule, and any terms.</p>
+<h4 class="dh3"><strong>5. Failed Payment Notification</strong></h4>
+<p>When a payment attempt fails, this automation notifies the customer, offering guidance on how to resolve the issue.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Payment Failure</h3>
+<p><strong>Message:</strong> &quot;We noticed that your recent payment attempt failed. Please update your payment information or contact support.&quot;</p>
+<h4 class="dh3"><strong>6. Invoice and Payment Receipt</strong></h4>
+<p>This automation sends an invoice or receipt once a payment is made, providing a record of the transaction for the customer.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Payment Success</h3>
+<p><strong>Message:</strong> A detailed receipt or invoice with the amount paid, date, and other relevant details.</p>
+<h4 class="dh3"><strong>7. Auto-Bill Payment</strong></h4>
+<p>For customers enrolled in auto-billing, this automation confirms that their payment was automatically deducted as scheduled.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Auto-Bill Payment Processed</h3>
+<p><strong>Message:</strong> Confirmation of the successful auto-bill transaction.</p>
+<h4 class="dh3"><strong>8. Refund Process Notification</strong></h4>
+<p>When a refund is processed, this automation informs the customer about the status of the refund.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Refund Initiation</h3>
+<p><strong>Message:</strong> A notification explaining that a refund has been processed, with details on when to expect the amount to be credited back.</p>
+<h4 class="dh3"><strong>9. Insurance Claim Submission Confirmation</strong></h4>
+<p>For customers who submit insurance claims, this automation confirms that their claim has been submitted and provides any necessary follow-up information.</p>
+<h3 class="dh2"><strong>Trigger:</strong> Insurance Claim Submission</h3>
+<p><strong>Message:</strong> &quot;Your insurance claim has been successfully submitted. We will notify you of any updates.&quot;</p>
+<p>These nine automations work together to provide a seamless and efficient payment experience for customers, ensuring clear communication at every step of the payment process.</p>
+<h2 class="dh1"><strong>11. Chiropractor Snapshot Documentation: Customer Referral Campaign</strong></h2>
+<h4 class="dh3"><strong>Campaign Name: Customer Referral Campaign (Free 30-Minute Massage)</strong></h4>
+<h4 class="dh3"><strong>Overview:</strong></h4>
+<p>This campaign encourages existing customers to refer their friends to the chiropractor in exchange for a free 30-minute massage for both the referring customer and the new client.</p>
+<h4 class="dh3"><strong>Workflow Steps:</strong></h4>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<h3 class="dh2"><strong>Pipeline Status:</strong> Won</h3>
+<p>The campaign starts when the lead or customer enters a specific stage in the pipeline, typically when they are in a nurturing stage.</p>
+<h3 class="dh2"><strong>Wait 7 Days:</strong></h3>
+<p>The system waits for 7 days before sending the first SMS message.</p>
+<h3 class="dh2"><strong>Send SMS 1:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hi {{contact.first_name}}! We have a special offer just for you 🎉 Refer a friend to {{location.name}}, and you BOTH receive a FREE 30-minute massage!
+🙌 Reply 'Yes' if you're interested, and we'll send you the details!&quot;</p>
+<h3 class="dh2"><strong>Wait 7 Days:</strong></h3>
+<p>The system waits another 7 days before the next condition is checked.</p>
+<h3 class="dh2"><strong>Condition:</strong></h3>
+<p><strong>Check:</strong> Whether the contact has responded to the previous message.</p>
+<h3 class="dh2"><strong>If Contact Responded (Yes):</strong></h3>
+<p>An <strong>internal notification</strong> is sent to the business owner to follow up with the interested lead.</p>
+<p>No further messages are sent in this path.</p>
+<h3 class="dh2"><strong>If No Response:</strong></h3>
+<p>The system waits for another period before sending <strong>SMS 2.</strong></p>
+<h3 class="dh2"><strong>Send SMS 2:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hi {{contact.first_name}}, just a friendly reminder about our free 30-minute massage offer when you refer a friend to {{location.name}}. Let us know if you're interested!&quot;</p>
+<h3 class="dh2"><strong>Follow-up:</strong></h3>
+<p>The system continues the nurture sequence and checks for responses periodically to engage with the customer.</p>
+<p>This referral campaign uses automation to build a continuous flow of new leads by encouraging existing clients to refer others, rewarding them with a free service.</p>
+<h2 class="dh1"><strong>12. Chiropractor Snapshot Documentation: Happy Birthday! Email &amp; Text (Complimentary Adjustment)</strong></h2>
+<h4 class="dh3"><strong>Campaign Name: Happy Birthday! Email &amp; Text (Complimentary Adjustment)</strong></h4>
+<h4 class="dh3"><strong>Overview:</strong></h4>
+<p>This birthday campaign is designed to send a celebratory SMS and email message to customers on their birthday, offering them a complimentary adjustment as a gift. This serves as a gesture of appreciation and helps maintain customer engagement.</p>
+<h4 class="dh3"><strong>Workflow Steps:</strong></h4>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p><strong>Event:</strong> Birthday Reminder
+The automation is triggered when the system identifies the customer's birthday.</p>
+<h3 class="dh2"><strong>Send Happy Birthday SMS:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Happy Birthday, {{contact.first_name}}! 🎉 From all of us at {{location.name}}, we wish you a day filled with joy and relaxation.
+As a special gift, enjoy a complimentary adjustment on your next visit! Just mention this message when you book. Have an amazing day!&quot;</p>
+<h3 class="dh2"><strong>Send Happy Birthday Email:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Happy Birthday, {{contact.first_name}}! We hope you have an incredible day filled with happiness.
+To make it even better, we’re offering you a complimentary adjustment at {{location.name}}. Call us to book your appointment and mention this email for your special gift!&quot;</p>
+<h3 class="dh2"><strong>End Workflow:</strong></h3>
+<p>After both the SMS and email are sent, the campaign workflow ends.</p>
+<h4 class="dh3"><strong>Additional Information:</strong></h4>
+<p>This campaign is an excellent way to create personal touches with customers by acknowledging their special day. Offering a complimentary adjustment builds customer loyalty and drives future appointments.</p>
+<h3 class="dh2"><strong>13. Chiropractor Snapshot Documentation: Inactive Patient Survey Automation</strong></h3>
+<h4 class="dh3"><strong>Campaign Name: Inactive Patient Survey Automation</strong></h4>
+<h4 class="dh3"><strong>Overview:</strong></h4>
+<p>This campaign is designed to re-engage inactive patients by sending a sequence of messages (SMS and email) requesting them to complete a survey. The feedback received can help improve patient retention and service quality.</p>
+<h4 class="dh3"><strong>Workflow Steps:</strong></h4>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p><strong>Event:</strong> Inactivity detected in the system
+The automation starts when a patient is marked as inactive (hasn't visited in a while).</p>
+<h3 class="dh2"><strong>First SMS:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hi {{contact.first_name}}, we noticed you haven’t visited us at {{location.name}} in a while. We’d love to hear how we can serve you better. Can you help us by answering a quick survey? {{custom_values.inactivity_patient_survey_url}}&quot;</p>
+<h3 class="dh2"><strong>First Email:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Dear {{contact.first_name}}, we miss you at {{location.name}} and want to know how we can improve your experience. Please take a minute to complete this survey: {{custom_values.inactivity_patient_survey_url}}.&quot;</p>
+<h3 class="dh2"><strong>Wait 7 Days:</strong></h3>
+<p>Wait for 7 days before sending a follow-up sequence if no response is received.</p>
+<h3 class="dh2"><strong>Second SMS:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Just checking in! We haven’t heard back from you, and your feedback is really important to us. Please take a moment to fill out this survey: {{custom_values.inactivity_patient_survey_url}}.&quot;</p>
+<h3 class="dh2"><strong>Second Email:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hi {{contact.first_name}}, we’re still hoping to hear your thoughts on how we can serve you better. Here’s the link to our quick survey: {{custom_values.inactivity_patient_survey_url}}.&quot;</p>
+<h3 class="dh2"><strong>End Workflow:</strong></h3>
+<p>After the second set of messages (SMS and email) are sent, the campaign workflow ends.</p>
+<h4 class="dh3"><strong>Additional Information:</strong></h4>
+<p>The main objective of this automation is to gather feedback from patients who have not visited in a while to understand their needs and improve service delivery. The automation repeats after a week if no response is received initially.</p>
+<h2 class="dh1"><strong>14. Chiropractor Snapshot Documentation: New Patient Welcome Sequence</strong></h2>
+<h4 class="dh3"><strong>Campaign Name: New Patient Welcome Sequence</strong></h4>
+<h4 class="dh3"><strong>Overview:</strong></h4>
+<p>This automation is triggered when a new patient completes their initial appointment with the business. The goal of the sequence is to welcome the patient, provide essential information about their next steps, and keep them engaged with follow-up emails.</p>
+<h4 class="dh3"><strong>Workflow Triggers:</strong></h4>
+<h3 class="dh2"><strong>Customer Booked Appointment First Visit Package</strong></h3>
+<h3 class="dh2"><strong>Customer Booked Appointment Main Calendar</strong></h3>
+<h3 class="dh2"><strong>Customer Booked Appointment Family Plan</strong></h3>
+<h3 class="dh2"><strong>Customer Booked Appointment Free Consultation</strong></h3>
+<h3 class="dh2"><strong>Customer Booked Appointment Chiro Certificate</strong></h3>
+<p>The sequence begins as soon as the customer completes any of these appointments.</p>
+<h4 class="dh3"><strong>Workflow Steps:</strong></h4>
+<h3 class="dh2"><strong>Welcome SMS:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hi {{contact.first_name}}, welcome to {{location.name}}! We're excited to meet you at your upcoming appointment. Here's what to expect: A comprehensive consultation, personalized treatment plan, and expert care. Feel free to call {{location.phone}} if you have any questions.&quot;</p>
+<h3 class="dh2"><strong>Welcome Email:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Dear {{contact.first_name}}, welcome to {{location.name}}! Thank you for choosing us for your chiropractic care. Here’s what you can expect during your first visit: a thorough consultation, a tailored treatment plan, and expert care. We’re here to help you achieve your wellness goals. If you have any questions, feel free to reach out to us at {{location.phone}}.&quot;</p>
+<h3 class="dh2"><strong>Wait 2 Days:</strong></h3>
+<p>Wait for 2 days before sending the next email.</p>
+<h3 class="dh2"><strong>Second Email:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hi {{contact.first_name}}, we wanted to check in with you after your recent appointment. If you have any questions or concerns, don’t hesitate to get in touch. We’re here to help you on your journey to wellness!&quot;</p>
+<h3 class="dh2"><strong>Wait 2 Days:</strong></h3>
+<p>Wait for another 2 days before sending the final email.</p>
+<h3 class="dh2"><strong>Final Email:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hello {{contact.first_name}}, it was great meeting you! We hope your first visit was a positive experience. If you have any questions or need further assistance, feel free to reach out to {{location.name}}. We look forward to seeing you again soon!&quot;</p>
+<h4 class="dh3"><strong>Additional Information:</strong></h4>
+<p>This welcome sequence ensures that new patients are warmly greeted and informed about their first visit and what to expect. It also provides follow-up touchpoints to ensure any questions or concerns are addressed.</p>
+<h2 class="dh1"><strong>15. Chiropractor Snapshot Documentation: Post-Appointment Check-Up</strong></h2>
+<h4 class="dh3"><strong>Campaign Name: Post-Appointment Check-Up</strong></h4>
+<h4 class="dh3"><strong>Overview:</strong></h4>
+<p>This automation is triggered after a patient has shown up for their appointment. It aims to check on how they are feeling, gather feedback, and encourage them to schedule a follow-up appointment if necessary.</p>
+<h4 class="dh3"><strong>Workflow Trigger:</strong></h4>
+<h3 class="dh2"><strong>Trigger:</strong> Appointment Status Showed</h3>
+<p>This trigger activates once a patient has attended their appointment.</p>
+<h4 class="dh3"><strong>Workflow Steps:</strong></h4>
+<h3 class="dh2"><strong>Email Follow-Up:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Dear {{contact.first_name}}, we hope you're feeling great after your recent visit to {{location.name}}. We'd love to hear about your experience and if there's anything else we can assist with! If you have any concerns or need a follow-up, don’t hesitate to reach out.&quot;</p>
+<h3 class="dh2"><strong>Post-Appointment SMS Check-In:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hi {{contact.first_name}}, how are you feeling after your first visit? We’d love to hear your feedback! If you need a follow-up appointment, reply YES to schedule.&quot;</p>
+<h4 class="dh3"><strong>Additional Information:</strong></h4>
+<p>This campaign ensures that patients feel cared for even after their visit and helps identify any potential follow-up opportunities to increase patient retention.</p>
+<h2 class="dh1"><strong>16 Chiropractor Snapshot Documentation: Pre-Appointment Instructions</strong></h2>
+<h4 class="dh3"><strong>Campaign Name: Pre-Appointment Instructions</strong></h4>
+<h4 class="dh3"><strong>Overview:</strong></h4>
+<p>This automation is triggered when a patient has booked an appointment. It is designed to send instructions and reminders to prepare them for their upcoming visit.</p>
+<h4 class="dh3"><strong>Workflow Trigger:</strong></h4>
+<h3 class="dh2"><strong>Trigger:</strong> Customer Booked Appointment</h3>
+<p>This trigger activates once a patient books an appointment.</p>
+<h4 class="dh3"><strong>Workflow Steps:</strong></h4>
+<h3 class="dh2"><strong>Wait 2 Days Before Appointment:</strong></h3>
+<p>The system waits until two days before the scheduled appointment to send the instructions.</p>
+<h3 class="dh2"><strong>Pre-Appointment SMS Reminder:</strong></h3>
+<p><strong>Message Example:
+</strong>&quot;Hi {{contact.first_name}}, we’re looking forward to seeing you at {{location.name}} on {{appointment.only_start_date}} at {{appointment.only_start_time}}. Here’s what you need to know:</p>
+<p>Wear comfortable clothing</p>
+<p>Arrive 10 minutes early for paperwork</p>
+<p>Let us know if you have any questions!&quot;</p>
+<h3 class="dh2"><strong>Pre-Appointment Email Reminder:</strong></h3>
+<p>Similar information will be sent via email to ensure the patient is well-informed about the upcoming appointment.</p>
+<h4 class="dh3"><strong>Additional Information:</strong></h4>
+<p>This campaign is critical in ensuring that patients are fully prepared for their appointments, minimizing any confusion or missed steps on the day of their visit.</p>
+<h2 class="dh1"><strong>17. Chiropractor Snapshot Documentation: Holiday Email Campaigns</strong></h2>
+<h4 class="dh3"><strong>Campaign Name: 13 Beautifully Designed Holiday Emails</strong></h4>
+<h4 class="dh3"><strong>Overview:</strong></h4>
+<p>This campaign includes 13 pre-designed, themed holiday emails to nurture chiropractic clients throughout the year. Each email is designed to engage, provide value, and encourage patients to stay proactive about their health during significant holidays.</p>
+<h4 class="dh3"><strong>Additional Information:</strong></h4>
+<p>Each email is customized with placeholders for the patient's name and the chiropractic office’s details.</p>
+<p>These holiday emails help strengthen the relationship between the chiropractor and patients, keeping the practice top-of-mind throughout the year.</p>
+<p>Any additional lead that comes into the business from other sources (such as Facebook Messenger, Instagram DM, Google My Business, SMS, etc.) will automatically be updated in the <strong>Main Pipeline</strong>. These leads will then be scheduled on the <strong>Main Calendar</strong>, ensuring that every inbound lead is properly tracked and managed for appointment bookings and follow-up.</p>
+</div>
+</section>
+</main></div>
+<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">&#10005;</button><img id="lb-img" src="" alt="" onclick="event.stopPropagation()"></div>
+<script>
+document.querySelectorAll('main img').forEach(im=>{im.style.cursor='zoom-in';im.addEventListener('click',()=>{document.getElementById('lb-img').src=im.src;document.getElementById('lb').classList.add('open');});});
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>

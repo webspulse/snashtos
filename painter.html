@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>painter</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:#0d0f18;--surf:#13151f;--surf2:#191c2a;--surf3:#1e2236;
+  --border:#252a3d;--acc:#e94560;--txt:#e8eaf4;--muted:#8b93b5;--dim:#4e556e;
+  --sw:268px;--hh:58px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);line-height:1.72;font-size:15px;overflow-x:hidden;}
+
+/* topbar */
+#topbar{position:sticky;top:0;z-index:200;height:var(--hh);background:rgba(13,15,24,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;}
+.logo{background:var(--acc);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:5px 12px;border-radius:6px;}
+.top-title{font-size:14px;font-weight:600;flex:1;}
+.srch-wrap{position:relative;}
+.srch-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+#srch{background:var(--surf2);border:1px solid var(--border);border-radius:8px;
+  padding:7px 12px 7px 32px;color:var(--txt);font-size:13px;width:220px;
+  outline:none;transition:border .18s,box-shadow .18s;}
+#srch:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,69,96,.14);}
+#srch::placeholder{color:var(--dim);}
+.badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surf2);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+/* layout */
+.layout{display:flex;min-height:calc(100vh - var(--hh));}
+
+/* sidebar */
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);
+  position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow-y:auto;padding:10px 0 24px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 18px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:13px;
+  font-weight:500;color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  transition:all .13s;cursor:pointer;user-select:none;}
+.nav-item:hover{color:var(--txt);background:var(--surf2);border-left-color:var(--dim);}
+.nav-item.active{color:var(--acc);background:rgba(233,69,96,.08);border-left-color:var(--acc);font-weight:600;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .13s;}
+.nav-item.active .ndot,.nav-item:hover .ndot{background:var(--acc);}
+
+/* main */
+main{flex:1;min-width:0;}
+
+/* cover */
+#cover{background:linear-gradient(155deg,#0d0f18 0%,#14102a 50%,#0d0f18 100%);
+  border-bottom:1px solid var(--border);padding:72px 60px 60px;text-align:center;
+  position:relative;overflow:hidden;}
+#cover::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(233,69,96,.17) 0%,transparent 72%);
+  pointer-events:none;}
+.cv-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);
+  border:1px solid rgba(233,69,96,.3);color:var(--acc);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+#cover h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 25%,#9095b8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#cover>p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 40px;}
+.stats{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-num{font-size:34px;font-weight:800;color:var(--acc);line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:640px;margin:0 auto;}
+.pill{background:var(--surf2);border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;transition:all .13s;}
+.pill:hover{color:var(--txt);border-color:rgba(233,69,96,.5);}
+
+/* section */
+.doc-section{border-bottom:1px solid var(--border);scroll-margin-top:var(--hh);}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 42px;
+  background:var(--surf);border-bottom:1px solid var(--border);
+  position:sticky;top:var(--hh);z-index:10;}
+.sec-num{width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);
+  color:var(--acc);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);flex:1;}
+.btn-top{font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;
+  background:var(--surf2);border:1px solid var(--border);
+  padding:5px 13px;border-radius:6px;transition:all .13s;white-space:nowrap;}
+.btn-top:hover{color:var(--acc);border-color:rgba(233,69,96,.5);}
+.sec-body{padding:32px 42px 48px;max-width:860px;}
+
+/* typography */
+.dh1{font-size:21px;font-weight:800;color:var(--txt);margin:28px 0 10px;}
+.dh2{font-size:15px;font-weight:700;color:var(--txt);margin:22px 0 10px;
+  padding:10px 15px;background:var(--surf2);border-left:3px solid var(--acc);border-radius:0 7px 7px 0;}
+.dh3{font-size:12px;font-weight:700;color:var(--acc);margin:16px 0 7px;
+  text-transform:uppercase;letter-spacing:.09em;}
+.sec-body p{color:var(--muted);font-size:15px;line-height:1.78;margin-bottom:12px;}
+.sec-body p strong{color:var(--txt);font-weight:600;}
+.sec-body p em{color:#9a9ec0;font-style:italic;}
+
+/* images */
+.img-snap{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px;padding:20px;
+  background:var(--surf2);border:1px solid var(--border);border-radius:12px;}
+.img-snap img{height:260px;width:auto;max-width:100%;border-radius:8px;
+  border:1px solid var(--border);cursor:zoom-in;object-fit:contain;
+  background:var(--surf3);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-snap img:hover{transform:scale(1.03);box-shadow:0 8px 32px rgba(233,69,96,.22);border-color:var(--acc);}
+
+.img-inline{margin:20px 0;}
+.img-inline img{width:100%;max-width:780px;height:auto;display:block;
+  border-radius:10px;border:1px solid var(--border);cursor:zoom-in;
+  background:var(--surf2);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-inline img:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(233,69,96,.18);border-color:var(--acc);}
+
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;cursor:zoom-out;}
+#lb.on{display:flex;}
+#lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:8px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);cursor:default;}
+#lb-close{position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;color:#fff;font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+#lb-close:hover{background:rgba(233,69,96,.7);}
+
+mark{background:rgba(233,69,96,.32);color:#fff;border-radius:2px;padding:0 2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:820px){
+  .sidebar{display:none;}
+  .sec-body{padding:20px;}
+  .sec-head{padding:14px 18px;}
+  #cover{padding:40px 18px;}
+  #cover h1{font-size:32px;}
+  .img-snap img{height:180px;}
+}
+</style>
+<style>
+.layout{display:block;}
+main,.content{max-width:960px;margin:0 auto;padding:32px 24px;}
+section{display:block !important;}
+</style>
+</head>
+<body>
+<div id="topbar"><span class="logo">SNAPLEVEL</span><span class="top-title">painter</span></div>
+<div class="layout"><main class="content">
+<section id="painter" class="doc-section">
+<div class="sec-head">
+<div class="sec-num">22</div>
+<div class="sec-title">Painter</div>
+<a href="#topbar" class="btn-top">&#8593; Top</a>
+</div>
+<div class="sec-body">
+<h3 class="dh2"><strong>Table of Contents</strong></h3>
+<h3 class="dh2"><strong>Painter Website Overview</strong></h3>
+<p>10-Page Customizable Website</p>
+<p>Key Pages Included</p>
+<p>Easy-to-Use Features</p>
+<h3 class="dh2"><strong>Linktree Documentation</strong></h3>
+<p>Linktree #1: Residential Painting Services</p>
+<p>Linktree #2: Commercial Painting Services</p>
+<p>Linktree #3: Special Offers and Promotions</p>
+<p>Linktree #4: Quick Links</p>
+<h3 class="dh2"><strong>Funnel Documentation</strong></h3>
+<p>$100 Off Funnel</p>
+<p>10% Off First Project Funnel</p>
+<p>Coupons Funnel</p>
+<p>Free Color Consultation Funnel</p>
+<p>Same-Day Service Discount Funnel</p>
+<h3 class="dh2"><strong>52-Week Nurture Campaigns (Educational)</strong></h3>
+<p>Email Nurture Campaign</p>
+<p>SMS Nurture Campaign</p>
+<h3 class="dh2"><strong>Abandoned Estimate Follow-Up Automation</strong></h3>
+<h3 class="dh2"><strong>Consultation Calendar Appointment Workflows</strong></h3>
+<p>Appointment Reminder</p>
+<p>Appointment No Show</p>
+<p>Appointment Canceled</p>
+<h3 class="dh2"><strong>Database Reactivation Campaigns</strong></h3>
+<p>$50 Off for Scheduling This Week</p>
+<p>20% Off for Returning Customers</p>
+<p>Free Maintenance Check</p>
+<p>15% Off Any Painting Service</p>
+<h3 class="dh2"><strong>Google Review Campaign</strong></h3>
+<h3 class="dh2"><strong>Incoming Lead Automations</strong></h3>
+<p>Incoming Lead: Email</p>
+<p>Incoming Lead: Facebook DM</p>
+<p>Incoming Lead: Instagram DM</p>
+<h3 class="dh2"><strong>Missed Call Text Back Automations</strong></h3>
+<p>Basic Missed Call Text Back Automation</p>
+<p>Advanced Missed Call Text Back Sequence</p>
+<h3 class="dh2"><strong>Payment Automations</strong></h3>
+<p>Initial Payment Request After Service Completion</p>
+<p>Payment Received</p>
+<p>Refund</p>
+<h3 class="dh2"><strong>Website Automations</strong></h3>
+<p>Chat Widget Automation</p>
+<p>Live Chat Automation</p>
+<p>Website Estimate Form Submitted</p>
+<h3 class="dh2"><strong>Birthday Workflow</strong></h3>
+<h3 class="dh2"><strong>Customer Referral Campaign</strong></h3>
+<h3 class="dh2"><strong>Job Completion Feedback &amp; Review Request</strong></h3>
+<h3 class="dh2"><strong>Holiday Email Campaigns Using Custom Values</strong></h3>
+<h3 class="dh2"><strong>Painter Website Overview:</strong></h3>
+<h3 class="dh2"><strong>1. 10-Page Customizable Website:</strong></h3>
+<p>This website is specifically designed for painting businesses. It comes with 10 fully customizable pages, allowing you to tailor the content to suit your business needs.</p>
+<p>The website uses <strong>Custom Values</strong> to automatically populate important business information, such as your company name, contact information, and service details, making it efficient to update once and reflect everywhere on the site.</p>
+<h3 class="dh2"><strong>2. Key Pages Included:</strong></h3>
+<p><strong>Home Page:</strong> A professional introduction to your painting business, highlighting key services and client testimonials.</p>
+<p><strong>Residential &amp; Commercial Services Pages:</strong> Detailed pages showcasing the types of painting services your business offers.</p>
+<p><strong>Consultation Booking Page:</strong> Allows potential customers to easily schedule a painting consultation using an integrated calendar system.</p>
+<p><strong>Portfolio Page:</strong> Showcase completed projects to build trust with prospective clients.</p>
+<p><strong>Contact Page:</strong> Includes contact forms and auto-populated business info, encouraging visitors to reach out.</p>
+<h3 class="dh2"><strong>3. Easy-to-Use Features:</strong></h3>
+<p>The website is built to be <strong>user-friendly</strong> with a focus on converting visitors into leads.</p>
+<p>Integrates with your GoHighLevel system to <strong>automate booking consultations</strong> and <strong>capture free estimate requests</strong> directly through the website.</p>
+<p>This snapshot is designed to streamline your business and enhance your online presence, making it easier to manage customer inquiries, showcase services, and secure more appointments.</p>
+<h3 class="dh2"><strong>Linktree Documentation:</strong></h3>
+<h3 class="dh2"><strong>1. Linktree #1: Residential Painting Services</strong></h3>
+<p>This Linktree is designed to showcase all residential painting services offered by the business. It provides quick access to various pages, such as interior and exterior painting, consultation booking, and customer testimonials.</p>
+<p>It helps potential clients easily navigate through different services, promoting faster conversions by simplifying the user experience.</p>
+<h3 class="dh2"><strong>2. Linktree #2: Commercial Painting Services</strong></h3>
+<p>This Linktree focuses on commercial painting solutions. It provides links to pages detailing services for commercial spaces, such as offices, retail shops, and industrial buildings.</p>
+<p>It includes links for requesting free estimates, booking consultations, and viewing past commercial projects to instill confidence in the business’s ability to handle large-scale projects.</p>
+<h3 class="dh2"><strong>3. Linktree #3: Special Offers and Promotions</strong></h3>
+<p>This Linktree is dedicated to promoting special deals, discounts, or seasonal offers. It makes it easy for visitors to discover current promotions and redeem them instantly.</p>
+<p>Links may direct users to claim limited-time discounts, view promotional service packages, or sign up for newsletters to receive updates on future offers.</p>
+<h3 class="dh2"><strong>4. Linktree #4: Quick Links</strong></h3>
+<p>The Quick Links Linktree provides easy access to important business-related resources, such as the home page, portfolio, contact information, and FAQs.</p>
+<p>It’s a simple and efficient way for visitors to navigate through the website and find key information in just a few clicks, enhancing user experience and reducing bounce rates.</p>
+<p>These Linktrees make it easier for potential clients to explore specific services or take advantage of promotions, helping streamline the customer journey and increase conversions.</p>
+<h3 class="dh2"><strong>Funnel Documentation:</strong></h3>
+<h3 class="dh2"><strong>1. $100 Off Funnel:</strong></h3>
+<p>This funnel is designed to offer a $100 discount to new leads and customers. It captures potential clients through a lead form or a landing page.</p>
+<p>Once a lead submits their information, they are automatically funneled into the <strong>Main Painter Pipeline</strong>, where their status is tracked and updated based on interactions.</p>
+<p>The funnel is fully automated, sending a confirmation SMS and email to the lead, followed by reminders and next steps for scheduling a service.</p>
+<h3 class="dh2"><strong>2. 10% Off First Project Funnel:</strong></h3>
+<p>This funnel promotes a 10% discount on the first painting project. It attracts new customers by offering an incentive on their initial booking.</p>
+<p>Once the form is completed, the lead is placed into the <strong>Main Painter Pipeline</strong>, where automation helps qualify the lead and trigger actions such as follow-up messages.</p>
+<p>It is completely automated, including tagging, sending notifications, and updating the lead’s status within the pipeline.</p>
+<h3 class="dh2"><strong>3. Coupons Funnel:</strong></h3>
+<p>This funnel is focused on offering a variety of coupons that customers can redeem for painting services.</p>
+<p>Leads enter the <strong>Main Painter Pipeline</strong> once they opt into receiving coupons, and automation handles sending them the specific discount along with follow-up instructions.</p>
+<p>All coupon redemptions and interactions are automated, ensuring timely responses and tracking lead progress through the pipeline.</p>
+<h3 class="dh2"><strong>4. Free Color Consultation Funnel:</strong></h3>
+<p>This funnel offers a free color consultation to attract potential customers who are unsure about their painting needs.</p>
+<p>Once a lead submits their interest, they are added to the <strong>Main Painter Pipeline</strong>, where automations handle the scheduling of the consultation and follow-up.</p>
+<p>The process is fully automated, ensuring leads receive prompt responses and necessary reminders to book their consultation.</p>
+<h3 class="dh2"><strong>5. Same-Day Service Discount Funnel:</strong></h3>
+<p>This funnel promotes a same-day service discount, designed to encourage customers who need urgent painting services.</p>
+<p>Leads who opt in are immediately placed in the <strong>Main Painter Pipeline</strong>, where automation triggers scheduling and confirmation processes.</p>
+<p>The entire funnel is automated, from lead capture to follow-up, ensuring no opportunity is missed for same-day bookings.</p>
+<p>Each of these funnels is integrated with the <strong>Main Painter Pipeline</strong>, making it easy to manage and track leads through every stage of the sales process. The automation ensures efficient lead handling, follow-up, and conversion.</p>
+<h3 class="dh2"><strong>52-Week Email Nurture Campaign (Educational):</strong></h3>
+<p>This email campaign is designed to nurture leads over a 52-week period by sending educational content and tips related to painting. The goal is to build trust, educate potential customers, and encourage them to make a purchase down the line.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Educational Content:</strong> Each email provides value by educating the reader on various aspects of painting, from choosing the right paint to prepping walls, creating the perfect color palette, and more.</p>
+<p><strong>Automation:</strong> The emails are fully automated to go out every week. The system is set to wait 7 days between each email, ensuring consistent touchpoints without overwhelming the lead.</p>
+<p><strong>Call to Action:</strong> The email campaigns include rotating CTAs like “Call {{location.phone}},” “Visit our website {{location.website}},” or “Reply Yes” to encourage engagement.</p>
+<p><strong>Customizable:</strong> You can easily customize the email content, ensuring the message aligns with your business's unique branding and goals.</p>
+<p>Sample Email Topics:</p>
+<p>Week 1: Choosing the Right Paint for Your Home</p>
+<p>Week 2: Perfect Color Palette</p>
+<p>Week 3: How to Prep Your Walls</p>
+<p>Week 4: Painting Your Home’s Exterior</p>
+<p>Week 5: Why Primer is Essential</p>
+<p>Week 6: Choosing the Perfect Accent Wall Color</p>
+<p>Week 7: Top Tips for Painting Trim Like a Pro</p>
+<h3 class="dh2"><strong>52-Week SMS Nurture Campaign (Educational):</strong></h3>
+<p>This SMS campaign runs parallel to the email campaign and aims to keep leads engaged with short, impactful messages each week. The goal is to keep your painting business top-of-mind while providing tips and reminders that encourage potential clients to take action.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Weekly SMS Messages:</strong> Short and educational messages are sent every 7 days, providing value with tips or promotional offers.</p>
+<p><strong>Call to Action:</strong> The SMS campaigns are designed to drive immediate action with CTAs like “Call {{location.phone}},” “Visit our website {{location.website}},” or “Reply Yes.”</p>
+<p><strong>Automation:</strong> The SMS nurture flow is fully automated, making it easy to maintain regular contact with leads without manual intervention.</p>
+<p><strong>Customizable:</strong> Messages can be easily customized to match your business's tone, services, and specific offers.</p>
+<p>Sample SMS Topics:</p>
+<p>Week 1: How to Choose the Right Paint</p>
+<p>Week 2: Perfecting Your Home’s Color Palette</p>
+<p>Week 3: Preparing for a Paint Job</p>
+<p>Week 4: Benefits of an Exterior Paint Refresh</p>
+<p>Week 5: The Importance of Primer</p>
+<p>Week 6: Accent Wall Ideas for Your Home</p>
+<p>Both nurture campaigns are designed to keep your leads engaged, educated, and moving closer to a purchase over time. They help build rapport with potential customers while offering valuable information to establish your painting business as the trusted go-to choice.</p>
+<h3 class="dh2"><strong>Abandoned Estimate Follow-Up Automation:</strong></h3>
+<p>This follow-up automation is designed to engage leads who have received an estimate but have not yet proceeded with the booking. The automation sends a series of reminders through emails and SMS over a set period to keep the lead engaged and encourage them to take the next step.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p>The automation sends reminders at different intervals after the estimate is provided:</p>
+<p><strong>Email 1</strong> is sent 3 days after the estimate.</p>
+<p><strong>Reminder SMS</strong> is sent 6 days after the estimate.</p>
+<p><strong>Email 2</strong> is sent 7 days after the estimate.</p>
+<p><strong>Email 3</strong> is sent 14 days after the estimate.</p>
+<p><strong>Final SMS reminder</strong> is sent 2 days after Email 3.</p>
+<h3 class="dh2"><strong>Replied Automation:</strong></h3>
+<p>When a lead responds to the follow-up messages in the <strong>Abandoned Estimate Follow-Up Automation</strong>, they are automatically removed from the sequence, preventing further follow-up reminders from being sent. This action is managed by the <strong>Replied Automation</strong>, which:</p>
+<p><strong>Removes the lead</strong> from the workflow once they reply.</p>
+<p><strong>Creates or updates the opportunity</strong> in the pipeline.</p>
+<p>Sends an <strong>internal notification</strong> to your team, alerting them of the reply with the lead’s details and next steps.</p>
+<p>This ensures that your follow-up process is smooth and efficient, and no unnecessary messages are sent to leads who have already re-engaged.</p>
+<h3 class="dh2"><strong>Consultation Calendar Appointment Workflows:</strong></h3>
+<h3 class="dh2"><strong>Appointment Reminder (Consultation Calendar):</strong></h3>
+<p>This workflow is designed to remind leads of their scheduled consultation appointments.</p>
+<p>Automated reminders are sent via SMS and email leading up to the appointment:</p>
+<p>Initial confirmation when the appointment is booked.</p>
+<p>A reminder 1 hour before the scheduled time.</p>
+<p>If the appointment is canceled, the lead is removed from the workflow and an internal notification is triggered for your team to follow up.</p>
+<h3 class="dh2"><strong>Appointment No Show (Consultation Calendar):</strong></h3>
+<p>This workflow automatically detects when a lead misses their consultation appointment.</p>
+<p>After a no-show is identified, an internal notification is sent to your team to follow up.</p>
+<p>Additional reminders or rescheduling messages can be triggered based on the settings in this workflow.</p>
+<h3 class="dh2"><strong>Appointment Canceled (Consultation Calendar):</strong></h3>
+<p>This workflow activates when a lead cancels their consultation.</p>
+<p>The system automatically removes the lead from the active consultation workflow and sends an internal notification to your team.</p>
+<p>You can customize follow-up actions to re-engage the lead and reschedule the consultation if needed.</p>
+<h3 class="dh2"><strong>Service Calendar Appointment Workflows:</strong></h3>
+<h3 class="dh2"><strong>Appointment Reminder (Service Calendar):</strong></h3>
+<p>Similar to the consultation workflow, this workflow sends automated reminders via SMS and email to remind clients of their upcoming service appointments.</p>
+<p>The workflow is triggered upon booking and continues to send reminders leading up to the service date, ensuring clients are fully informed.</p>
+<p>These workflows streamline the appointment management process for both consultations and services, ensuring timely reminders, follow-ups, and internal notifications, all while keeping your team informed about cancellations or no-shows.</p>
+<h3 class="dh2"><strong>7. Database Reactivation Campaigns:</strong></h3>
+<h3 class="dh2"><strong>$50 Off for Scheduling This Week:</strong></h3>
+<p>This campaign offers a $50 discount for customers who schedule a painting service within the week. It encourages quick action from leads and helps to fill up the schedule.</p>
+<p>Leads who respond are moved through the <strong>DR Campaign Pipeline</strong> to track their status and follow up efficiently.</p>
+<h3 class="dh2"><strong>20% Off for Returning Customers:</strong></h3>
+<p>Aimed at previous clients, this campaign provides a 20% discount on painting services to incentivize returning customers.</p>
+<p>The automation handles responses and moves leads through the shared <strong>DR Campaign Pipeline</strong>, ensuring proper follow-up based on interest.</p>
+<h3 class="dh2"><strong>Free Maintenance Check:</strong></h3>
+<p>This campaign offers a free maintenance check for customers, helping re-engage those who might not be ready for a full service but are still interested in maintaining their property.</p>
+<p>Leads are tracked and managed within the <strong>DR Campaign Pipeline</strong>, allowing your team to monitor responses and guide potential clients through the service process.</p>
+<h3 class="dh2"><strong>15% Off Any Painting Service:</strong></h3>
+<p>This campaign provides a 15% discount on any painting service, designed to attract leads who may be hesitant or looking for a deal.</p>
+<p>As with the other campaigns, leads are funneled through the <strong>DR Campaign Pipeline</strong>, ensuring every step from offer sent to follow-up is automated and tracked.</p>
+<p>All four campaigns share the <strong>DR Campaign Pipeline</strong>, making it easy to manage and track leads across various offers. The pipeline stages include:</p>
+<h3 class="dh2"><strong>Offer Sent</strong></h3>
+<h3 class="dh2"><strong>Responded</strong></h3>
+<h3 class="dh2"><strong>Interested</strong></h3>
+<h3 class="dh2"><strong>Not Interested</strong></h3>
+<p>This setup ensures you can efficiently monitor lead progress, follow up with those who show interest, and re-engage past clients with attractive offers.</p>
+<h3 class="dh2"><strong>8. Google Review Campaign:</strong></h3>
+<p>This <strong>Google Review Campaign</strong> is designed to gather feedback from satisfied clients and boost your online reputation through automated follow-up requests for Google reviews. The campaign ensures that clients who have had a great experience with your painting business can easily leave a review, and it tracks their interaction with the review request.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<h3 class="dh2"><strong>Initial SMS Request:</strong></h3>
+<p>An SMS is sent to the client, thanking them for their business and requesting a Google review.</p>
+<p>The message includes a link to the business’s Google review page using the placeholder: {{custom_values.google_review_link}}.</p>
+<p>This message is followed by two more SMS reminders and emails at intervals if the client does not take immediate action.</p>
+<h3 class="dh2"><strong>Reminder Sequence:</strong></h3>
+<p>If the client does not leave a review after the first SMS, the system waits a few days and sends follow-up reminders.</p>
+<p>These reminders, both via SMS and email, encourage the client to click the review link and share their feedback.</p>
+<h3 class="dh2"><strong>Review Link Clicked:</strong></h3>
+<p>When a client clicks on the Google review link, a trigger activates the <strong>Review Campaign Link Clicked Workflow</strong>.</p>
+<p>This workflow sends an internal notification to your team, informing them that the client has clicked the review link.</p>
+<p>It updates the lead or opportunity status in the pipeline and removes the client from the review campaign workflow to prevent additional reminders.</p>
+<p>A tag is applied to the contact to indicate they have clicked the review link, allowing easy tracking of review interaction.</p>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>The internal notification provides the team with key details, such as the contact’s name, and prompts them to follow up with the client to express gratitude for leaving a review (if one was posted).</p>
+<p>This personalized touch helps reinforce a positive relationship with the client.</p>
+<p>The <strong>Google Review Campaign</strong> ensures that clients are gently reminded to leave a review and that your team is notified as soon as the review link is clicked. This automation helps build your online reputation while keeping the process smooth and efficient for both the business and the client.</p>
+<h3 class="dh2"><strong>9. Incoming Lead Automations:</strong></h3>
+<h3 class="dh2"><strong>Incoming Lead: Email</strong></h3>
+<p>This automation is triggered when a lead reaches out via email.</p>
+<p>The system sends an immediate response acknowledging the inquiry and provides information on the next steps, such as booking a call or responding with additional details.</p>
+<p>The automation updates the lead in the <strong>Main Painter Pipeline</strong> based on their interaction.</p>
+<h3 class="dh2"><strong>Incoming Lead: Facebook DM</strong></h3>
+<p>This automation handles incoming leads from Facebook Messenger.</p>
+<p>When a lead sends a message via Facebook, the system responds with an automated message thanking them for reaching out, followed by prompts to schedule a call or gather more information.</p>
+<p>Depending on the lead’s response, the system continues the conversation, updates the lead in the <strong>Main Painter Pipeline</strong>, and notifies your team internally.</p>
+<h3 class="dh2"><strong>Incoming Lead: Instagram DM</strong></h3>
+<p>Similar to the Facebook DM automation, this workflow handles incoming messages through Instagram.</p>
+<p>An automatic message is sent to the lead, confirming receipt of their message and prompting them to take the next step, such as scheduling a call or providing more details about their inquiry.</p>
+<p>The lead’s status is updated in the <strong>Main Painter Pipeline</strong> and further follow-up actions are triggered based on the interaction.</p>
+<p>Each of these automations ensures that leads from various channels are promptly responded to and moved through the pipeline effectively, ensuring no opportunity is missed. The system also differentiates responses depending on business hours, maintaining consistent communication with potential clients.</p>
+<h3 class="dh2"><strong>10 Missed Call Text Back Automations:</strong></h3>
+<h3 class="dh2"><strong>Basic Missed Call Text Back Automation:</strong></h3>
+<p>This automation is triggered when a call is missed by your team.</p>
+<p>The system sends an immediate SMS to the missed caller with a message like:</p>
+<p>“Hey there, this is {{user.first_name}} from {{location.name}}. We just got a missed call from this number. Sorry about that! How can I help?”</p>
+<p>The contact is tagged as a missed call, and an internal notification is sent to your team, prompting follow-up actions.</p>
+<h3 class="dh2"><strong>Advanced Missed Call Text Back Sequence:</strong></h3>
+<p>This automation handles multiple missed calls with more detailed follow-up processes.</p>
+<p>After each missed call, the system triggers a series of follow-ups, depending on business hours:</p>
+<p><strong>During Business Hours:</strong> The system sends an SMS immediately and notifies your team.</p>
+<p><strong>Outside Business Hours:</strong> The SMS is delayed until the start of the next business day.</p>
+<p>If the caller continues to miss calls, additional follow-ups are triggered. For example:</p>
+<p>On the <strong>second missed call</strong>, another SMS is sent, and internal notifications are triggered.</p>
+<p>On the <strong>third missed call</strong>, the contact is tagged, and the system initiates another follow-up SMS and internal notification, depending on the time of day.</p>
+<p>The sequence adjusts based on whether it’s business hours or not, ensuring leads receive timely responses.</p>
+<p>These automations ensure that missed calls are immediately addressed, keeping communication smooth and preventing potential leads from slipping through the cracks.</p>
+<h3 class="dh2"><strong>11. Payment Automations:</strong></h3>
+<h3 class="dh2"><strong>Initial Payment Request After Service Completion:</strong></h3>
+<p>This automation is triggered once a painting service is completed.</p>
+<p>The system automatically sends an SMS and email to the client requesting payment, including links to the payment portal or invoice.</p>
+<p>This ensures clients are promptly reminded to complete their payments as soon as the service is finished.</p>
+<h3 class="dh2"><strong>Payment Received:</strong></h3>
+<p>Once payment is successfully received, this automation sends a confirmation message via SMS and email to the client.</p>
+<p>The message thanks the client for their payment and provides any necessary follow-up information, such as a receipt or contact information for further inquiries.</p>
+<h3 class="dh2"><strong>Refund:</strong></h3>
+<p>If a refund is initiated, this automation sends a notification to the client, informing them that the refund process has started or been completed.</p>
+<p>The system also updates the internal team with relevant details to ensure proper record-keeping and communication with the client.</p>
+<p>These automations ensure a smooth and efficient payment process, from requesting payments after service completion to confirming payments received and handling refunds if necessary.</p>
+<h3 class="dh2"><strong>12. Website Automations:</strong></h3>
+<h3 class="dh2"><strong>Chat Widget Automation:</strong></h3>
+<p>This automation is triggered when a user interacts with the website’s chat widget.</p>
+<p>An automatic SMS is sent to the lead, acknowledging their message and assuring them that someone will get back to them shortly.</p>
+<p>Internal notifications are also triggered for your team, ensuring quick follow-up with the lead.</p>
+<h3 class="dh2"><strong>Live Chat Automation:</strong></h3>
+<p>When a user starts a live chat on the website, this automation is activated.</p>
+<p>The system sends an internal notification to your team to start the chat session, allowing for real-time engagement with the lead.</p>
+<h3 class="dh2"><strong>Website Estimate Form Submitted:</strong></h3>
+<p>This automation triggers when a potential client submits the estimate form on the website.</p>
+<p>The system sends a confirmation email, acknowledging receipt of the form and informing the client that someone will reach out to schedule the consultation.</p>
+<p>Internal notifications are sent to your team, and the lead is added to the pipeline for follow-up.</p>
+<p>These automations ensure that leads who interact with your website are promptly acknowledged, and your team is immediately notified to continue the engagement process.</p>
+<h3 class="dh2"><strong>13. Birthday Workflow:</strong></h3>
+<p>This <strong>Birthday Workflow</strong> is designed to send personalized birthday greetings to leads or clients, along with a special offer to encourage re-engagement and bookings.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<h3 class="dh2"><strong>Birthday SMS:</strong></h3>
+<p>On the client’s birthday, the system sends an automated SMS that includes a warm birthday message along with a special offer. For example:</p>
+<p>🎉 &quot;Happy Birthday, {{contact.first_name}}! 🎉 To celebrate, {{location.name}} is giving you 15% off any painting service. Treat yourself to a fresh new look for your space! Reply YES to claim your birthday gift or call us at {{location.phone}}.&quot;</p>
+<p>The message helps build rapport and encourages the client to take advantage of the limited-time offer.</p>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>The system also sends an internal notification to your team, ensuring they are aware of the offer being sent and can follow up if necessary.</p>
+<h3 class="dh2"><strong>Follow-Up:</strong></h3>
+<p>After sending the initial birthday SMS, the system waits to see if the recipient replies YES to claim the offer. If no response is received within a set time frame, a gentle follow-up SMS is sent, reminding the client of the birthday promotion.</p>
+<h3 class="dh2"><strong>If the Client Responds:</strong></h3>
+<p>If the client responds with YES, the system triggers further actions, such as notifying your team to schedule the service or call the client to finalize the booking.</p>
+<p>This <strong>Birthday Workflow</strong> helps keep clients engaged, offers them value on their special day, and encourages repeat business, all while automating the process to ensure a personalized experience.</p>
+<h3 class="dh2"><strong>14. Customer Referral Campaign:</strong></h3>
+<p>This <strong>Customer Referral Campaign</strong> is designed to encourage satisfied clients to refer friends or family, providing both the referrer and the referred a discount on services.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<h3 class="dh2"><strong>Referral SMS:</strong></h3>
+<p>The system sends an automated SMS to clients after they’ve completed a service. The message encourages them to refer someone in exchange for a $50 discount on their next painting service.</p>
+<p>Example SMS:</p>
+<p>&quot;Hi {{contact.first_name}}, love our work? Refer a friend to {{location.name}} and you both will get $50 off your next painting service! Simply reply YES to refer someone today or call us at {{location.phone}} for details.&quot;</p>
+<h3 class="dh2"><strong>Follow-Up and Response Tracking:</strong></h3>
+<p>If the client responds with YES, the system will trigger an internal notification, allowing your team to follow up and finalize the referral.</p>
+<p>A secondary SMS is sent to the lead confirming the referral and explaining next steps.</p>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>An internal notification is triggered to alert your team whenever a referral is made, ensuring quick action and follow-up to reward both the referrer and the new client.</p>
+<p>This <strong>Referral Campaign</strong> helps leverage satisfied clients to bring in new business while rewarding both the referrer and the referred client.</p>
+<h3 class="dh2"><strong>15. Job Completion Feedback &amp; Review Request:</strong></h3>
+<p>This <strong>Job Completion Feedback &amp; Review Request</strong> automation is designed to gather feedback from clients after completing a painting job and encourage them to leave a review.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>The automation is triggered when the job status is marked as &quot;Won&quot; or completed in the system.</p>
+<h3 class="dh2"><strong>Email 1 (Sent 1 Day After Job Completion):</strong></h3>
+<p>One day after the job is completed, an email is automatically sent to the client to thank them for choosing the service and requesting feedback or a review.</p>
+<h3 class="dh2"><strong>SMS Reminder (Sent 2 Days After Job Completion):</strong></h3>
+<p>If no response is received after the email, a friendly reminder SMS is sent two days after the job completion to prompt the client to leave a review.</p>
+<p>Example SMS:</p>
+<p>&quot;Hi {{contact.first_name}}, we hope you’re enjoying your freshly painted space! We’d love to know how we did—please leave a quick review here: {{custom_values.google_review_link}}. Thank you!&quot;</p>
+<p>This campaign ensures timely follow-up and encourages clients to share their experience, improving your business's reputation and client engagement.</p>
+<h3 class="dh2"><strong>16. Holiday Email Campaigns Using Custom Values</strong></h3>
+<p>This section outlines a series of 13 holiday email campaigns that utilize the custom value {{custom_values.holiday_email_offer}} to present special offers during specific holidays. These emails are designed to engage with customers during key seasonal events throughout the year and encourage them to take advantage of the featured offer. Each holiday email will focus on relevant messaging tied to the respective holiday while maintaining consistency in promoting the custom offer.</p>
+<h3 class="dh2"><strong>Holiday Email Campaign List:</strong></h3>
+<p>Labor Day Email</p>
+<p>St. Patrick’s Day Email</p>
+<p>Mother’s Day Email</p>
+<p>Father’s Day Email</p>
+<p>Spring Cleaning Email</p>
+<p>Easter Email</p>
+<p>Valentine’s Day Email</p>
+<p>4th of July Email</p>
+<p>Halloween Email</p>
+<p>New Year Email</p>
+<p>Thanksgiving Email</p>
+<p>Christmas Email</p>
+<p>Black Friday Email</p>
+<p>Each campaign will highlight the custom value offer and provide a call-to-action for the recipient to respond or contact the business.</p>
+</div>
+</section>
+</main></div>
+<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">&#10005;</button><img id="lb-img" src="" alt="" onclick="event.stopPropagation()"></div>
+<script>
+document.querySelectorAll('main img').forEach(im=>{im.style.cursor='zoom-in';im.addEventListener('click',()=>{document.getElementById('lb-img').src=im.src;document.getElementById('lb').classList.add('open');});});
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>

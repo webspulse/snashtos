@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>auto-detailing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:#0d0f18;--surf:#13151f;--surf2:#191c2a;--surf3:#1e2236;
+  --border:#252a3d;--acc:#e94560;--txt:#e8eaf4;--muted:#8b93b5;--dim:#4e556e;
+  --sw:268px;--hh:58px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);line-height:1.72;font-size:15px;overflow-x:hidden;}
+
+/* topbar */
+#topbar{position:sticky;top:0;z-index:200;height:var(--hh);background:rgba(13,15,24,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;}
+.logo{background:var(--acc);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:5px 12px;border-radius:6px;}
+.top-title{font-size:14px;font-weight:600;flex:1;}
+.srch-wrap{position:relative;}
+.srch-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+#srch{background:var(--surf2);border:1px solid var(--border);border-radius:8px;
+  padding:7px 12px 7px 32px;color:var(--txt);font-size:13px;width:220px;
+  outline:none;transition:border .18s,box-shadow .18s;}
+#srch:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,69,96,.14);}
+#srch::placeholder{color:var(--dim);}
+.badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surf2);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+/* layout */
+.layout{display:flex;min-height:calc(100vh - var(--hh));}
+
+/* sidebar */
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);
+  position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow-y:auto;padding:10px 0 24px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 18px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:13px;
+  font-weight:500;color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  transition:all .13s;cursor:pointer;user-select:none;}
+.nav-item:hover{color:var(--txt);background:var(--surf2);border-left-color:var(--dim);}
+.nav-item.active{color:var(--acc);background:rgba(233,69,96,.08);border-left-color:var(--acc);font-weight:600;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .13s;}
+.nav-item.active .ndot,.nav-item:hover .ndot{background:var(--acc);}
+
+/* main */
+main{flex:1;min-width:0;}
+
+/* cover */
+#cover{background:linear-gradient(155deg,#0d0f18 0%,#14102a 50%,#0d0f18 100%);
+  border-bottom:1px solid var(--border);padding:72px 60px 60px;text-align:center;
+  position:relative;overflow:hidden;}
+#cover::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(233,69,96,.17) 0%,transparent 72%);
+  pointer-events:none;}
+.cv-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);
+  border:1px solid rgba(233,69,96,.3);color:var(--acc);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+#cover h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 25%,#9095b8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#cover>p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 40px;}
+.stats{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-num{font-size:34px;font-weight:800;color:var(--acc);line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:640px;margin:0 auto;}
+.pill{background:var(--surf2);border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;transition:all .13s;}
+.pill:hover{color:var(--txt);border-color:rgba(233,69,96,.5);}
+
+/* section */
+.doc-section{border-bottom:1px solid var(--border);scroll-margin-top:var(--hh);}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 42px;
+  background:var(--surf);border-bottom:1px solid var(--border);
+  position:sticky;top:var(--hh);z-index:10;}
+.sec-num{width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);
+  color:var(--acc);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);flex:1;}
+.btn-top{font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;
+  background:var(--surf2);border:1px solid var(--border);
+  padding:5px 13px;border-radius:6px;transition:all .13s;white-space:nowrap;}
+.btn-top:hover{color:var(--acc);border-color:rgba(233,69,96,.5);}
+.sec-body{padding:32px 42px 48px;max-width:860px;}
+
+/* typography */
+.dh1{font-size:21px;font-weight:800;color:var(--txt);margin:28px 0 10px;}
+.dh2{font-size:15px;font-weight:700;color:var(--txt);margin:22px 0 10px;
+  padding:10px 15px;background:var(--surf2);border-left:3px solid var(--acc);border-radius:0 7px 7px 0;}
+.dh3{font-size:12px;font-weight:700;color:var(--acc);margin:16px 0 7px;
+  text-transform:uppercase;letter-spacing:.09em;}
+.sec-body p{color:var(--muted);font-size:15px;line-height:1.78;margin-bottom:12px;}
+.sec-body p strong{color:var(--txt);font-weight:600;}
+.sec-body p em{color:#9a9ec0;font-style:italic;}
+
+/* images */
+.img-snap{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px;padding:20px;
+  background:var(--surf2);border:1px solid var(--border);border-radius:12px;}
+.img-snap img{height:260px;width:auto;max-width:100%;border-radius:8px;
+  border:1px solid var(--border);cursor:zoom-in;object-fit:contain;
+  background:var(--surf3);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-snap img:hover{transform:scale(1.03);box-shadow:0 8px 32px rgba(233,69,96,.22);border-color:var(--acc);}
+
+.img-inline{margin:20px 0;}
+.img-inline img{width:100%;max-width:780px;height:auto;display:block;
+  border-radius:10px;border:1px solid var(--border);cursor:zoom-in;
+  background:var(--surf2);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-inline img:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(233,69,96,.18);border-color:var(--acc);}
+
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;cursor:zoom-out;}
+#lb.on{display:flex;}
+#lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:8px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);cursor:default;}
+#lb-close{position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;color:#fff;font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+#lb-close:hover{background:rgba(233,69,96,.7);}
+
+mark{background:rgba(233,69,96,.32);color:#fff;border-radius:2px;padding:0 2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:820px){
+  .sidebar{display:none;}
+  .sec-body{padding:20px;}
+  .sec-head{padding:14px 18px;}
+  #cover{padding:40px 18px;}
+  #cover h1{font-size:32px;}
+  .img-snap img{height:180px;}
+}
+</style>
+<style>
+.layout{display:block;}
+main,.content{max-width:960px;margin:0 auto;padding:32px 24px;}
+section{display:block !important;}
+</style>
+</head>
+<body>
+<div id="topbar"><span class="logo">SNAPLEVEL</span><span class="top-title">auto-detailing</span></div>
+<div class="layout"><main class="content">
+<section id="auto-detailing" class="doc-section">
+<div class="sec-head">
+<div class="sec-num">14</div>
+<div class="sec-title">Auto Detailing</div>
+<a href="#topbar" class="btn-top">&#8593; Top</a>
+</div>
+<div class="sec-body">
+<h3 class="dh2"><strong>Auto Detailing Snapshot Documentation </strong></h3>
+<h3 class="dh2"><strong>Custom Values </strong></h3>
+<h3 class="dh2"><strong>Website</strong></h3>
+<h3 class="dh2"><strong>LinkTree Customization</strong></h3>
+<h3 class="dh2"><strong>Funnels</strong></h3>
+<h3 class="dh2"><strong>52-Week Nurture Campaigns </strong></h3>
+<h3 class="dh2"><strong>Database Reactivation Campaigns</strong></h3>
+<h3 class="dh2"><strong>Google Review Campaign</strong></h3>
+<h3 class="dh2"><strong>Inbound Lead Sources </strong></h3>
+<h3 class="dh2"><strong>Invoice Automation</strong></h3>
+<h3 class="dh2"><strong>Referral Campaign </strong></h3>
+<h3 class="dh2"><strong>Birthday Campaign </strong></h3>
+<h3 class="dh2"><strong>Missed Call Text Back</strong></h3>
+<h3 class="dh2"><strong>Holiday Promotional Emails</strong></h3>
+<h3 class="dh2"><strong>Custom Values Overview</strong></h3>
+<h3 class="dh2"><strong>$100 Off Discount Calendar Link</strong></h3>
+<h3 class="dh2"><strong>Key:</strong>{{ custom_values.100_off_discount_calendar_link }}</h3>
+<p><strong>Purpose:</strong> This custom value stores the link to a calendar where clients can book an appointment with a $100 discount.</p>
+<h3 class="dh2"><strong>Birthday Campaign Offer</strong></h3>
+<h3 class="dh2"><strong>Key:</strong>{{ custom_values.birthday_campaign_offer }}</h3>
+<p><strong>Purpose:</strong> This is used to insert the specific offer related to a birthday campaign. It could be a discount or special promotion provided to clients on their birthdays.</p>
+<h3 class="dh2"><strong>FREE Upgrade Calendar Link</strong></h3>
+<h3 class="dh2"><strong>Key:</strong>{{ custom_values.free_upgrade_calendar_link }}</h3>
+<p><strong>Purpose:</strong> This custom value stores the link to a calendar where clients can book an appointment with a free upgrade included in the service.</p>
+<h3 class="dh2"><strong>Google Review Campaign Link</strong></h3>
+<h3 class="dh2"><strong>Key:</strong>{{ custom_values.google_review_campaign_link }}</h3>
+<p><strong>Purpose:</strong> This value stores the link to a page or form where clients can leave a Google review as part of a campaign to gather testimonials or reviews.</p>
+<h3 class="dh2"><strong>Holiday Email Offer</strong></h3>
+<h3 class="dh2"><strong>Key:</strong>{{ custom_values.holiday_email_offer }}</h3>
+<p><strong>Purpose:</strong> This value contains a specific holiday offer that can be included in email campaigns during festive seasons.</p>
+<h3 class="dh2"><strong>Referral Campaign Offer</strong></h3>
+<h3 class="dh2"><strong>Key:</strong>{{ custom_values.referral_campaign_offer }}</h3>
+<p><strong>Purpose:</strong> This stores the offer details for a referral campaign, where existing clients are encouraged to refer new clients in exchange for rewards or discounts.</p>
+<h3 class="dh2"><strong>Service Location</strong></h3>
+<h3 class="dh2"><strong>Key:</strong>{{ custom_values.service_location }}</h3>
+<p><strong>Purpose:</strong> This value specifies the location where the auto detailing services are provided. It can be used in various communications to ensure clients are aware of where the services are offered.</p>
+<h3 class="dh2"><strong>Next Steps for Using and Customizing the Snapshot</strong></h3>
+<h3 class="dh2"><strong>Review and Customize Custom Values:</strong></h3>
+<p><strong>Purpose:</strong> The custom values provided in this snapshot are placeholders for key elements such as promotional offers, calendar links, and service locations. Review each custom value to ensure they align with your specific business needs.</p>
+<h3 class="dh2"><strong>How to Edit:</strong></h3>
+<p>Navigate to the &quot;Custom Values&quot; section within GoHighLevel.</p>
+<p>Locate each value by its name (e.g., $100 Off Discount Calendar Link, Birthday Campaign Offer).</p>
+<p>Click on the value to edit the link, offer details, or location to match your business information.</p>
+<h3 class="dh2"><strong>Integrate Custom Values in Campaigns:</strong></h3>
+<p><strong>Purpose:</strong> Custom values are used across various campaigns to personalize communication with clients.</p>
+<h3 class="dh2"><strong>How to Implement:</strong></h3>
+<p>Ensure that each custom value is correctly linked within your email, SMS, and other campaign templates.</p>
+<p>For instance, the {{ custom_values.birthday_campaign_offer }} should be included in the birthday email or SMS templates, so the correct offer is sent to clients on their birthdays.</p>
+<p>Check the placement of calendar links in any call-to-action buttons or links to direct clients to the correct booking page.</p>
+<h3 class="dh2"><strong>Test Campaigns and Automations:</strong></h3>
+<p><strong>Purpose:</strong> Before fully launching your campaigns, it's important to test the functionality to ensure everything works smoothly.</p>
+<h3 class="dh2"><strong>How to Test:</strong></h3>
+<p>Send test emails or SMS messages to yourself or team members using the custom values to verify that the correct information populates.</p>
+<p>Test the calendar links by clicking through the booking process to ensure clients can schedule appointments without issues.</p>
+<p>Check that referral campaigns and Google review links lead to the correct pages.</p>
+<h3 class="dh2"><strong>Update Regularly:</strong></h3>
+<p><strong>Purpose:</strong> Business details, offers, and campaigns may change over time. Keeping your custom values up-to-date is essential.</p>
+<h3 class="dh2"><strong>How to Maintain:</strong></h3>
+<p>Regularly review and update custom values as promotions change or new services are introduced.</p>
+<p>Set a reminder to check your custom values quarterly or during significant business changes to ensure all campaigns remain relevant.</p>
+<h3 class="dh2"><strong>Leverage Custom Values for Future Campaigns:</strong></h3>
+<p><strong>Purpose:</strong> Custom values can be easily duplicated or modified for new campaigns.</p>
+<h3 class="dh2"><strong>How to Utilize:</strong></h3>
+<p>When launching new promotions or seasonal campaigns, create new custom values to streamline the process.</p>
+<p>Use existing values as a template for new offers to maintain consistency and save time.</p>
+<p>By following these steps, you’ll be able to fully utilize the custom values and ensure your campaigns are personalized, effective, and up-to-date.</p>
+<h3 class="dh2"><strong>2. Website Features and Customization</strong></h3>
+<p>The auto detailing snapshot includes a fully customizable website tailored specifically for the auto detailing business. Here are the key features and details:</p>
+<h3 class="dh2"><strong>Customizable Pages:</strong></h3>
+<p>The website includes essential pages such as Home, Contact Us, Ceramic Coating, Paint Protection, Ceramic Window Tint, Car Detailing, About Us, and Terms of Service. Each of these pages is designed to be easily editable, allowing you to quickly tailor the content to your specific services and branding.</p>
+<h3 class="dh2"><strong>Integration of Custom Values:</strong></h3>
+<p>The website is designed to seamlessly integrate with custom values, making it simple to update key information such as offers, service locations, and more. This ensures that your website always reflects the most current details without the need to manually edit multiple pages.</p>
+<h3 class="dh2"><strong>Fully Automated Workflows:</strong></h3>
+<p>The snapshot includes pre-built workflows that automate key processes on the website. For instance, the &quot;Website Chat Widget&quot; and &quot;Website Consultation Form&quot; workflows are designed to capture leads and engage with potential customers automatically. These workflows are customizable, allowing you to tailor the automation to match your business needs.</p>
+<h3 class="dh2"><strong>Easy Maintenance and Updates:</strong></h3>
+<p>With the use of custom values and automated workflows, maintaining the website is straightforward. As your business evolves, you can easily update offers, add new services, or adjust contact information without needing to delve into complex coding or design tasks.</p>
+<p>By leveraging these features, your website not only serves as a strong marketing tool but also helps streamline operations, ensuring you can focus on growing your business while the automation takes care of the routine tasks.</p>
+<h3 class="dh2"><strong>3. LinkTree Customization</strong></h3>
+<p>The auto detailing snapshot includes <strong>four customizable LinkTrees</strong> designed for use in the bio section of your social media accounts. These LinkTrees are versatile tools that can direct traffic from your social media profiles to key areas such as your website, booking page, contact forms, and more.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Customizable Links:</strong> Each LinkTree can be easily edited to include links that best suit your business needs. Whether it's directing clients to specific service pages, booking appointments, or connecting with your business on other platforms, the flexibility allows you to tailor the LinkTrees to your unique offerings.</p>
+<p><strong>Seamless Integration:</strong> These LinkTrees are designed to match the branding and style of your auto detailing business, providing a cohesive look across all your digital touchpoints.</p>
+<p><strong>Enhanced User Experience:</strong> By utilizing LinkTrees, you ensure that your social media followers have easy access to the most important aspects of your business, helping to drive engagement and conversions.</p>
+<p>These customizable LinkTrees are an excellent way to maximize your social media presence and streamline the process of guiding potential customers from your social profiles to the services you offer.</p>
+<h3 class="dh2"><strong>4. Funnel Automation and Pipeline Organization</strong></h3>
+<p>The auto detailing snapshot comes equipped with four distinct funnels, each designed to capture leads for specific promotional offers. Each funnel is fully automated and seamlessly connected to its own individual pipeline, ensuring that your leads are well-organized and easy to manage.</p>
+<h4 class="dh3"><strong>1. $100 Off Discount Funnel</strong></h4>
+<h3 class="dh2"><strong>Pipeline:</strong>$100 Off Discount</h3>
+<h3 class="dh2"><strong>Calendar:</strong>$100 Off Discount</h3>
+<p><strong>Automation:</strong> This funnel captures leads interested in a $100 discount on services. It is linked to a dedicated pipeline that tracks leads from initial contact through to booking, cancellations, or no-shows. The calendar is automated with appointment confirmations, reminders, cancellations, and no-show follow-ups.</p>
+<h4 class="dh3"><strong>2. FREE Upgrade (SAVE $300) Full Combo Funnel</strong></h4>
+<h3 class="dh2"><strong>Pipeline:</strong>FREE upgrade</h3>
+<h3 class="dh2"><strong>Calendar:</strong>FREE upgrade</h3>
+<p><strong>Automation:</strong> This funnel offers a free upgrade, saving clients $300 on a full combo service. It connects to a pipeline that organizes leads and automates the process from lead capture to booking. The calendar associated with this funnel is similarly automated with confirmation and reminder workflows, as well as handling cancellations and no-shows.</p>
+<h4 class="dh3"><strong>3. Request A Quote Funnel</strong></h4>
+<h3 class="dh2"><strong>Pipeline:</strong>Request A Quote</h3>
+<h3 class="dh2"><strong>Calendar:</strong>Request A Quote</h3>
+<p><strong>Automation:</strong> For clients seeking a custom quote, this funnel captures their information and directs them into the Request A Quote pipeline. The associated calendar ensures that all quote requests are scheduled, confirmed, and followed up with appropriate automation to manage reminders, cancellations, and no-shows.</p>
+<h4 class="dh3"><strong>4. Save 40% on Each Additional Car Funnel</strong></h4>
+<h3 class="dh2"><strong>Pipeline:</strong>40% Off Each Additional Car</h3>
+<h3 class="dh2"><strong>Calendar:</strong>40% off each additional car</h3>
+<p><strong>Automation:</strong> This funnel is tailored for customers looking to save 40% on services for additional cars. It feeds directly into the corresponding pipeline, organizing leads based on their interest in this specific offer. The calendar attached to this funnel is fully automated, ensuring that appointments are confirmed, reminders are sent, and any cancellations or no-shows are managed efficiently.</p>
+<h3 class="dh2"><strong>Key Features of Funnels and Pipelines:</strong></h3>
+<p><strong>Individual Pipeline Organization:</strong> Each funnel is linked to its own pipeline, which helps in organizing leads based on the offer they are interested in. This segmentation allows for more targeted follow-up and management of leads.</p>
+<p><strong>Full Automation:</strong> Both the funnels and pipelines are fully automated, from the moment a lead enters the funnel until they book an appointment or respond. The automation extends to handling appointment confirmations, reminders, cancellations, and no-shows.</p>
+<p><strong>Dedicated Calendars:</strong> Each offer has its own dedicated calendar, ensuring that all related appointments are tracked and managed separately. The calendars are also automated to handle various scenarios like confirmed bookings, cancellations, and no-shows.</p>
+<p>This setup ensures that your business can handle a high volume of leads efficiently while providing a seamless experience for your customers. The automation reduces manual effort, allowing you to focus on delivering top-quality auto detailing services.</p>
+<h3 class="dh2"><strong>5. 52-Week Nurture Campaigns Documentation</strong></h3>
+<p>The auto detailing snapshot includes two comprehensive 52-week nurture campaigns—one for email and one for text messaging. These campaigns are designed to educate and engage your leads consistently over the course of a year, helping to build trust and encourage conversions.</p>
+<h4 class="dh3"><strong>1. 52-Week Email Nurture Campaign (Educational)</strong></h4>
+<p><strong>Purpose:</strong> This campaign is crafted to provide valuable educational content to your leads on a weekly basis. The goal is to keep your business top-of-mind by offering tips, insights, and information relevant to auto detailing.</p>
+<p><strong>Content Structure:</strong> Each email is designed to educate the recipient on various aspects of car care, detailing services, and the benefits of maintaining a vehicle's appearance. The content is strategically planned to build rapport, share useful knowledge, and subtly promote your services.</p>
+<p><strong>Automation:</strong> The entire campaign is automated, ensuring that once a lead is added to the sequence, they will receive a steady stream of emails over 52 weeks without any additional manual effort. This consistent communication helps nurture leads until they are ready to make a purchase.</p>
+<h4 class="dh3"><strong>2. 52-Week Text Message Nurture Campaign (Educational)</strong></h4>
+<p><strong>Purpose:</strong> Similar to the email campaign, the text message nurture campaign focuses on providing short, digestible educational content directly to the lead’s mobile device. Text messages are a more immediate and personal way to engage with leads.</p>
+<p><strong>Content Structure:</strong> Each text message is concise and value-driven, offering quick tips, reminders, or information that can be easily consumed on the go. The campaign is designed to build a relationship with leads over time, encouraging them to take action when they're ready.</p>
+<p><strong>Automation:</strong> This campaign is also fully automated, delivering messages at set intervals over 52 weeks. The automation ensures that your business remains in regular contact with leads, helping to convert them into loyal customers.</p>
+<h3 class="dh2"><strong>Key Features of the Nurture Campaigns:</strong></h3>
+<p><strong>Educational Focus:</strong> Both campaigns are centered on providing value through education. By sharing knowledge, you position your business as a trusted expert in auto detailing, which can lead to higher conversion rates.</p>
+<p><strong>Consistent Engagement:</strong> With weekly touchpoints, you maintain a consistent presence in the lives of your leads. This regular engagement helps in building trust and rapport, making it more likely that leads will choose your services when they are ready.</p>
+<p><strong>Seamless Automation:</strong> Once set up, these campaigns run automatically, requiring minimal oversight. This allows you to focus on other aspects of your business while the campaigns work in the background to nurture your leads.</p>
+<p><strong>Customizable Content:</strong> While the campaigns are pre-built with educational content, you have the flexibility to customize the messages to better fit your brand's voice and specific offerings.</p>
+<p>These 52-week nurture campaigns are powerful tools to build long-term relationships with your leads, ensuring that your business stays top-of-mind and is the first choice when they need auto detailing services.</p>
+<h3 class="dh2"><strong>6. Database Reactivation Campaigns Documentation</strong></h3>
+<p>The auto detailing snapshot includes powerful Database Reactivation (DR) campaigns designed to re-engage past clients and bring them back for additional services. Each DR campaign is connected to its a pipeline, ensuring that the progression of reactivated leads is tracked efficiently and effectively.</p>
+<h4 class="dh3"><strong>Database Reactivation Campaigns:</strong></h4>
+<h3 class="dh2"><strong>DR ($50 Off Your Next Detailing Service!)</strong></h3>
+<p><strong>Campaign Overview:</strong> This campaign offers past clients a $50 discount on their next detailing service as an incentive to return.</p>
+<p><strong>Pipeline Integration:</strong> The campaign is linked to a specific pipeline that tracks the lead's journey from receiving the offer to booking an appointment. This organized approach ensures that each reactivated lead is properly nurtured and followed up with until they take action.</p>
+<h3 class="dh2"><strong>DR (Free Interior Detail!)</strong></h3>
+<p><strong>Campaign Overview:</strong> This campaign provides a free interior detail as a special offer to entice previous customers back to your business.</p>
+<p><strong>Pipeline Integration:</strong> Similar to the first campaign, this DR campaign is connected to a dedicated pipeline. The pipeline tracks the status of each lead, from the initial offer to the completion of the service, ensuring that no opportunity is missed.</p>
+<h3 class="dh2"><strong>Key Features of the DR Campaigns and Pipelines:</strong></h3>
+<p><strong>Targeted Reactivation:</strong> These campaigns specifically target inactive clients, offering them valuable incentives to return, which can significantly increase repeat business.</p>
+<p><strong>Pipeline Tracking:</strong> Each campaign's leads are funneled into a pipeline, allowing you to monitor their progression through stages such as New Lead, Lead Responded, Appointment Booked, and Completed Service. This structured approach helps in managing the flow of reactivated leads and ensures consistent follow-up.</p>
+<p><strong>Automated Follow-Up:</strong> The campaigns are automated, ensuring that leads are consistently nurtured through the pipeline until they convert. This reduces the manual workload and increases the efficiency of your reactivation efforts.</p>
+<p>These database reactivation campaigns, with their pipeline, provide a systematic and automated approach to bringing back past clients, ensuring that your business continues to grow by maximizing the lifetime value of each customer.</p>
+<h3 class="dh2"><strong>7. Google Review Campaign Documentation</strong></h3>
+<p>The auto detailing snapshot also includes a dedicated <strong>Google Review Campaign</strong> designed to help you gather valuable customer feedback through Google reviews. This campaign is fully automated and integrated with a pipeline to efficiently track the progression of each lead.</p>
+<h4 class="dh3"><strong>Google Review Campaign Features:</strong></h4>
+<h3 class="dh2"><strong>Pipeline Integration:</strong></h3>
+<h3 class="dh2"><strong>Pipeline Name:</strong>Google Review Campaign 🌟</h3>
+<p>The campaign is connected to a pipeline that organizes leads based on their interaction with the review request. This pipeline ensures that each step of the customer's journey is tracked, from the initial request to their response or lack thereof.</p>
+<h3 class="dh2"><strong>Trigger Link Automation:</strong></h3>
+<p><strong>Trigger Link:</strong> A key feature of this campaign is the use of a trigger link embedded within the review request. When a customer clicks on the review link, they are immediately removed from the campaign to prevent them from receiving further follow-ups.</p>
+<p><strong>Pipeline Update:</strong> Upon clicking the review link, the customer’s status is automatically updated in the pipeline to reflect that they have clicked the link and engaged with the review process.</p>
+<h3 class="dh2"><strong>Handling Non-Responsive Leads:</strong></h3>
+<p>If a customer does not click the review link by the end of the campaign, their status will also be updated in the pipeline to indicate that they did not engage. This allows you to identify which customers might need a different follow-up approach or can be targeted in future campaigns.</p>
+<h3 class="dh2"><strong>Follow-Up Prevention:</strong></h3>
+<p>The campaign is designed to ensure that customers who have clicked the review link do not receive redundant follow-ups. This automation helps maintain a positive customer experience by preventing over-communication.</p>
+<h3 class="dh2"><strong>Key Benefits:</strong></h3>
+<p><strong>Efficient Review Gathering:</strong> This campaign streamlines the process of requesting and collecting Google reviews, making it easier for you to build a strong online reputation.</p>
+<p><strong>Automated Customer Journey:</strong> The integration of trigger links and automated pipeline updates ensures that each customer's journey is tracked and managed without manual intervention, saving time and reducing the potential for errors.</p>
+<p><strong>Targeted Follow-Up:</strong> By updating the pipeline based on customer actions, the campaign allows for more targeted follow-up, focusing your efforts on those who have not yet engaged.</p>
+<p>This Google Review Campaign is a powerful tool to enhance your business's online presence by efficiently managing customer feedback and ensuring that every lead is properly nurtured and followed up with.</p>
+<h3 class="dh2"><strong>8. Inbound Lead Sources Documentation</strong></h3>
+<p>The auto detailing snapshot includes a comprehensive set of inbound lead nurturing campaigns tailored for various platforms where potential customers may reach out. These campaigns are designed to automatically capture, nurture, and convert leads coming in from different online sources.</p>
+<h4 class="dh3"><strong>Inbound Lead Nurturing Campaigns:</strong></h4>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (FB Messenger)</strong></h3>
+<p><strong>Purpose:</strong> This campaign is specifically designed to capture and nurture leads that come in through Facebook Messenger. It ensures that every inquiry received through this platform is followed up with promptly and effectively.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Automated Responses:</strong> Initial inquiries are met with automated messages to acknowledge the lead and start the nurturing process.</p>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (GMB)</strong></h3>
+<p><strong>Purpose:</strong> This campaign targets leads coming from Google My Business (GMB), a critical platform for local businesses. It’s designed to engage potential clients who find your business through Google searches and Google Maps.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Immediate Engagement:</strong> The campaign ensures that inquiries through GMB are promptly addressed, providing information or offers that encourage further interaction.</p>
+<h3 class="dh2"><strong>Inbound Lead Nurturing (IG DM)</strong></h3>
+<p><strong>Purpose:</strong> This campaign is dedicated to managing leads that come in via Instagram Direct Messages (IG DM). With the growing importance of Instagram for local businesses, this campaign ensures you capture and convert leads from this popular platform.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Automated Acknowledgement:</strong> Leads are immediately acknowledged with a personalized message that begins the engagement process.</p>
+<h3 class="dh2"><strong>Key Benefits:</strong></h3>
+<p><strong>Platform-Specific Campaigns:</strong> Each campaign is tailored to the unique dynamics of the platform it serves, ensuring that leads are nurtured in a manner that suits their origin.</p>
+<p><strong>Automated Lead Handling:</strong> Automation ensures that no lead is missed and that each inquiry is promptly and appropriately handled, increasing the chances of conversion.</p>
+<p>These inbound lead nurturing campaigns are essential tools to ensure that leads from various online platforms are effectively managed and converted, helping you maximize your business's growth potential.</p>
+<p>The auto detailing snapshot includes a set of invoice-related automations designed to streamline your billing processes, manage customer payments, and handle service cancellations. These automations ensure that your invoicing system is efficient and reduces the manual workload associated with billing and refunds.</p>
+<h4 class="dh3"><strong>9. Invoice Automations:</strong></h4>
+<h3 class="dh2"><strong>Invoice Reminder</strong></h3>
+<p><strong>Purpose:</strong> This automation is designed to send timely reminders to customers who have outstanding invoices. It helps in ensuring prompt payment and reduces the chances of late or missed payments.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Automated Reminders:</strong> Customers with unpaid invoices receive automated reminder emails or text messages, prompting them to settle their accounts.</p>
+<p><strong>Multiple Touchpoints:</strong> You can set up the reminders to be sent at different intervals, ensuring that customers are consistently reminded until the invoice is paid.</p>
+<h3 class="dh2"><strong>Customer Refund</strong></h3>
+<p><strong>Purpose:</strong> This automation handles the process of issuing refunds to customers in a smooth and organized manner. It ensures that refunds are processed quickly and that customers are informed of the refund status.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Automated Refund Notifications:</strong> Once a refund is processed, the customer automatically receives a notification via email or SMS, informing them of the refund details.</p>
+<p><strong>Streamlined Processing:</strong> This automation reduces the manual steps involved in processing refunds, ensuring that they are handled efficiently and with minimal errors.</p>
+<h3 class="dh2"><strong>Service Cancellation</strong></h3>
+<p><strong>Purpose:</strong> This automation manages the cancellation of services, ensuring that the process is handled professionally and that any associated refunds or adjustments are processed promptly.</p>
+<h3 class="dh2"><strong>Key Features:</strong></h3>
+<p><strong>Cancellation Confirmation:</strong> Customers who cancel a service receive an automated confirmation, which includes details of any refund or rescheduling options.</p>
+<p><strong>Automated Follow-Up:</strong> The system can be set to follow up with the customer after a cancellation to offer rescheduling or alternative services, helping to retain business.</p>
+<h3 class="dh2"><strong>Key Benefits:</strong></h3>
+<p><strong>Efficiency:</strong> These automations reduce the manual effort required to manage invoices, refunds, and cancellations, allowing your team to focus on other aspects of the business.</p>
+<p><strong>Improved Cash Flow:</strong> By automating invoice reminders, you can improve cash flow by encouraging quicker payments from customers.</p>
+<p><strong>Professional Customer Service:</strong> Automated notifications for refunds and cancellations ensure that customers are kept informed throughout the process, enhancing their experience and trust in your business.</p>
+<p>These invoice automations are vital tools in maintaining an organized and efficient billing system, helping to ensure that your business runs smoothly and that customer interactions around payments are handled professionally.</p>
+<h3 class="dh2"><strong>10. Referral Campaign Documentation</strong></h3>
+<p>The auto detailing snapshot includes a flexible <strong>Referral Campaign</strong> designed to incentivize your existing customers to refer new clients to your business. One of the key features of this campaign is its adaptability—allowing you to easily update the referral offer by simply modifying a custom value.</p>
+<h4 class="dh3"><strong>Key Features of the Referral Campaign:</strong></h4>
+<h3 class="dh2"><strong>Customizable Referral Offer:</strong></h3>
+<p><strong>Easy Updates:</strong> The referral offer that you wish to promote can be easily adjusted at any time by updating a specific custom value. This allows you to run different promotions or adjust the offer based on business needs without having to recreate the campaign.</p>
+<p><strong>Flexibility:</strong> Whether you want to offer a discount, a free service, or another type of incentive, you can modify the offer in seconds, ensuring that your referral campaign stays relevant and appealing to your customers.</p>
+<h3 class="dh2"><strong>Automated Tracking and Communication:</strong></h3>
+<p>The campaign is fully automated, handling everything from initial referral invitations to follow-up messages and reward notifications.</p>
+<p><strong>Lead Tracking:</strong> The campaign tracks referrals through the pipeline, ensuring that both the referrer and the new lead are properly managed and rewarded.</p>
+<h3 class="dh2"><strong>Key Benefits:</strong></h3>
+<p><strong>Dynamic and Easy to Manage:</strong> The ability to update the referral offer through a custom value means you can quickly respond to changes in your business environment, keeping your referral campaign fresh and effective.</p>
+<p><strong>Enhanced Customer Engagement:</strong> By regularly updating the referral offer, you keep your existing customers engaged, encouraging them to continue referring new clients to your business.</p>
+<p><strong>Seamless Integration:</strong> The campaign is integrated into your existing workflows, ensuring that referrals are automatically tracked and managed, reducing the need for manual oversight.</p>
+<p>This referral campaign offers a simple yet powerful way to grow your business by leveraging your existing customer base. The easy-to-update custom value feature ensures that you can continuously adapt and optimize your referral incentives to achieve the best results.</p>
+<h3 class="dh2"><strong>11. Birthday Campaign Documentation</strong></h3>
+<p>The auto detailing snapshot also includes a <strong>Birthday Campaign</strong> designed to delight your customers by offering them special promotions on their birthdays. This campaign is fully customizable, allowing you to easily update the birthday offer by modifying a custom value.</p>
+<h4 class="dh3"><strong>Key Features of the Birthday Campaign:</strong></h4>
+<h3 class="dh2"><strong>Customizable Birthday Offer:</strong></h3>
+<p><strong>Easy Updates:</strong> The birthday promotion you want to offer can be easily changed by updating a specific custom value. This means you can refresh the campaign with different offers, such as discounts, free services, or special gifts, without needing to rebuild the campaign.</p>
+<p><strong>Flexibility:</strong> Whether you want to offer a percentage off, a complimentary add-on, or another birthday treat, you can adjust the offer quickly to keep the campaign exciting and relevant for your customers.</p>
+<h3 class="dh2"><strong>Automated Process:</strong></h3>
+<p>The campaign is automated to send out birthday greetings and special offers to your customers at the right time, ensuring that they feel valued and appreciated.</p>
+<p><strong>Personalized Communication:</strong> Each customer receives a personalized message that acknowledges their birthday and presents them with the custom offer, enhancing their connection to your business.</p>
+<h3 class="dh2"><strong>Tracking and Follow-Up:</strong></h3>
+<p>The campaign includes automated tracking to monitor customer engagement with the offer, and it can trigger follow-up messages if the offer hasn't been redeemed.</p>
+<h3 class="dh2"><strong>Key Benefits:</strong></h3>
+<p><strong>Effortless Customization:</strong> By using a custom value, you can easily update the birthday offer to reflect different promotions or seasonal specials, ensuring that the campaign remains effective and aligned with your business goals.</p>
+<p><strong>Increased Customer Loyalty:</strong> Birthday campaigns are a powerful way to show your customers that you care, which can lead to increased loyalty and repeat business.</p>
+<p><strong>Seamless Integration:</strong> The campaign is fully integrated with your existing workflows, so it runs smoothly and requires minimal manual intervention.</p>
+<p>This birthday campaign is an excellent tool to enhance customer satisfaction and loyalty. The ability to quickly update the birthday offer via a custom value ensures that your promotions stay fresh and continue to appeal to your customers year after year.</p>
+<h3 class="dh2"><strong>12. Missed Call Text Back Automation Documentation</strong></h3>
+<p>The auto detailing snapshot includes a <strong>Missed Call Text Back Automation</strong> designed to ensure that no potential customer is left unattended when they attempt to contact your business. This automation triggers an immediate response via SMS when a call is missed, providing a seamless way to maintain communication and potentially convert the missed call into a booking.</p>
+<h4 class="dh3"><strong>Key Features of the Missed Call Text Back Automation:</strong></h4>
+<h3 class="dh2"><strong>Automatic Trigger Based on Call Status:</strong></h3>
+<p>The automation is triggered whenever a call is missed. This ensures that the response is timely and that the customer feels valued despite not being able to connect via phone.</p>
+<h3 class="dh2"><strong>Contact Status Check:</strong></h3>
+<p>The automation first checks if the caller is a new or existing contact. This allows for a more personalized approach in the follow-up communication.</p>
+<h3 class="dh2"><strong>Personalized SMS Response:</strong></h3>
+<p><strong>New Contact:</strong> If the caller is a new contact, the system tags the lead and sends a personalized SMS that acknowledges their missed call and invites them to reply or schedule an appointment.</p>
+<p><strong>Existing Contact:</strong> If the caller is an existing contact, a different message tailored to ongoing customer relationships can be sent, further personalizing the communication.</p>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>The system also sends an internal notification to your team, ensuring that they are aware of the missed call and can take further action if needed. This helps in tracking all missed calls and ensuring that follow-up actions are taken.</p>
+<h3 class="dh2"><strong>Lead Nurturing and Conversion:</strong></h3>
+<p>The automation ensures that potential leads do not fall through the cracks by keeping the communication lines open. This process helps in nurturing the lead towards booking a service or responding to the message.</p>
+<h3 class="dh2"><strong>Key Benefits:</strong></h3>
+<p><strong>Immediate Response:</strong> The automation ensures that customers receive a prompt response even when their call cannot be answered, helping to maintain customer satisfaction and prevent potential leads from seeking services elsewhere.</p>
+<p><strong>Personalized Follow-Up:</strong> By differentiating between new and existing contacts, the automation allows for more personalized communication, which can improve the effectiveness of the follow-up.</p>
+<p><strong>Enhanced Lead Management:</strong> Internal notifications keep your team informed of missed calls, allowing them to take proactive measures to convert the lead.</p>
+<p>This Missed Call Text Back Automation is an essential tool to enhance customer service and ensure that every potential lead is nurtured, even when direct communication is temporarily interrupted.</p>
+<h3 class="dh2"><strong>13. Holiday Promotional Emails Documentation</strong></h3>
+<p>The auto detailing snapshot includes a set of <strong>13 beautifully designed holiday promotional emails</strong> that are perfect for engaging your customers during key times of the year. Each email is crafted to align with specific holidays and special occasions, helping you to run timely and relevant promotions that drive sales and customer loyalty.</p>
+<h4 class="dh3"><strong>Included Holiday Emails:</strong></h4>
+<h3 class="dh2"><strong>General</strong></h3>
+<h3 class="dh2"><strong>4th Of July</strong></h3>
+<h3 class="dh2"><strong>Black Friday</strong></h3>
+<h3 class="dh2"><strong>Birthday Free Gift</strong></h3>
+<h3 class="dh2"><strong>Mother’s Day</strong></h3>
+<h3 class="dh2"><strong>Father’s Day</strong></h3>
+<h3 class="dh2"><strong>Thanksgiving</strong></h3>
+<h3 class="dh2"><strong>Christmas</strong></h3>
+<h3 class="dh2"><strong>Valentine’s Day</strong></h3>
+<h3 class="dh2"><strong>etc</strong></h3>
+<h3 class="dh2"><strong>Key Features of the Holiday Promotional Emails:</strong></h3>
+<h3 class="dh2"><strong>Customizable Offers:</strong></h3>
+<p><strong>Easy Offer Updates:</strong> The promotional offer included in each of these holiday emails can be easily changed by updating a specific custom value. This allows you to tailor the offer to best fit your business goals or seasonal strategy without the need to redesign the entire email.</p>
+<p><strong>Flexibility:</strong> Whether you want to offer discounts, free services, or special gifts, you can quickly adjust the promotion in each email to keep your marketing fresh and relevant.</p>
+<h3 class="dh2"><strong>Professionally Designed Templates:</strong></h3>
+<p>Each email is designed with a professional layout that aligns with the theme of the holiday, ensuring your promotions are not only effective but also visually appealing.</p>
+<h3 class="dh2"><strong>Key Benefits:</strong></h3>
+<p><strong>Engagement Across the Year:</strong> By covering a wide range of holidays and special occasions, these emails help keep your business top-of-mind throughout the year, encouraging repeat business and loyalty.</p>
+<p><strong>Effortless Customization:</strong> The ability to update the promotional offer via a custom value ensures that your holiday campaigns remain flexible and can quickly adapt to any changes in your marketing strategy.</p>
+<p>These holiday promotional emails are powerful tools to engage your customers, boost sales during key seasons, and maintain a strong connection with your audience throughout the year. The easy customization of offers ensures that your promotions are always aligned with your current business needs and goals.</p>
+</div>
+</section>
+</main></div>
+<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">&#10005;</button><img id="lb-img" src="" alt="" onclick="event.stopPropagation()"></div>
+<script>
+document.querySelectorAll('main img').forEach(im=>{im.style.cursor='zoom-in';im.addEventListener('click',()=>{document.getElementById('lb-img').src=im.src;document.getElementById('lb').classList.add('open');});});
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>

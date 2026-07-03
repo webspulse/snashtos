@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Website Overview</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:#0d0f18;--surf:#13151f;--surf2:#191c2a;--surf3:#1e2236;
+  --border:#252a3d;--acc:#e94560;--txt:#e8eaf4;--muted:#8b93b5;--dim:#4e556e;
+  --sw:268px;--hh:58px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);line-height:1.72;font-size:15px;overflow-x:hidden;}
+
+/* topbar */
+#topbar{position:sticky;top:0;z-index:200;height:var(--hh);background:rgba(13,15,24,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;}
+.logo{background:var(--acc);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:5px 12px;border-radius:6px;}
+.top-title{font-size:14px;font-weight:600;flex:1;}
+.srch-wrap{position:relative;}
+.srch-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;}
+#srch{background:var(--surf2);border:1px solid var(--border);border-radius:8px;
+  padding:7px 12px 7px 32px;color:var(--txt);font-size:13px;width:220px;
+  outline:none;transition:border .18s,box-shadow .18s;}
+#srch:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,69,96,.14);}
+#srch::placeholder{color:var(--dim);}
+.badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surf2);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+/* layout */
+.layout{display:flex;min-height:calc(100vh - var(--hh));}
+
+/* sidebar */
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);
+  position:sticky;top:var(--hh);height:calc(100vh - var(--hh));overflow-y:auto;padding:10px 0 24px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 18px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:13px;
+  font-weight:500;color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  transition:all .13s;cursor:pointer;user-select:none;}
+.nav-item:hover{color:var(--txt);background:var(--surf2);border-left-color:var(--dim);}
+.nav-item.active{color:var(--acc);background:rgba(233,69,96,.08);border-left-color:var(--acc);font-weight:600;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background .13s;}
+.nav-item.active .ndot,.nav-item:hover .ndot{background:var(--acc);}
+
+/* main */
+main{flex:1;min-width:0;}
+
+/* cover */
+#cover{background:linear-gradient(155deg,#0d0f18 0%,#14102a 50%,#0d0f18 100%);
+  border-bottom:1px solid var(--border);padding:72px 60px 60px;text-align:center;
+  position:relative;overflow:hidden;}
+#cover::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(233,69,96,.17) 0%,transparent 72%);
+  pointer-events:none;}
+.cv-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(233,69,96,.1);
+  border:1px solid rgba(233,69,96,.3);color:var(--acc);font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+#cover h1{font-size:50px;font-weight:800;line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 25%,#9095b8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#cover>p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 40px;}
+.stats{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.stat-num{font-size:34px;font-weight:800;color:var(--acc);line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:640px;margin:0 auto;}
+.pill{background:var(--surf2);border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;transition:all .13s;}
+.pill:hover{color:var(--txt);border-color:rgba(233,69,96,.5);}
+
+/* section */
+.doc-section{border-bottom:1px solid var(--border);scroll-margin-top:var(--hh);}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 42px;
+  background:var(--surf);border-bottom:1px solid var(--border);
+  position:sticky;top:var(--hh);z-index:10;}
+.sec-num{width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);
+  color:var(--acc);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);flex:1;}
+.btn-top{font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;
+  background:var(--surf2);border:1px solid var(--border);
+  padding:5px 13px;border-radius:6px;transition:all .13s;white-space:nowrap;}
+.btn-top:hover{color:var(--acc);border-color:rgba(233,69,96,.5);}
+.sec-body{padding:32px 42px 48px;max-width:860px;}
+
+/* typography */
+.dh1{font-size:21px;font-weight:800;color:var(--txt);margin:28px 0 10px;}
+.dh2{font-size:15px;font-weight:700;color:var(--txt);margin:22px 0 10px;
+  padding:10px 15px;background:var(--surf2);border-left:3px solid var(--acc);border-radius:0 7px 7px 0;}
+.dh3{font-size:12px;font-weight:700;color:var(--acc);margin:16px 0 7px;
+  text-transform:uppercase;letter-spacing:.09em;}
+.sec-body p{color:var(--muted);font-size:15px;line-height:1.78;margin-bottom:12px;}
+.sec-body p strong{color:var(--txt);font-weight:600;}
+.sec-body p em{color:#9a9ec0;font-style:italic;}
+
+/* images */
+.img-snap{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px;padding:20px;
+  background:var(--surf2);border:1px solid var(--border);border-radius:12px;}
+.img-snap img{height:260px;width:auto;max-width:100%;border-radius:8px;
+  border:1px solid var(--border);cursor:zoom-in;object-fit:contain;
+  background:var(--surf3);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-snap img:hover{transform:scale(1.03);box-shadow:0 8px 32px rgba(233,69,96,.22);border-color:var(--acc);}
+
+.img-inline{margin:20px 0;}
+.img-inline img{width:100%;max-width:780px;height:auto;display:block;
+  border-radius:10px;border:1px solid var(--border);cursor:zoom-in;
+  background:var(--surf2);transition:transform .18s,box-shadow .18s,border-color .18s;}
+.img-inline img:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(233,69,96,.18);border-color:var(--acc);}
+
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;cursor:zoom-out;}
+#lb.on{display:flex;}
+#lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:8px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);cursor:default;}
+#lb-close{position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:none;color:#fff;font-size:17px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+#lb-close:hover{background:rgba(233,69,96,.7);}
+
+mark{background:rgba(233,69,96,.32);color:#fff;border-radius:2px;padding:0 2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:820px){
+  .sidebar{display:none;}
+  .sec-body{padding:20px;}
+  .sec-head{padding:14px 18px;}
+  #cover{padding:40px 18px;}
+  #cover h1{font-size:32px;}
+  .img-snap img{height:180px;}
+}
+</style>
+<style>
+.layout{display:block;}
+main,.content{max-width:960px;margin:0 auto;padding:32px 24px;}
+section{display:block !important;}
+</style>
+</head>
+<body>
+<div id="topbar"><span class="logo">SNAPLEVEL</span><span class="top-title">Website Overview</span></div>
+<div class="layout"><main class="content">
+<section id="hair-salon" class="doc-section">
+<div class="sec-head">
+<div class="sec-num">19</div>
+<div class="sec-title">Hair Salon</div>
+<a href="#topbar" class="btn-top">&#8593; Top</a>
+</div>
+<div class="sec-body">
+<h3 class="dh2"><strong>Table of Contents:</strong></h3>
+<h3 class="dh2"><strong>Website Overview</strong></h3>
+<h3 class="dh2">Key Website Pages</h3>
+<h3 class="dh2">Automation Integration</h3>
+<h3 class="dh2"><strong>Linktrees Overview</strong></h3>
+<h3 class="dh2">Services Linktree</h3>
+<h3 class="dh2">Special Offers Linktree</h3>
+<h3 class="dh2">About Us Linktree</h3>
+<h3 class="dh2">Book Now Linktree</h3>
+<h3 class="dh2"><strong>Funnel Overview</strong></h3>
+<h3 class="dh2">Funnels Included</h3>
+<h3 class="dh2">Shared Marketing Pipeline</h3>
+<h3 class="dh2">Funnel Automations</h3>
+<h3 class="dh2"><strong>Appointment Workflows Overview</strong></h3>
+<h3 class="dh2">Key Appointment Workflows</h3>
+<h3 class="dh2">Removal From Workflow After Appointment</h3>
+<h3 class="dh2"><strong>52-Week Nurture Campaigns Overview</strong></h3>
+<h3 class="dh2">52-Week Email Nurture Campaign</h3>
+<h3 class="dh2">52-Week Text Message Nurture Campaign</h3>
+<h3 class="dh2"><strong>Database Reactivation Campaigns Overview</strong></h3>
+<h3 class="dh2">Campaigns Included</h3>
+<h3 class="dh2">Shared Database Reactivation Pipeline</h3>
+<h3 class="dh2">Automation in Each Campaign</h3>
+<h3 class="dh2"><strong>Google Review Campaign Overview</strong></h3>
+<h3 class="dh2">Review Request Campaign</h3>
+<h3 class="dh2">Review Campaign Follow-Up</h3>
+<h3 class="dh2">Review Campaign Link Clicked Automation</h3>
+<h3 class="dh2"><strong>Incoming Lead Follow-Up Automations</strong></h3>
+<h3 class="dh2">Incoming Lead: Email</h3>
+<h3 class="dh2">Incoming Lead: Facebook Messenger (FB DM)</h3>
+<h3 class="dh2">Incoming Lead: Instagram DM (IG DM)</h3>
+<h3 class="dh2"><strong>Missed Call Text Back Automations</strong></h3>
+<h3 class="dh2">Basic Missed Call Text Back</h3>
+<h3 class="dh2">Advanced Missed Call Text Back Sequence</h3>
+<h3 class="dh2"><strong>Payment Automations</strong></h3>
+<h3 class="dh2">Initial Payment Request After Service Completion</h3>
+<h3 class="dh2">Payment Received</h3>
+<h3 class="dh2">Refund</h3>
+<h3 class="dh2"><strong>Birthday Workflow</strong></h3>
+<h3 class="dh2"><strong>Customer Referral Campaign</strong></h3>
+<h3 class="dh2"><strong>Holiday Emails</strong></h3>
+<h2 class="dh1"><strong>Website Overview</strong></h2>
+<p>This Hair Salon GoHighLevel Snapshot includes a fully customizable website designed specifically for hair salons. The website is built with flexibility and ease in mind, making it perfect for any salon looking to establish a strong online presence. One of the key features of this website is its ability to auto-populate business-specific information using <strong>custom values</strong>. This ensures that critical details, such as your business name, contact information, and location, are automatically filled in, saving you time and effort during the setup process.</p>
+<h3 class="dh2"><strong>Key Website Pages</strong></h3>
+<p><strong>Home</strong> - An attractive landing page designed to engage potential clients with promotions and a call-to-action.</p>
+<p><strong>About</strong> - A customizable page to tell the story of your salon, complete with space for customer testimonials.</p>
+<p><strong>Services (Hair Extensions, Haircuts, Color, etc.)</strong> - Pages dedicated to showcasing each of your services, with descriptions and a booking option.</p>
+<p><strong>Gallery</strong> - A visual showcase where you can feature your salon’s best work, from styles to transformations.</p>
+<p><strong>Contact Us</strong> - A dynamic page that includes a contact form and map location, integrated with custom values to automatically update the business address, phone number, and email.</p>
+<h3 class="dh2"><strong>Automation Integration</strong></h3>
+<p>This website integrates seamlessly with the <strong>web chat</strong> and <strong>live chat</strong> automation systems included in the snapshot. With these automation features:</p>
+<p><strong>Web Chat Automation</strong>: Visitors to your site can easily communicate with your salon in real time. The chat widget is set up to automatically greet new leads and capture essential information for follow-up, making it an effortless way to stay connected with potential clients.</p>
+<p><strong>Live Chat Automation</strong>: Beyond simple web chat, the live chat automation feature ensures that any inquiry received, whether your salon is open or closed, is handled promptly. If the business is closed, the live chat automation will follow up when your team is back online, ensuring no lead goes cold.</p>
+<p>Both web chat and live chat workflows are designed to boost engagement and capture leads directly from your website. As leads interact with your site, they are automatically added to your CRM system, and follow-up actions are triggered to ensure high conversion rates.</p>
+<h2 class="dh1"><strong>2. Linktrees Overview</strong></h2>
+<p>The Hair Salon GoHighLevel Snapshot includes four fully customizable <strong>Linktrees</strong> designed to provide easy access to essential information and actions for potential and existing clients. These Linktrees allow you to offer a streamlined, user-friendly experience, helping clients find services, offers, or important information about your salon. Each Linktree is built with flexibility in mind and auto-populates using <strong>custom values</strong> to reflect the specific details of your business.</p>
+<h3 class="dh2"><strong>1. Services Linktree</strong></h3>
+<p>The <strong>Services Linktree</strong> provides direct access to all of the hair salon’s offered services. This could include haircuts, hair color, extensions, straightening, and other salon treatments. It’s designed to help clients quickly understand the range of services available and make it easy for them to book appointments for specific services. This Linktree is structured to enhance user experience by leading them directly to detailed service descriptions and booking options.</p>
+<h3 class="dh2"><strong>2. Special Offers Linktree</strong></h3>
+<p>The <strong>Special Offers Linktree</strong> showcases all the current promotions, discounts, and limited-time offers your salon is running. Whether it's a seasonal discount, a loyalty reward, or a first-time client promotion, this Linktree ensures potential clients know exactly what deals are available. It's an essential tool for encouraging new bookings and upselling services during special promotions.</p>
+<h3 class="dh2"><strong>3. About Us Linktree</strong></h3>
+<p>The <strong>About Us Linktree</strong> focuses on providing information about your salon’s story, mission, team, and unique value propositions. This is where potential clients can learn about your experience, expertise, and the salon’s dedication to high-quality customer service. It helps build trust with potential clients, letting them know more about who you are and why they should choose your salon.</p>
+<h3 class="dh2"><strong>4. Book Now Linktree</strong></h3>
+<p>The <strong>Book Now Linktree</strong> is designed to provide a quick and easy way for clients to schedule appointments with your salon. This Linktree is optimized to direct clients to a booking page where they can choose their preferred service, date, and time for their appointment. It is a key tool to increase conversion rates by simplifying the booking process.</p>
+<h2 class="dh1"><strong>3.  Funnel Overview</strong></h2>
+<p>The Hair Salon GoHighLevel Snapshot includes five powerful lead generation funnels designed to bring in new clients, re-engage existing customers, and promote special offers. These funnels share a unified <strong>Marketing Pipeline</strong>, ensuring all leads are tracked, monitored, and moved through each stage of engagement, from initial interest to final sale.</p>
+<h3 class="dh2"><strong>Funnels Included:</strong></h3>
+<h3 class="dh2"><strong>20% Off + Sample Gifts Funnel</strong></h3>
+<h3 class="dh2"><strong>Beauty Salon 30% Off Coupon Funnel</strong></h3>
+<h3 class="dh2"><strong>FREE Deep Conditioning Treatment Funnel</strong></h3>
+<h3 class="dh2"><strong>Membership Program Funnel</strong></h3>
+<h3 class="dh2"><strong>New Client Discount Funnel</strong></h3>
+<h3 class="dh2"><strong>Shared Marketing Pipeline</strong></h3>
+<p>All five funnels operate using a shared <strong>Marketing Pipeline</strong>, which tracks leads through the following stages:</p>
+<p><strong>New Lead</strong>: The lead has submitted a form and entered the funnel.</p>
+<p><strong>Hot Lead</strong>: The lead has shown further interest, such as scheduling a consultation.</p>
+<p><strong>New Booking</strong>: The lead has scheduled an appointment.</p>
+<p><strong>Appointment Canceled</strong>: The appointment was canceled by the client.</p>
+<p><strong>Appointment No Show</strong>: The client didn’t show up for the appointment.</p>
+<p><strong>Visit Attended</strong>: The client attended the appointment.</p>
+<p><strong>Sale</strong>: The lead has converted to a paying customer.</p>
+<p><strong>Left a Review</strong>: The client left a review after the service.</p>
+<h3 class="dh2"><strong>Funnel Automations</strong></h3>
+<p>Each funnel comes with its own set of <strong>automations</strong> designed to engage, follow up, and convert leads. The automation sequences typically include:</p>
+<p><strong>Form Submission</strong>: When a potential client submits a form (claiming an offer, signing up for the membership, or booking a service), an automation is triggered to send them a confirmation message.</p>
+<p><strong>SMS &amp; Email Follow-Up</strong>: The lead will receive an SMS and email sequence reminding them to book their appointment and claim their offer.</p>
+<p><strong>Internal Notifications</strong>: Salon staff will receive notifications about new leads and bookings to stay informed and follow up if necessary.</p>
+<p><strong>Opportunity Creation</strong>: Each new lead is automatically added as an opportunity in the Marketing Pipeline for tracking and conversion purposes.</p>
+<h3 class="dh2"><strong>Removal From Workflow After Booking</strong></h3>
+<p>To ensure efficient follow-up and prevent over-communication, <strong>if a lead books an appointment</strong>, they will be <strong>automatically removed</strong> from the remaining workflow sequence. This guarantees they only receive relevant messaging moving forward and are not bombarded with reminders after they've taken action.</p>
+<h2 class="dh1"><strong>4. Appointment Workflows Overview</strong></h2>
+<p>The Hair Salon GoHighLevel Snapshot comes equipped with a set of <strong>Appointment Workflows</strong> designed to manage and streamline the entire booking process. These workflows ensure that clients are reminded of their upcoming appointments, followed up with if they miss or cancel, and nurtured after a successful visit. Each workflow in the snapshot is connected to a <strong>Consultation Calendar</strong> and <strong>Hair Salon Services Calendar</strong>, allowing seamless automation for different types of appointments.</p>
+<h3 class="dh2"><strong>Key Appointment Workflows:</strong></h3>
+<h3 class="dh2"><strong>Appointment Reminder (Consultation Calendar)</strong></h3>
+<p>This workflow is triggered when a client books an appointment for a consultation. It sends timely reminders via SMS or email to ensure the client does not forget their scheduled time.</p>
+<p>Multiple reminders can be set up to go out before the appointment, depending on how far in advance it was booked.</p>
+<p>This automation reduces no-show rates by keeping the appointment top of mind for the client.</p>
+<h3 class="dh2"><strong>Appointment No Show (Consultation Calendar)</strong></h3>
+<p>If the client does not attend their scheduled appointment, this workflow is triggered to send a follow-up message via SMS or email.</p>
+<p>It encourages the client to reschedule and provides easy access to do so, ensuring the business doesn't lose out on the opportunity.</p>
+<p>The system can automatically track and tag these leads as 'No Show' in the pipeline.</p>
+<h3 class="dh2"><strong>Appointment Canceled (Consultation Calendar)</strong></h3>
+<p>This workflow activates if the client cancels their appointment. It sends a follow-up message asking if they'd like to reschedule and provides convenient options for doing so.</p>
+<p>The workflow ensures that the client doesn’t drop off entirely, keeping them engaged and encouraging future bookings.</p>
+<h3 class="dh2"><strong>Appointment Completed (Consultation Calendar)</strong></h3>
+<p>Once a client has completed their consultation, this workflow updates their status in the pipeline to reflect that the appointment was completed.</p>
+<p>It also removes any associated tags (such as 'New Lead' or 'Hot Lead') to ensure accurate tracking of client progress.</p>
+<h3 class="dh2"><strong>Removal From Workflow After Appointment is Booked</strong></h3>
+<p><strong>If a client books or rebooks an appointment</strong> (whether from a reminder or a reschedule), they are automatically <strong>removed from the workflow</strong> to prevent any further reminder or follow-up messages. This ensures the client experience remains smooth, and they only receive relevant messaging.</p>
+<p>These appointment workflows are designed to handle every aspect of the booking process, from reminders to post-service engagement, ensuring maximum efficiency and client satisfaction for the salon.</p>
+<h2 class="dh1"><strong>5. 52-Week Nurture Campaigns Overview</strong></h2>
+<p>The Hair Salon GoHighLevel Snapshot includes two comprehensive <strong>52-Week Nurture Campaigns</strong>, designed to educate, engage, and nurture leads throughout the year. These campaigns help build trust with potential clients by sharing valuable tips, educational content, and special offers, all while maintaining regular communication.</p>
+<h3 class="dh2"><strong>52-Week Email Nurture Campaign (Educational)</strong></h3>
+<p>This email nurture campaign consists of 52 weekly emails that provide value-based, educational content to nurture leads and convert them into paying customers. The campaign covers a variety of topics such as hair care tips, styling advice, seasonal beauty trends, and exclusive salon promotions.</p>
+<p><strong>Content Focus</strong>: Each email is crafted to share valuable hair care advice, styling tips, and educational information to position the salon as a trusted authority in the beauty industry.</p>
+<h3 class="dh2"><strong>Call to Action (CTA)</strong>: Each email contains a CTA that fluctuates between:</h3>
+<p>Call us at {{location.phone}}</p>
+<p>Visit our website at {{location.website}}</p>
+<p>Reply 'Yes' to this email to learn more or book</p>
+<p><strong>Automation</strong>: Leads will be automatically enrolled in the email nurture sequence after they opt-in, and they will continue receiving content for the full year unless they convert into a customer. Once they book an appointment or purchase a service, they will be removed from the campaign to avoid redundancy.</p>
+<h3 class="dh2"><strong>52-Week Text Message Nurture Campaign (Educational)</strong></h3>
+<p>This SMS nurture campaign delivers short, value-packed messages to leads once a week for 52 weeks. The goal is to stay top of mind by providing quick tips, reminders, and updates on special offers. Each message is designed to be educational and encourage the recipient to take action.</p>
+<p><strong>Content Focus</strong>: Each SMS focuses on a different hair care tip, product recommendation, or service highlight, making sure the content stays engaging and relevant throughout the year.</p>
+<h3 class="dh2"><strong>Call to Action (CTA)</strong>: The CTA for each SMS fluctuates between:</h3>
+<p>Reply 'Yes' to book an appointment</p>
+<p>Call us at {{location.phone}}</p>
+<p>Visit our website at {{location.website}}</p>
+<p><strong>Automation</strong>: Similar to the email campaign, leads are enrolled in this SMS nurture sequence after opting in. They will receive weekly messages unless they convert. If a lead books an appointment, they are automatically removed from the SMS sequence to prevent further nurturing.</p>
+<p>These nurture campaigns are designed to build relationships over time, keep leads engaged with the salon, and increase the likelihood of conversions by providing consistent value and interaction throughout the year.</p>
+<h2 class="dh1"><strong>6. Database Reactivation Campaigns Overview</strong></h2>
+<p>The Hair Salon GoHighLevel Snapshot includes four <strong>Database Reactivation Campaigns</strong> designed to re-engage inactive clients and encourage them to book services again. These campaigns offer attractive discounts and incentives to bring back clients who haven't visited the salon for a while. Each campaign shares a dedicated <strong>Database Reactivation Pipeline</strong> that tracks the progress of each lead and ensures proper follow-up.</p>
+<h3 class="dh2"><strong>Campaigns Included:</strong></h3>
+<h3 class="dh2"><strong>$20 Off Any Service</strong></h3>
+<h3 class="dh2"><strong>$30 Off Full Color and Highlights</strong></h3>
+<h3 class="dh2"><strong>50% Off Second Service</strong></h3>
+<h3 class="dh2"><strong>Free Blowout with Any Service</strong></h3>
+<h3 class="dh2"><strong>Shared Database Reactivation Pipeline</strong></h3>
+<p>All four campaigns operate using the same <strong>Database Reactivation Pipeline</strong>, which includes the following stages:</p>
+<p><strong>Offer Sent</strong>: The initial offer is sent to the lead via SMS or email.</p>
+<p><strong>Responded</strong>: The lead responds to the offer, expressing interest or asking for more information.</p>
+<p><strong>Offer Claimed</strong>: The lead has accepted the offer and booked a service.</p>
+<p><strong>Not Interested</strong>: The lead indicates they are not interested in the offer.</p>
+<p>This pipeline helps manage leads efficiently by keeping track of which clients have claimed offers and which have not yet responded, allowing the salon to follow up accordingly.</p>
+<h3 class="dh2"><strong>Automation in Each Campaign</strong></h3>
+<p>Each reactivation campaign is fully automated to ensure a smooth process for both the client and the salon. The automations include:</p>
+<p><strong>Day 1 SMS/Email Offer</strong>: An enticing message is sent to the inactive client offering the specific discount or promotion.</p>
+<p><strong>Follow-Up Reminders</strong>: If the client does not respond, additional reminders will be sent after a set period, encouraging them to take advantage of the offer before it expires.</p>
+<p><strong>Internal Notifications</strong>: Salon staff will receive notifications when a client responds or claims an offer, ensuring they are prepared to follow up personally if needed.</p>
+<p><strong>Offer Claimed Removal</strong>: If a client claims the offer and books an appointment, they are automatically removed from the workflow to prevent receiving further reminders.</p>
+<p>These campaigns are designed to maximize the value of your client database by re-engaging inactive clients and turning them into active, paying customers.</p>
+<h3 class="dh2"><strong>Hair Salon Snapshot Documentation - Google Review Campaign Overview</strong></h3>
+<p>The Hair Salon GoHighLevel Snapshot includes a comprehensive <strong>Google Review Campaign</strong> designed to encourage satisfied clients to leave reviews on Google. Positive reviews are essential for building a strong online presence and attracting new customers. This campaign automates the process of requesting reviews and following up to ensure that clients are reminded and incentivized to leave their feedback.</p>
+<h2 class="dh1"><strong>7. Google Review Campaign Components:</strong></h2>
+<h3 class="dh2"><strong>Review Request Campaign</strong></h3>
+<p>This is the initial campaign that sends out a message (SMS or email) to clients after they've completed their appointment, asking them to leave a review on Google.</p>
+<p>The message is personalized with the client’s name and includes a direct link to the salon’s Google review page using the custom value {{custom_values.google_review_link}}.</p>
+<p>Example SMS message:
+Hi {{contact.first_name}}! 😊 We hope you loved your recent visit with us! If you have a moment, we’d really appreciate it if you could leave us a review on Google. Your feedback helps us improve and keeps us doing what we love! 💇‍♀️ Click here to leave a review: {{custom_values.google_review_link}}. Thank you so much!</p>
+<h3 class="dh2"><strong>Review Campaign Follow-Up</strong></h3>
+<p>If the client doesn't click the link or respond to the initial review request, this workflow will automatically send a follow-up reminder after a set period (e.g., 7 days).</p>
+<p>The follow-up message will gently remind the client of the importance of their feedback and provide the review link again to make the process easy.</p>
+<h3 class="dh2"><strong>Review Campaign Link Clicked Automation:</strong></h3>
+<p><strong>Link Click Trigger</strong>: If a client clicks the review link from the initial request or the follow-up message, this trigger is activated.</p>
+<p><strong>Internal Notification</strong>: Salon staff receive a notification that the client has clicked the review link, indicating that a review may soon be posted.</p>
+<p><strong>Opportunity Update</strong>: The system will create or update the opportunity for this client in the pipeline, moving them to the appropriate stage (such as &quot;Review Link Clicked&quot;).</p>
+<p><strong>Tagging</strong>: The client will be tagged with &quot;Review Link Clicked&quot; for tracking and filtering purposes.</p>
+<p><strong>Workflow Removal</strong>: Once the client clicks the review link, they are automatically removed from the rest of the review request workflow to prevent further follow-ups.</p>
+<h3 class="dh2"><strong>Automation Benefits:</strong></h3>
+<p><strong>Improved Review Collection</strong>: This automated system helps ensure that your salon collects as many reviews as possible, improving your online visibility and reputation.</p>
+<p><strong>Personalized Messaging</strong>: By using custom values such as {{contact.first_name}} and {{custom_values.google_review_link}}, the messages feel personal and tailored, increasing the likelihood of engagement.</p>
+<p><strong>Efficient Follow-Up</strong>: The automated reminders ensure that clients are gently reminded if they forget to leave a review, without being overly intrusive.</p>
+<p>This Google Review Campaign is an essential tool for building a positive online presence and maintaining customer engagement after their visit.</p>
+<h2 class="dh1"><strong>8. Incoming Lead Follow-Up Automations Overview</strong></h2>
+<p>The Hair Salon GoHighLevel Snapshot includes three distinct <strong>Incoming Lead Follow-Up Automations</strong> designed to engage leads coming from different communication channels: email, Facebook Messenger (FB DM), and Instagram DM (IG DM). These automations ensure timely follow-up with new leads, capturing essential details and encouraging them to take the next step, such as booking a call or appointment.</p>
+<h3 class="dh2"><strong>1. Incoming Lead: Email</strong></h3>
+<p>This workflow is triggered when a new lead contacts the salon via email.</p>
+<h3 class="dh2"><strong>Automation Sequence</strong>:</h3>
+<p><strong>Immediate Response</strong>: An automated email is sent to the lead, thanking them for reaching out and informing them that the team will be in touch shortly.</p>
+<p><strong>Follow-Up</strong>: If no response is received within a set period (e.g., 24 hours), a second follow-up email is sent, offering assistance and asking if they would like to book a call or appointment.</p>
+<p><strong>Internal Notifications</strong>: Salon staff receive a notification when the lead responds or if further action is required.</p>
+<h3 class="dh2"><strong>2. Incoming Lead: Facebook DM (FB Messenger)</strong></h3>
+<p>This automation is triggered when a lead sends a message through Facebook Messenger.</p>
+<h3 class="dh2"><strong>Automation Sequence</strong>:</h3>
+<p><strong>Immediate Response via Messenger</strong>: A personalized message is automatically sent to the lead. Example message:
+Hi {{contact.first_name}}, Thanks for reaching out on Facebook! Our team is on it and will be in touch shortly. When's a good time for a brief call?</p>
+<p><strong>Opportunity Update</strong>: The lead’s details are updated in the CRM system, ensuring their information is properly tracked.</p>
+<p><strong>Follow-Up</strong>: If the lead does not respond after 15 minutes, a second message is sent to encourage further interaction or booking.</p>
+<p><strong>Internal Notifications</strong>: Salon staff are alerted to take action if the lead does not respond, ensuring no opportunity is missed.</p>
+<h3 class="dh2"><strong>3. Incoming Lead: Instagram DM (IG DM)</strong></h3>
+<p>This workflow is triggered when a lead contacts the salon via Instagram Direct Messages.</p>
+<h3 class="dh2"><strong>Automation Sequence</strong>:</h3>
+<p><strong>Immediate Response via Instagram DM</strong>: A message is sent directly to the lead’s Instagram account. Example message:
+Hi {{contact.first_name}}, Thanks for getting in touch with us on Instagram! Our team will get back to you shortly. Is there a good time for us to chat briefly?</p>
+<p><strong>Opportunity Update</strong>: The lead’s details are logged in the system, and they are tagged for future follow-up.</p>
+<p><strong>Follow-Up</strong>: A reminder is sent if the lead doesn’t respond within a set time frame, ensuring continued engagement.</p>
+<p><strong>Internal Notifications</strong>: Salon staff are notified to take action if the lead does not respond, allowing for personalized follow-up.</p>
+<h3 class="dh2"><strong>Automation Benefits:</strong></h3>
+<p><strong>Unified Lead Management</strong>: These automations ensure that leads coming from different channels (email, FB Messenger, IG DM) are seamlessly captured and tracked in the CRM system.</p>
+<p><strong>Timely Engagement</strong>: Leads receive instant follow-up messages, improving response times and increasing the likelihood of conversion.</p>
+<p><strong>Opportunity Updates</strong>: Each lead’s progress is updated in the CRM pipeline, helping staff monitor where they are in the engagement process.</p>
+<p><strong>Customizable Messaging</strong>: The use of placeholders such as {{contact.first_name}} allows for personalized communication, enhancing the client experience.</p>
+<h2 class="dh1"><strong>9. Missed Call Text Back Automations Overview</strong></h2>
+<p>The Hair Salon GoHighLevel Snapshot includes two separate <strong>Missed Call Text Back Automations</strong> designed to handle missed calls promptly, ensuring that no potential client is left unattended. These automations use SMS to follow up with customers who called but couldn’t reach the salon, offering an easy way for them to reconnect and receive assistance.</p>
+<h3 class="dh2"><strong>1. Basic Missed Call Text Back</strong></h3>
+<p>This workflow is triggered when a call to the salon is marked as missed.</p>
+<h3 class="dh2"><strong>Automation Sequence</strong>:</h3>
+<p><strong>SMS Response</strong>: An immediate text message is sent to the caller to acknowledge the missed call and offer assistance. Example message:
+Hey there, this is {{user.first_name}} from {{location.name}}, we just got a missed call from this number, sorry about that! How can I help?</p>
+<p><strong>Opportunity Update</strong>: The caller is added to the CRM as a new opportunity (if they are a new contact).</p>
+<p><strong>Tagging</strong>: The caller is tagged for future tracking purposes.</p>
+<p><strong>Internal Notification</strong>: Salon staff are notified that a missed call has been logged, ensuring that the team can follow up manually if necessary.</p>
+<h3 class="dh2"><strong>2. Advanced Missed Call Text Back Sequence</strong></h3>
+<p>This advanced automation offers a more detailed follow-up process for missed calls, ensuring multiple touchpoints to re-engage the caller.</p>
+<h3 class="dh2"><strong>Automation Sequence</strong>:</h3>
+<p><strong>Initial SMS Response</strong>: When the call is marked as missed, an SMS is sent to acknowledge the missed call. Example message:
+Sorry, we've missed your call. How can we help you?</p>
+<p><strong>Follow-Up Sequence</strong>: If no response is received after a set time (e.g., 15 minutes), the system triggers another follow-up SMS, offering additional support or scheduling assistance.</p>
+<p><strong>Opportunity Updates</strong>: The caller’s information is updated at every stage of the workflow, ensuring that their progress is tracked within the CRM system.</p>
+<p><strong>Branching Logic</strong>: The workflow is designed to branch based on the caller's actions, such as whether they respond to the SMS or not. If the caller responds, they are moved to the next stage of engagement; if not, further follow-ups are scheduled.</p>
+<p><strong>Internal Notifications</strong>: Salon staff receive notifications if a lead does not respond after several attempts, ensuring that no lead is forgotten.</p>
+<h3 class="dh2"><strong>Automation Benefits:</strong></h3>
+<p><strong>Immediate Response</strong>: Both workflows ensure that missed calls are addressed quickly, preventing potential customers from feeling neglected and encouraging them to re-engage.</p>
+<p><strong>Multiple Touchpoints</strong>: The advanced sequence offers multiple follow-up attempts, increasing the likelihood that the caller will respond and convert into a client.</p>
+<p><strong>Efficient Tracking</strong>: The workflows update the CRM pipeline and add tags, making it easy to track which leads were missed and whether they responded to the follow-up messages.</p>
+<p><strong>Customizable Messaging</strong>: Using placeholders such as {{user.first_name}} and {{location.name}} ensures that the messages feel personal and relevant to the client.</p>
+<h2 class="dh1"><strong>10. Payment Automations:</strong></h2>
+<h3 class="dh2"><strong>Initial Payment Request After Service Completion:</strong></h3>
+<p><strong>Trigger:</strong> Activated once a service is marked as completed, triggering the workflow.</p>
+<p><strong>Workflow:</strong> Sends an invoice via email and SMS, reminding the client of the due payment. Follow-up reminders are sent if the payment isn't completed.</p>
+<h3 class="dh2"><strong>Messages:</strong></h3>
+<p>SMS and email reminders include the invoice amount, due date, and payment link ({{invoice.amount}}, {{invoice.due_date}}, {{invoice.url}}).</p>
+<p>Reminders are sent at intervals of 2 days and 3 days post-service completion.</p>
+<p><strong>End Condition:</strong> Workflow ends once the invoice is paid or after multiple reminders with no payment.</p>
+<h3 class="dh2"><strong>Payment Received:</strong></h3>
+<p><strong>Trigger:</strong> Activated once the system detects the invoice has been paid.</p>
+<h3 class="dh2"><strong>Workflow:</strong></h3>
+<p>Removes the client from the <strong>Initial Payment Request After Service Completion</strong> workflow.</p>
+<p>Sends a thank-you email and SMS to acknowledge the received payment.</p>
+<p>After 2 days, a feedback request is sent to gather input from the client regarding their experience.</p>
+<h3 class="dh2"><strong>Messages:</strong></h3>
+<p>Thank you message for the payment.</p>
+<p>Follow-up email and SMS asking for feedback on the service.</p>
+<h3 class="dh2"><strong>Refund:</strong></h3>
+<p><strong>Trigger:</strong> Activated when a refund is issued to the client.</p>
+<h3 class="dh2"><strong>Workflow:</strong></h3>
+<p>Sends an email and SMS notifying the client that their refund has been approved.</p>
+<p>The messages include information on when they can expect to receive the refunded amount (typically 7-14 days).</p>
+<p>After 7 days, the workflow follows up with a feedback request via email and SMS to ensure everything was handled to the client’s satisfaction.</p>
+<h3 class="dh2"><strong>Messages:</strong></h3>
+<p>Refund confirmation with the expected processing time.</p>
+<p>Follow-up feedback request after the refund is processed.</p>
+<p>These payment automations ensure seamless communication for payment requests, confirmations, and refunds, keeping clients informed and enhancing their experience with the salon.</p>
+<h2 class="dh1"><strong>11. Birthday Workflow:</strong></h2>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>The birthday workflow is triggered by a reminder set for the customer's birthday.</p>
+<h3 class="dh2"><strong>Workflow Steps:</strong></h3>
+<h3 class="dh2"><strong>Birthday SMS:</strong></h3>
+<p>Sends a celebratory SMS message to the customer on their birthday, offering 50% off any service as a gift.</p>
+<p>The message invites the customer to book their appointment by replying with &quot;YES&quot; or calling the salon at {{location.phone}}.</p>
+<h3 class="dh2"><strong>Wait for Reply (24 hours):</strong></h3>
+<p>The system waits for a response from the customer, particularly if they reply with &quot;YES&quot; to book their appointment.</p>
+<h3 class="dh2"><strong>Branch:</strong></h3>
+<p>If the customer replies affirmatively, the workflow proceeds with internal notifications and further SMS communication.</p>
+<p>If no response is received, the workflow continues with a follow-up SMS after a short waiting period (3 days).</p>
+<h3 class="dh2"><strong>Internal Notification:</strong></h3>
+<p>Sends a notification to the salon's internal team if the customer expresses interest in the offer.</p>
+<h3 class="dh2"><strong>Follow-up SMS:</strong></h3>
+<p>If the customer shows interest but doesn’t book, the system sends another SMS to remind them to book their discounted birthday appointment.</p>
+<h3 class="dh2"><strong>End Condition:</strong></h3>
+<p>The workflow ends if the customer books an appointment or after the final follow-up SMS is sent and no further action is taken.</p>
+<p>This workflow is designed to nurture customer relationships by offering a special birthday promotion and encouraging engagement and bookings through multiple touchpoints.</p>
+<h2 class="dh1"><strong>12. Customer Referral Campaign:</strong></h2>
+<h3 class="dh2"><strong>Trigger:</strong></h3>
+<p>This referral campaign is triggered when a service has been completed.</p>
+<h3 class="dh2"><strong>Workflow Steps:</strong></h3>
+<h3 class="dh2"><strong>Initial SMS:</strong></h3>
+<p>Sends an SMS to the customer asking if they know someone who would love the salon's services.</p>
+<p>The message offers a 25% discount for both the customer and their referred friend on the next visit. The customer is invited to reply YES to receive their referral link or call the salon at {{location.phone}}.</p>
+<h3 class="dh2"><strong>Wait for Response:</strong></h3>
+<p>The workflow waits for 7 days before sending a follow-up message.</p>
+<h3 class="dh2"><strong>Second SMS:</strong></h3>
+<p>A second SMS is sent if no response is received, reminding the customer about the referral offer.</p>
+<h3 class="dh2"><strong>Wait for Another Response:</strong></h3>
+<p>The system waits an additional day before checking whether the customer responded.</p>
+<h3 class="dh2"><strong>Branch:</strong></h3>
+<p>If the customer responds, an internal notification is sent to notify the salon about the referral response.</p>
+<p>If no response is received, the workflow ends with a final internal notification after a certain waiting period.</p>
+<p>This campaign encourages customers to refer friends by providing a mutual discount incentive, with follow-up reminders to increase the chance of engagement.</p>
+<h2 class="dh1"><strong>13. Holiday Emails </strong></h2>
+<p>Holiday emails are an essential marketing tool for businesses, especially those in service industries like hair salons. These emails help engage customers by promoting seasonal offers, creating a sense of urgency, and tapping into the festive spirit. Holiday-themed promotions, such as discounts for Valentine’s Day, Mother's Day, or Christmas, can increase bookings and drive revenue. These emails also build customer loyalty by showing appreciation during Thanksgiving or Easter and offering timely services for special occasions. Overall, holiday emails are vital for staying top-of-mind with clients and maximizing business during peak festive seasons.</p>
+</div>
+</section>
+</main></div>
+<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">&#10005;</button><img id="lb-img" src="" alt="" onclick="event.stopPropagation()"></div>
+<script>
+document.querySelectorAll('main img').forEach(im=>{im.style.cursor='zoom-in';im.addEventListener('click',()=>{document.getElementById('lb-img').src=im.src;document.getElementById('lb').classList.add('open');});});
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>
